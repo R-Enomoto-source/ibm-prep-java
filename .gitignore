@@ -1,0 +1,14 @@
+# Javaのコンパイル済みファイル（不要なもの）
+*.class
+
+# Cursor / VS Code の設定フォルダ（個人設定が含まれるため）
+.vscode/
+
+# OSが作成する一時ファイル
+.DS_Store
+Thumbs.db
+
+# 今後、Spring Bootなどで作成される一時フォルダ
+bin/
+build/
+target/
