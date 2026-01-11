@@ -12,3 +12,6 @@ Thumbs.db
 bin/
 build/
 target/
+
+# 書籍のサンプルコード（著作権保護のためアップロードしない）
+sukkiri-Java-reference-code/
