@@ -4,7 +4,7 @@
 
 ## 蟄ｦ鄙堤岼讓・
 - **Java Silver SE 17**: 2026蟷ｴ2譛・譌･ 蜿鈴ｨ謎ｺ亥ｮ夲ｼ磯ｫ倡伐鬥ｬ蝣ｴ繝・せ繝医そ繝ｳ繧ｿ繝ｼ・・
-- - **App Development & DB Design**: 2026蟷ｴ2譛・譌･・・譛・譌･
+- **App Development & DB Design**: 2026蟷ｴ2譛・譌･・・譛・譌･
   - 繧｢繝励Μ蜷・ My Career Consultant・亥ｭｦ鄙呈険繧願ｿ斐ｊBot・・
   - 謚陦薙せ繧ｿ繝・け: Cursor / Java 17 / Spring Boot 3 / PostgreSQL・・ocker・・ Thymeleaf
   - 縲宣㍾隕√第ｵ√い繝ｼ繧ｭ繝・け繝√Ε・・trategy繝代ち繝ｼ繝ｳ・・
