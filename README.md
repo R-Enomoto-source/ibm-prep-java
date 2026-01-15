@@ -2,7 +2,7 @@
 2026年4月の入社に向けた、JavaおよびITスキルの学習リポジトリです。
 
 ## 学習目標
-- **Java Silver SE 17**: 2026年2月8日 受験予定（）
+- **Java Silver SE 17**: 2026年2月8日 受験予定
 - **App Development & DB Design**: 2026年2月9日〜3月8日
   - アプリ名: My Career Consultant／学習振り返りBot
   - 技術スタック: Cursor / Java 17 / Spring Boot 3 / PostgreSQL / Docker / Thymeleaf
