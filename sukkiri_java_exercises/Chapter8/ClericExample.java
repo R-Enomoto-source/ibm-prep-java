@@ -1,4 +1,4 @@
-package Chpter8;
+package Chapter8;
 
 /**
  * Clericクラスを使った戻り値メソッドの実践例

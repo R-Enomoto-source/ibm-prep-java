@@ -1,4 +1,4 @@
-package Chpter8;
+package Chapter8;
 
 /**
  * Clericクラスのprayメソッドの完全な実装例

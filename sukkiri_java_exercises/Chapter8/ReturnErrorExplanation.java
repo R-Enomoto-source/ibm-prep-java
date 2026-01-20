@@ -1,4 +1,4 @@
-package Chpter8;
+package Chapter8;
 
 /**
  * エラー「This method must return a result of type int」の説明

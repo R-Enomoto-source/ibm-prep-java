@@ -1,4 +1,4 @@
-package Chpter8;
+package Chapter8;
 
 /**
  * 戻り値を含むメソッドの基本的な書き方 - 具体例集

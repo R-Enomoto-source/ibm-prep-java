@@ -1,4 +1,4 @@
-package Chpter8;
+package Chapter8;
 
 /**
  * Javaで特定の範囲のランダムな数値を生成する方法の例
