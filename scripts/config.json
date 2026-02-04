@@ -1,0 +1,21 @@
+{
+  "pollingInterval": 30,
+  "debounceSeconds": 30,
+  "minChangeCount": 1,
+  "branchName": "main",
+  "watchPath": ".",
+  "excludePatterns": [
+    "*.tmp",
+    "*.log",
+    ".git-auto-commit/**",
+    "*.class"
+  ],
+  "retryAttempts": 3,
+  "retryDelaySeconds": 5,
+  "activeHours": {
+    "enabled": false,
+    "startTime": "08:00",
+    "endTime": "23:00"
+  },
+  "logLevel": "INFO"
+}
