@@ -1,5 +1,5 @@
-# Auto Git Commit Push Script
-# Runs at PC startup, monitors file changes and auto commit/push
+# 自動Gitコミット・プッシュスクリプト
+# PC起動時に自動実行され、ファイル変更を監視して自動でコミット・プッシュします
 
 param(
     [string]$ConfigPath = "config.json"
@@ -48,7 +48,7 @@ function Get-Config {
             $config = Get-Content $ConfigFile -Raw | ConvertFrom-Json
             return $config
         } catch {
-            Write-Log "Failed to load config file. Using defaults." "WARN"
+            Write-Log "設定ファイルの読み込みに失敗しました。デフォルト設定を使用します。" "WARN"
         }
     }
     
@@ -105,14 +105,14 @@ function Invoke-GitCommand {
             if ($exitCode -eq 0) {
                 return @{ Success = $true; Output = $output }
             } else {
-                throw "git $Command failed (exit code: $exitCode): $output"
+                throw "git $Command が失敗しました (終了コード: $exitCode): $output"
             }
         } catch {
             $attempt++
             if ($attempt -ge $RetryCount) {
                 return @{ Success = $false; Error = $_.Exception.Message }
             }
-            Write-Log "Retry $attempt/${RetryCount}: $_" "WARN"
+            Write-Log "リトライ $attempt/${RetryCount}: $_" "WARN"
             Start-Sleep -Seconds $RetryDelay
         } finally {
             Pop-Location
@@ -128,7 +128,7 @@ function Get-CommitMessage {
             $message = & $generateScript -RepoPath $RepoRoot
             return $message
         } catch {
-            Write-Log "Failed to generate commit message: $_" "ERROR"
+            Write-Log "コミットメッセージ生成に失敗しました: $_" "ERROR"
         }
     }
     
@@ -140,13 +140,13 @@ function Invoke-CommitAndPush {
     param($Config)
     
     if (-not (Test-ActiveHours -Config $Config)) {
-        Write-Log "Skipping commit (outside active hours)" "INFO"
+        Write-Log "アクティブ時間外のため、コミットをスキップします" "INFO"
         return $false
     }
     
     $statusResult = Invoke-GitCommand "status --porcelain"
     if (-not $statusResult.Success) {
-        Write-Log "git status failed: $($statusResult.Error)" "ERROR"
+        Write-Log "git statusの実行に失敗しました: $($statusResult.Error)" "ERROR"
         return $false
     }
     
@@ -162,49 +162,49 @@ function Invoke-CommitAndPush {
     }
     
     if ($statusOutput -eq $lastStatus) {
-        Write-Log "Skipping (same changes as last time)" "INFO"
+        Write-Log "変更内容が前回と同じため、スキップします" "INFO"
         return $false
     }
     
     $changeCount = ($statusOutput -split "`n" | Where-Object { $_.Trim() -ne "" }).Count
     
     if ($changeCount -lt $Config.minChangeCount) {
-        Write-Log "Skipping (change count $changeCount < $($Config.minChangeCount))" "INFO"
+        Write-Log "変更ファイル数が最小値未満のため、スキップします ($changeCount が $($Config.minChangeCount) 未満)" "INFO"
         return $false
     }
     
-    Write-Log "Changes detected ($changeCount files). Running commit and push." "INFO"
+    Write-Log "変更を検出しました ($changeCount ファイル)。コミット・プッシュを実行します。" "INFO"
     
     $commitMessage = Get-CommitMessage
     if (-not $commitMessage) {
-        Write-Log "Failed to generate commit message" "ERROR"
+        Write-Log "コミットメッセージの生成に失敗しました" "ERROR"
         return $false
     }
     
     $commitMessage | Out-File -FilePath $CommitMessageFile -Encoding UTF8 -Force
     
-    Write-Log "Running git add ." "INFO"
+    Write-Log "git add . を実行中..." "INFO"
     $addResult = Invoke-GitCommand "add ." -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds
     if (-not $addResult.Success) {
-        Write-Log "git add failed: $($addResult.Error)" "ERROR"
+        Write-Log "git add に失敗しました: $($addResult.Error)" "ERROR"
         return $false
     }
     
-    Write-Log "Running git commit" "INFO"
+    Write-Log "git commit を実行中..." "INFO"
     $commitResult = Invoke-GitCommand "commit -F `"$CommitMessageFile`"" -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds
     if (-not $commitResult.Success) {
-        Write-Log "git commit failed: $($commitResult.Error)" "ERROR"
+        Write-Log "git commit に失敗しました: $($commitResult.Error)" "ERROR"
         return $false
     }
     
-    Write-Log "Running git push origin $($Config.branchName)" "INFO"
+    Write-Log "git push origin $($Config.branchName) を実行中..." "INFO"
     $pushResult = Invoke-GitCommand "push origin $($Config.branchName)" -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds
     if (-not $pushResult.Success) {
-        Write-Log "git push failed: $($pushResult.Error)" "ERROR"
+        Write-Log "git push に失敗しました: $($pushResult.Error)" "ERROR"
         return $false
     }
     
-    Write-Log "Commit and push completed" "INFO"
+    Write-Log "コミット・プッシュが完了しました" "INFO"
     
     $statusOutput | Out-File -FilePath $LastStatusFile -Encoding UTF8 -Force
     (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") | Out-File -FilePath $LastCommitTimeFile -Encoding UTF8 -Force
@@ -213,8 +213,8 @@ function Invoke-CommitAndPush {
 }
 
 function Main {
-    Write-Log "Auto Git Commit script started" "INFO"
-    Write-Log "Repo path: $RepoRoot" "INFO"
+    Write-Log "自動Gitコミット・プッシュスクリプトを開始します" "INFO"
+    Write-Log "リポジトリパス: $RepoRoot" "INFO"
     
     if (Test-Path $LockFile) {
         try {
@@ -222,7 +222,7 @@ function Main {
             if ($lockPid) {
                 $lockProcess = Get-Process -Id $lockPid -ErrorAction SilentlyContinue
                 if ($lockProcess) {
-                    Write-Log "Another instance running (PID: $lockPid). Exiting." "WARN"
+                    Write-Log "既に実行中のインスタンスがあります（PID: $lockPid）。終了します。" "WARN"
                     exit 0
                 } else {
                     Remove-Item $LockFile -Force -ErrorAction SilentlyContinue
@@ -235,13 +235,13 @@ function Main {
     $PID | Out-File -FilePath $LockFile -Encoding ASCII -Force
     
     $config = Get-Config
-    Write-Log "Config loaded (polling: $($config.pollingInterval)s, debounce: $($config.debounceSeconds)s)" "INFO"
+    Write-Log "設定を読み込みました (ポーリング間隔: $($config.pollingInterval)秒, デバウンス: $($config.debounceSeconds)秒)" "INFO"
     
     $lastChangeTime = $null
     $lastStatus = ""
     
     Register-EngineEvent PowerShell.Exiting -Action {
-        Write-Log "Script exiting (shutdown/reboot)" "INFO"
+        Write-Log "スクリプトを終了します（PCシャットダウン/再起動）" "INFO"
     } | Out-Null
     
     try {
@@ -258,7 +258,7 @@ function Main {
                 
                 if ($currentStatus -and $currentStatus.Trim() -ne "") {
                     if ($currentStatus -ne $lastStatus) {
-                        Write-Log "Changes detected" "INFO"
+                        Write-Log "変更を検出しました" "INFO"
                         $lastChangeTime = Get-Date
                         $lastStatus = $currentStatus
                     }
@@ -280,16 +280,16 @@ function Main {
                     $lastStatus = ""
                 }
             } else {
-                Write-Log "git status failed: $($statusResult.Error)" "ERROR"
+                Write-Log "git statusの実行に失敗しました: $($statusResult.Error)" "ERROR"
             }
             
             Start-Sleep -Seconds $config.pollingInterval
         }
     } catch {
-        Write-Log "Unexpected error: $_" "ERROR"
+        Write-Log "予期しないエラーが発生しました: $_" "ERROR"
         Write-Log $_.ScriptStackTrace "ERROR"
     } finally {
-        Write-Log "Script exiting" "INFO"
+        Write-Log "スクリプトを終了します" "INFO"
         if (Test-Path $LockFile) {
             Remove-Item $LockFile -Force -ErrorAction SilentlyContinue
         }
