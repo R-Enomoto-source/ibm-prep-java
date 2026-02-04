@@ -213,7 +213,7 @@ function Invoke-CommitAndPush {
     Write-Log "$(Get-Message 'gitPushRunning') origin $($Config.branchName)" "INFO"
     $pushResult = Invoke-GitCommand "push origin $($Config.branchName)" -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds
     if (-not $pushResult.Success) {
-        if ($pushResult.Error -and $pushResult.Error -like "*Everything up-to-date*") {
+        if ($pushResult.Error -and ($pushResult.Error -like "*Everything*up*date*" -or $pushResult.Error -like "*up-to-date*")) {
             Write-Log (Get-Message "commitPushDone") "INFO"
             $statusOutput | Out-File -FilePath $LastStatusFile -Encoding UTF8 -Force
             (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") | Out-File -FilePath $LastCommitTimeFile -Encoding UTF8 -Force
