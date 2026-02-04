@@ -8,8 +8,8 @@
 # PowerShellで実行
 cd "C:\Users\20171\IT_Learning\pre-joining-learning\scripts"
 
-# ログファイルを確認
-Get-Content "..\.git-auto-commit\log.txt" -Tail 5
+# ログを確認（当日のログファイル）
+Get-Content "..\.git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt" -Tail 5
 ```
 
 または、タスクマネージャーで`powershell.exe`プロセスを確認してください。
@@ -56,11 +56,11 @@ Start-Sleep -Seconds 35
 ```powershell
 cd "C:\Users\20171\IT_Learning\pre-joining-learning"
 
-# ログファイルの最新10行を表示
-Get-Content ".git-auto-commit\log.txt" -Tail 10
+# 当日のログの最新10行を表示
+Get-Content ".git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt" -Tail 10
 
 # または、リアルタイムで監視（Ctrl+Cで停止）
-Get-Content ".git-auto-commit\log.txt" -Wait -Tail 5
+Get-Content ".git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt" -Wait -Tail 5
 ```
 
 **確認ポイント:**
@@ -130,8 +130,9 @@ Write-Host ""
 
 # 5. ログファイルを確認
 Write-Host "=== ログファイル（最新10行） ===" -ForegroundColor Cyan
-if (Test-Path ".git-auto-commit\log.txt") {
-    Get-Content ".git-auto-commit\log.txt" -Tail 10
+$todayLog = ".git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt"
+if (Test-Path $todayLog) {
+    Get-Content $todayLog -Tail 10
 } else {
     Write-Host "ログファイルが見つかりません" -ForegroundColor Red
 }
@@ -168,7 +169,7 @@ Write-Host "テスト完了！" -ForegroundColor Cyan
 
 2. **ログファイルでエラーを確認**
    ```powershell
-   Get-Content ".git-auto-commit\log.txt" | Select-String "ERROR"
+   Get-Content ".git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt" | Select-String "ERROR"
    ```
 
 3. **git設定を確認**
@@ -212,5 +213,5 @@ Write-Host "テスト完了！" -ForegroundColor Cyan
 
 - テストファイルは`.gitignore`に追加しないでください（コミット対象にするため）
 - テスト後は、テストファイルを削除しても問題ありません
-- ログファイルは`.git-auto-commit/log.txt`に記録されます
-- リアルタイムでログを監視したい場合は、`Get-Content ".git-auto-commit\log.txt" -Wait`を使用
+- ログは`.git-auto-commit/logs/`に日ごとのファイル（`log-yyyy-MM-dd.txt`）で記録されます
+- リアルタイムでログを監視: `Get-Content ".git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt" -Wait`

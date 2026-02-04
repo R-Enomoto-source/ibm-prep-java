@@ -1,7 +1,8 @@
 ﻿# 自動コミット・プッシュのテストスクリプト
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
-$LogFile = Join-Path $RepoRoot ".git-auto-commit\log.txt"
+$LogDir = Join-Path $RepoRoot ".git-auto-commit\logs"
+$LogFile = Join-Path $LogDir "log-$(Get-Date -Format 'yyyy-MM-dd').txt"
 
 Write-Host "=== 自動コミット・プッシュテスト ===" -ForegroundColor Cyan
 Write-Host ""
@@ -99,7 +100,7 @@ if ($latestCommit -like "*Auto commit*" -or $latestCommit -like "*自動*") {
     Write-Host "   ⚠ 自動コミットが検出されませんでした" -ForegroundColor Yellow
     Write-Host "     確認事項:" -ForegroundColor Gray
     Write-Host "     - スクリプトが実行中か確認してください" -ForegroundColor Gray
-    Write-Host "     - ログファイル（.git-auto-commit\log.txt）を確認してください" -ForegroundColor Gray
+    Write-Host "     - ログフォルダ（.git-auto-commit\logs\）の当日ファイルを確認してください" -ForegroundColor Gray
     Write-Host "     - デバウンス時間が経過しているか確認してください" -ForegroundColor Gray
 }
 Write-Host ""
@@ -120,6 +121,6 @@ Pop-Location
 Write-Host "=== テスト完了 ===" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "ヒント:" -ForegroundColor Yellow
-Write-Host "  - ログファイルをリアルタイムで監視: Get-Content '$LogFile' -Wait -Tail 5" -ForegroundColor Gray
+Write-Host "  - ログをリアルタイムで監視: Get-Content '.git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt' -Wait -Tail 5" -ForegroundColor Gray
 Write-Host "  - 最新のコミットを確認: git log -1 --pretty=full" -ForegroundColor Gray
 Write-Host "  - GitHubで確認: リポジトリページを開いて最新のコミットを確認" -ForegroundColor Gray

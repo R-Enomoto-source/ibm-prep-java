@@ -6,17 +6,20 @@ PC起動時に自動でファイル変更を監視し、gitにコミット・プ
 
 ```
 scripts/
-├── auto-git-commit.ps1      # メインスクリプト（自動実行される）
-├── generate-commit-msg.ps1   # コミットメッセージ生成スクリプト
-├── config.json               # 設定ファイル
-├── setup-auto-start.ps1      # 自動起動設定スクリプト
-└── README.md                 # このファイル
+├── auto-git-commit.ps1        # メインスクリプト（自動実行される）
+├── generate-commit-msg.ps1    # コミットメッセージ生成スクリプト
+├── config.json                # 設定ファイル（リポジトリに含める）
+├── config.example.local.json  # 環境用設定のサンプル
+├── config.local.json          # 環境ごとの上書き用（.gitignore で除外・リポジトリに載せない）
+├── setup-auto-start.ps1       # 自動起動設定スクリプト
+└── README.md                  # このファイル
 
 .git-auto-commit/             # 一時ファイル（自動生成）
-├── log.txt                   # 実行ログ
+├── logs/                     # ログ専用フォルダ（日ごとに1ファイル）
+│   └── log-yyyy-MM-dd.txt    # 実行ログ（例: log-2026-02-05.txt）
 ├── commit-message.txt        # コミットメッセージ（一時）
 ├── last-status.txt           # 前回のgit status
-└── last-commit-time.txt      # 最後のコミット時刻
+└── last-commit-time.txt     # 最後のコミット時刻
 ```
 
 ## 🚀 使い方
@@ -74,6 +77,14 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning\scripts"
 - **branchName**: プッシュ先のブランチ名。デフォルト: main
 - **activeHours**: 指定した時間帯のみコミット・プッシュを実行（オプション）
 
+### 環境ごとの設定（config.local.json）
+
+**絶対パスや個人用識別子**など、環境によって変えたい値だけは **config.local.json** に書き、リポジトリには載せない運用にしてください。
+
+- **config.local.json** は `.gitignore` で除外されているため、Git にコミットされません。
+- 使い方: `config.example.local.json` をコピーして `config.local.json` を作成し、上書きしたい項目だけを書きます。ここに書いたキーが `config.json` の値を上書きします。
+- 例: 監視パスを絶対パスにしたい場合などは `config.local.json` に `"watchPath": "C:\\Users\\YourName\\..."` のように記載します。
+
 ## 📝 動作の流れ
 
 1. PC起動時に自動でスクリプトが開始
@@ -85,10 +96,10 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning\scripts"
 
 ## 📊 ログの確認
 
-実行ログは以下のファイルに記録されます：
+実行ログは専用フォルダに日ごとのファイルで記録されます：
 
 ```
-.git-auto-commit/log.txt
+.git-auto-commit/logs/log-yyyy-MM-dd.txt   （例: log-2026-02-05.txt）
 ```
 
 ログには以下の情報が記録されます：
@@ -115,9 +126,9 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning\scripts"
    Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
    ```
 
-3. **ログファイルを確認**
+3. **ログを確認**
    ```
-   .git-auto-commit/log.txt
+   .git-auto-commit/logs/   （当日: log-yyyy-MM-dd.txt）
    ```
 
 ### コミット・プッシュが実行されない
