@@ -1,0 +1,274 @@
+# LearningNote 2026-02-05
+
+## セッションログ（ユーザー入力＋回答）
+
+### Calendar の set の月の0始まり・表示形式・getTime() の役割
+
+ユーザー: 何故下記のコードを実行すると、下記が表示されるのでしょうか？
+特に1行目がなぜこうなるのかが分かりません。
+    c.set(2023,8,18,5,53,20);　この順番での表示が出来ていないですし、曜日など指定していないものも表示されていますよね。
+
+また、Date d = c.getTime();が何をしているのかいまいちわかりません。
+Cの日付情報をDate型のdに代入しているのでしょうか。
+それ以外は理解できていると思います。
+分かりやすく一つ一つ丁寧に詳細に教えてください
+
+【コード】
+import java.util.Calendar;
+import java.util.Date;
+public class Main {
+  public static void main(String[] args) {
+    Calendar c = Calendar.getInstance();
+    // 6つのint値からDateインスタンスを生成
+    c.set(2023,8,18,5,53,20);
+    c.set(Calendar.MONTH, 9);     /* 月を9（10月）に変更 */
+    Date d = c.getTime();
+    System.out.println(d);
+    // Dateインスタンスからint値を生成
+    Date now = new Date();
+    c.setTime(now);
+    int y = c.get(Calendar.YEAR);  /* 年を取り出す */
+    System.out.println("今年は" + y + "年です");
+  }
+}
+【実行結果】
+Wed Oct 18 05:53:20 JST 2023
+今年は2026年です
+
+アシスタント:
+
+#### 1. なぜ「Wed Oct 18 05:53:20 JST 2023」と表示されるか
+
+**月は「0始まり」であること**
+
+`Calendar` の **月は 0 から 11** です。
+
+- `0` = 1月
+- `1` = 2月
+- …
+- `7` = **8月**
+- `8` = **9月**
+- `9` = **10月**
+
+なので、
+
+```java
+c.set(2023, 8, 18, 5, 53, 20);
+```
+
+は次の意味になります。
+
+- 年: 2023
+- 月: **8 → 9月**（8月ではない）
+- 日: 18
+- 時: 5
+- 分: 53
+- 秒: 20
+
+その直後に
+
+```java
+c.set(Calendar.MONTH, 9);  // 月を9（10月）に変更
+```
+
+で月を **9（10月）** に上書きしているので、最終的な日時は **2023年10月18日 05:53:20** です。表示の「Oct 18 05:53:20 … 2023」は、この日時そのものです。
+
+**曜日（Wed）はどこで決まるか**
+
+曜日は **指定していなくても、日付から一意に決まります**。2023年10月18日は水曜日なので、`Date` を文字列にしたときに「Wed」と出ています。`Calendar` / `Date` は内部で「その日付＝その曜日」として持っているだけです。
+
+**表示の順番が「2023,8,18,5,53,20」と違う理由**
+
+`set` に渡した順番は「どの値を何番目の引数で渡したか」というだけで、**表示形式**とは無関係です。`System.out.println(d)` では `Date` の `toString()` が使われ、`Date` のデフォルト表示は **「曜日 月 日 時:分:秒 タイムゾーン 年」** という形式で固定されています。そのため、「年,月,日,時,分,秒」の順では表示されません。中身の「時刻」はあなたの設定どおりで、表示の並びだけが `Date` の仕様です。
+
+---
+
+#### 2. `Date d = c.getTime();` は何をしているか
+
+その理解で合っています。**「Calendar が持っている日時を、同じ瞬間を表す `Date` に変換して、変数 `d` に代入している」** です。
+
+- `Calendar` … 年・月・日・時・分・秒などを **バラで持つ** 型。
+- `Date` … **ある一瞬の時刻**（内部では「1970年1月1日 00:00:00 UTC からのミリ秒」の `long`）を表す型。
+
+`c.getTime()` は「今の `Calendar` の内容（2023年10月18日 05:53:20 など）が表すその瞬間」を `Date` で返します。なので、`c` に `set` で設定した日時と `d` が表す日時は **同じ瞬間** です。型が `Calendar` から `Date` に変わるだけです。
+
+---
+
+#### 3. まとめ（コードの流れ）
+
+| 行 | 内容 |
+|----|------|
+| `c.set(2023,8,18,5,53,20)` | 2023年**9月**18日 05:53:20 をセット（月の 0 始まりのため 8=9月） |
+| `c.set(Calendar.MONTH, 9)` | 月だけ 10月 に変更 → **2023年10月18日 05:53:20** になる |
+| `Date d = c.getTime()` | その瞬間を `Date` に変換して `d` に代入 |
+| `System.out.println(d)` | `Date` のデフォルト形式で表示 → 「Wed Oct 18 05:53:20 JST 2023」 |
+| `Date now = new Date()` | **今**の日時を取得（実行した日＝2026年） |
+| `c.setTime(now)` | カレンダーを「今」に合わせる |
+| `c.get(Calendar.YEAR)` | その「今」の年を取り出す → 「今年は2026年です」 |
+
+「1行目」の表示は、月の 0 始まり（8→9月、そのあと 9→10月）、曜日は日付から自動、表示順は `Date.toString()` の仕様、の3点で説明できます。
+
+---
+
+### getTime() と setTime() の基本（Calendar と Date）
+
+ユーザー: getTime()とsetTimeの基本を分かりやすく詳細に一つ一つ丁寧に教えてください
+
+アシスタント:
+
+#### getTime() と setTime() の基本
+
+Java では **Calendar** と **Date** の両方に `getTime()` / `setTime()` がありますが、役割が違います。整理して説明します。
+
+---
+
+#### 1. 前提：Calendar と Date の違い
+
+| 種類 | 役割 | 中身のイメージ |
+|------|------|----------------|
+| **Calendar** | 日付を「年・月・日・時・分・秒」のように**バラで扱う** | フィールドの集まり（YEAR, MONTH, DAY...） |
+| **Date** | 「ある一瞬の時刻」を**1つの値**で表す | 1970-01-01 00:00:00 UTC からの**ミリ秒数**（long） |
+
+- **Calendar** … 人間向けの「年月日」で操作したいときに使う
+- **Date** … 内部では「ミリ秒」1本で持っている
+
+この2つを**行き来する**ためのメソッドが `getTime()` と `setTime()` です。
+
+---
+
+#### 2. Calendar の getTime()
+
+**何をするメソッドか**
+
+**「この Calendar が表している日時を、同じ瞬間を表す Date に変換して返す」** メソッドです。
+
+- **誰のメソッドか**: `Calendar` のインスタンスメソッド
+- **戻り値**: `Date`
+- **引数**: なし
+
+**イメージ**
+
+```
+Calendar c  …  「2023年10月18日 5時53分20秒」を
+               年=2023, 月=9, 日=18, 時=5, 分=53, 秒=20 として保持
+
+c.getTime() …  その「同じ瞬間」を Date で返す
+               → Date は中身は「その瞬間のミリ秒数」1つ
+```
+
+**コード例**
+
+```java
+Calendar c = Calendar.getInstance();
+c.set(2023, 9, 18, 5, 53, 20);   // 2023年10月18日 05:53:20
+
+Date d = c.getTime();   // 「その瞬間」を Date に変換
+System.out.println(d);  // Wed Oct 18 05:53:20 JST 2023
+```
+
+- `c` は「年月日時分秒」の情報を持っている
+- `c.getTime()` で「その時刻」を **Date 型** で取り出している
+- だから「Calendar の日付情報を Date 型の変数に代入している」という理解で合っています。
+
+**いつ使うか**
+
+- Calendar で組み立てた日時を、**Date を引数に取る API** に渡したいとき
+- Calendar の日時を **1本の「時刻」として** 扱いたいとき
+- `System.out.println` で Date の表示形式で出したいとき（上記のように）
+
+---
+
+#### 3. Calendar の setTime(Date)
+
+**何をするメソッドか**
+
+**「渡した Date が表す瞬間を、この Calendar の「今の日時」としてセットする」** メソッドです。
+
+- **誰のメソッドか**: `Calendar` のインスタンスメソッド
+- **戻り値**: なし（void）
+- **引数**: `Date` を1つ
+
+**イメージ**
+
+```
+Date now = new Date();   …  「今」の瞬間（例: 2026年2月5日 12:00:00）を表す Date
+
+c.setTime(now);          …  Calendar c の「現在の日時」を、
+                            その「今」の瞬間に合わせる
+                            → c の年・月・日・時・分・秒がすべて「今」になる
+```
+
+- **getTime()** が「Calendar → Date」（Calendar の内容を Date で取り出す）
+- **setTime()** が「Date → Calendar」（Date の時刻を Calendar に書き込む）
+と覚えると対になっています。
+
+**コード例**
+
+```java
+Date now = new Date();      // 今の日時（例: 2026年2月5日）
+Calendar c = Calendar.getInstance();
+
+c.setTime(now);             // c の内容を「今」に合わせる
+
+int y = c.get(Calendar.YEAR);   // 年を取り出す → 2026
+int m = c.get(Calendar.MONTH);  // 月（0始まり） → 1（2月）
+```
+
+- `now` は「今」という**一瞬**を表す Date
+- `c.setTime(now)` で、Calendar `c` の内部を「その一瞬」に更新
+- その後は `c.get(Calendar.YEAR)` などで「年・月・日」をバラで取り出せる
+
+**いつ使うか**
+
+- **Date で得た「ある瞬間」** から、**年・月・日・曜日など** を取り出したいとき
+- ファイルの更新日時（Date）を Calendar にセットして、日だけ比較したいとき など
+
+---
+
+#### 4. Date の getTime()（参考）
+
+**Date** にも `getTime()` があります。こちらは意味が違います。
+
+- **役割**: その Date が表す瞬間を **long（ミリ秒）** で返す
+- **戻り値**: `long`（1970年1月1日 00:00:00 UTC からのミリ秒）
+
+```java
+Date d = new Date();
+long ms = d.getTime();   // 例: 1738732800000 のような数値
+```
+
+- **Calendar.getTime()** → Date を返す（Calendar を Date に変換）
+- **Date.getTime()** → long を返す（Date をミリ秒に変換）
+名前は同じでも「誰の getTime() か」で戻り値が違うので注意です。
+
+---
+
+#### 5. 対応関係のまとめ
+
+| メソッド | 呼ぶ側 | 引数 | 戻り値 | 意味 |
+|----------|--------|------|--------|------|
+| **getTime()** | Calendar | なし | **Date** | 「この Calendar の日時」を Date で取り出す |
+| **getTime()** | Date | なし | **long** | 「この Date の瞬間」をミリ秒で取り出す |
+| **setTime(Date)** | Calendar | Date | void | この Calendar の日時を、渡した Date の瞬間にセットする |
+| **setTime(long)** | Date | long | void | この Date の瞬間を、渡したミリ秒にセットする |
+
+---
+
+#### 6. 一連の流れの例
+
+```java
+// 【Calendar → Date】Calendar で作った日時を Date で取り出す
+Calendar c = Calendar.getInstance();
+c.set(2023, 9, 18, 5, 53, 20);
+Date d = c.getTime();        // getTime: Calendar の内容を Date に変換
+
+// 【Date → Calendar】「今」を Date で取得し、Calendar にセットしてバラで使う
+Date now = new Date();
+c.setTime(now);              // setTime: Date の「今」を Calendar に書き込む
+int year = c.get(Calendar.YEAR);
+```
+
+- **getTime()** … Calendar の「日付情報」を Date（または Date の場合は long）に**取り出す**
+- **setTime()** … 外から渡した Date（または long）の時刻を、その Calendar（または Date）に**書き込む**
+
+この「取り出す / 書き込む」と「Calendar ⇔ Date」の対応を押さえると、基本はバッチリです。
