@@ -112,10 +112,10 @@ function Invoke-GitCommand {
             $output = Invoke-Expression "git $Command" 2>&1
             $exitCode = $LASTEXITCODE
             
-            $outputStr = if ($output -is [array]) { $output -join "`n" } else { $output.ToString() }
+            $outputStr = ($output | Out-String) -replace "`r`n", "`n"
             if ($exitCode -eq 0) {
                 return @{ Success = $true; Output = $output }
-            } elseif ($Command -like "push*" -and $outputStr -match "Everything up-to-date") {
+            } elseif ($Command -like "push*" -and $outputStr -like "*Everything up-to-date*") {
                 return @{ Success = $true; Output = $output }
             } else {
                 throw "git $Command failed (exit code: $exitCode): $output"
