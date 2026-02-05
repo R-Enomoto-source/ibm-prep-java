@@ -5,7 +5,7 @@ import java.time.*;
 public class Main {
     public static void main(String[] args) {
         LocalDate ld = LocalDate.now();
-        LocalDate ldAfterh = 
+        LocalDate ldAfter100 = ld.plus(100);
         
     }
 }
