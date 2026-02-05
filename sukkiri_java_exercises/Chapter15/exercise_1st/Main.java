@@ -20,8 +20,8 @@ public class Main {
         cld += AFTER_HUNDRED_DATE;
         cl.set(Calendar.DAY_OF_MONTH,cld);
         // 5. Calendarの日時情報をDate型に変換する。
-        Date dt2 
-        dt = cl.getTime();
+        Date dt2;
+        dt2 = cl.getTime();
         // 6. SimpleDateFormatを用いて、指定された形式でDateインスタンスの内容を表示する。
         SimpleDateFormat sdf = new SimpleDateFormat("西暦yyyy年mm月dd日");
         String dateAfterHundredDate = sdf.format(dt);
