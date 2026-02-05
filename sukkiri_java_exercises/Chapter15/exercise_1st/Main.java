@@ -17,7 +17,7 @@ public class Main {
         // 5. Calendarの日時情報をDate型に変換する。
         dt = cl.getTime();
         // 6. SimpleDateFormatを用いて、指定された形式でDateインスタンスの内容を表示する。
-
+        
         
     }
 }
