@@ -5,7 +5,8 @@ import java.time.*;
 public class Main {
     public static void main(String[] args) {
         LocalDate ld = LocalDate.now();
-        LocalDate ldAfter100 = ld.plus(100);
+        LocalDate ldAfter100 = ld.plusDays(100);
+        Date
         
     }
 }
