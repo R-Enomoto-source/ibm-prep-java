@@ -272,3 +272,316 @@ int year = c.get(Calendar.YEAR);
 - **setTime()** … 外から渡した Date（または long）の時刻を、その Calendar（または Date）に**書き込む**
 
 この「取り出す / 書き込む」と「Calendar ⇔ Date」の対応を押さえると、基本はバッチリです。
+
+---
+
+### メソッド引数の修飾子エラー（static/private は不可）
+
+ユーザー: Illegal modifier for parameter ST_NUM; only final is permitted
+意味だけ教えてください
+
+アシスタント:
+
+このエラーの意味は次のとおりです。
+
+**「引数（パラメータ）ST_NUM には不正な修飾子が付いています。引数に使える修飾子は final だけです」**
+
+つまり、
+
+- **メソッドやコンストラクタの引数**には、修飾子をつけるなら **`final` だけ**が許されます。
+- `static` や `public`、`private` などを引数に付けると、このエラーになります。
+
+例（エラーになる書き方）:
+```java
+void method(static int ST_NUM) { ... }   // static は引数に不可
+void method(public int ST_NUM) { ... }   // public も不可
+```
+
+正しい書き方の例:
+```java
+void method(int ST_NUM) { ... }         // 修飾子なし OK
+void method(final int ST_NUM) { ... }   // final のみ OK
+```
+
+`ST_NUM` が「定数」なら、引数ではなく **クラスやメソッド内の定数（`static final` など）** として別に宣言する必要があります。
+
+---
+
+### メソッド内のローカル変数に static/private は使えない
+
+ユーザー: Illegal modifier for parameter ST_NUM; only final is permitted
+@exerseise1_1st_Main.java (1-16) 
+引数にはしていないと思うのですが
+
+アシスタント:
+
+確認しました。`ST_NUM` は引数ではなく、`main` メソッド**の中**で宣言した**ローカル変数**です。
+
+- **ローカル変数**（メソッド内の変数）に付けられる修飾子は **`final` だけ**です。
+- `static` と `private` は**クラスのフィールド**用の修飾子で、メソッド内の変数には使えません。
+
+そのため `static private final int ST_NUM` のように書くと、コンパイラが修飾子の組み合わせを解釈する過程で「引数に不正な修飾子」というメッセージを出していると考えられます。
+
+**修正内容**
+
+メソッド内の定数なので、`static` と `private` を外して `final int ST_NUM = 1;` にしました。これでコンパイルは通るはずです。
+
+クラス全体で使う定数にしたい場合は、`main` の外でクラスのフィールドとして宣言します。
+
+```java
+public class exerseise1_1st_Main {
+    private static final int ST_NUM = 1;  // クラスの定数
+    private static final int EN_NUM = 100;
+
+    public static void main(String[] args) {
+        // ...
+    }
+}
+```
+
+---
+
+### StringBuilder の append で int を直接渡せる理由
+
+ユーザー: @exerseise1_1st_Main.java (12-13) 
+ここのiはvalueofで変換しなくてもよいのですか？
+
+アシスタント:
+
+**変換しなくて大丈夫です。**
+
+`StringBuilder` の `append` は**引数の型ごとにオーバーロード**されています。
+
+- `append(int i)` … int をそのまま受け取り、内部で文字列にして追加する
+- `append(String str)` … 文字列を追加する
+- その他、`long`、`boolean`、`char` なども同様
+
+なので、
+
+```java
+s.append(i);  // int の i をそのまま渡してOK
+```
+
+と書けば、コンパイラが `append(int)` を選び、中で文字列に変換してから追加してくれます。
+
+明示的に書くなら次のどちらでも同じ結果になります。
+
+```java
+s.append(i);                    // このままでOK
+s.append(String.valueOf(i));   // わざわざ書く必要はない
+```
+
+**結論:** `i` を `valueOf` で変換する必要はなく、`s.append(i)` のままで問題ありません。
+
+---
+
+### StringBuilder に split メソッドはない
+
+ユーザー: The method split(String) is undefined for the type StringBuilder
+意味だけ教えてください
+
+アシスタント:
+
+**意味：**  
+「`StringBuilder` 型には `split(String)` メソッドは定義されていません」
+
+**補足：**  
+`split(...)` は **`String` クラス**のメソッドで、**`StringBuilder` にはありません**。
+
+`StringBuilder` の内容を `split` したい場合は、いったん `String` に変換してから呼びます。
+
+```java
+StringBuilder s = new StringBuilder("a,b,c");
+String[] parts = s.toString().split(",");  // toString() で String にしてから split
+```
+
+---
+
+### メソッドが見つからないエラー
+
+ユーザー: The method concatenateFolderAndFile(String, String) is undefined for the type Exercise2_1st_MainJava(67108964)
+意味だけ教えてください
+
+アシスタント:
+
+**意味：**  
+「`Exercise2_1st_Main` 型には、`concatenateFolderAndFile(String, String)` というメソッドが定義されていません」
+
+**つまり：**  
+`Exercise2_1st_Main` のインスタンスやクラスに対して  
+`concatenateFolderAndFile(文字列1, 文字列2)` を呼んでいるが、そのクラスにはそんな名前・引数のメソッドがない、というエラーです。
+
+**よくある原因：**  
+- `concatenateFolderAndFile` が **別のクラス**（例：`Exercise2_1st_Concat`）にだけ定義されている  
+- メソッド名や引数の型が違う（スペルミスや引数の数・型の不一致）
+
+**対処の目安：**  
+- メソッドが定義されている正しいクラスを確認する  
+- そのクラスのインスタンスを作って `インスタンス.concatenateFolderAndFile(...)` で呼ぶか、static なら `クラス名.concatenateFolderAndFile(...)` で呼ぶ
+
+---
+
+### 未使用の import 警告
+
+ユーザー: The import java.util.Date is never used
+意味だけ教えてください
+
+アシスタント:
+
+**意味：**  
+「`import java.util.Date` は使用されていません」
+
+**つまり：**  
+コード内で `java.util.Date` をインポートしているが、実際には使っていないという警告です。
+
+**対処：**  
+- 使う予定がないなら、その `import` 文を削除してください。
+- 使う予定があるなら、そのままにしておいても問題ありません（警告のみでコンパイルは通ります）。
+
+**例：**
+```java
+import java.util.Date;  // ← この行を削除すれば警告が消える
+
+public class Main {
+    public static void main(String[] args) {
+        // Date を使っていない
+    }
+}
+```
+
+未使用のインポートは削除するとコードがすっきりします。
+
+---
+
+### LocalDate で mm（分）を使うとエラーになる理由
+
+ユーザー: sukkiri_java_exercises\Chapter15\exercise_1st\exercise5\Main.javaでRun出来なかったがこれは何？
+PS C:\Users\20171\IT_Learning\pre-joining-learning>  c:; cd 'c:\Users\20171\IT_Learning\pre-joining-learning'; & 'C:\ForDevelop\Adoptium\OpenJDK25U-jdk_x64_windows_hotspot_25.0.1_8\bin\java.exe' '-Dfile.encoding=MS932' '-XX:+ShowCodeDetailsInExceptionMessages' '-cp' 'C:\Users\20171\IT_Learning\pre-joining-learning\bin' 'Chapter15.exercise_1st.exercise5.Main'    
+Exception in thread "main" java.time.temporal.UnsupportedTemporalTypeException: Unsupported field: MinuteOfHour
+        at java.base/java.time.LocalDate.get0(LocalDate.java:700)
+        at java.base/java.time.LocalDate.getLong(LocalDate.java:680)
+        at java.base/java.time.format.DateTimePrintContext.getValue(DateTimePrintContext.java:308)
+        at java.base/java.time.format.DateTimeFormatterBuilder$NumberPrinterParser.format(DateTimeFormatterBuilder.java:2914)
+        at java.base/java.time.format.DateTimeFormatterBuilder$CompositePrinterParser.format(DateTimeFormatterBuilder.java:2538)
+        at java.base/java.time.format.DateTimeFormatter.formatTo(DateTimeFormatter.java:1905)
+        at java.base/java.time.format.DateTimeFormatter.format(DateTimeFormatter.java:1879)
+        at java.base/java.time.LocalDate.format(LocalDate.java:1799)
+        at Chapter15.exercise_1st.exercise5.Main.main(Main.java:11)
+
+アシスタント:
+
+エラー内容を確認中です。
+
+**エラーの原因：**
+
+`DateTimeFormatter` のパターン文字で：
+- **`mm`** = **分（minute）** → `LocalDate` には時刻情報がないためエラー
+- **`MM`** = **月（month）** → `LocalDate` に存在する情報
+
+**修正内容：**
+
+`"西暦yyyy年mm月dd日"` → `"西暦yyyy年MM月dd日"` に変更しました。
+
+これで実行できるはずです。`LocalDate` は日付のみ（年・月・日）を扱うため、時刻（時・分・秒）のパターンは使えません。時刻を含める場合は `LocalDateTime` を使います。
+
+---
+
+### DateTimeFormatter のパターン指定方法
+
+ユーザー: DateTimeFormatterのパターン指定の方法を教えてください
+
+アシスタント:
+
+`DateTimeFormatter` のパターン指定方法です。
+
+## 基本的なパターン文字
+
+### 年（Year）
+- `y` / `yyyy` = 年（例: 2025）
+- `yy` = 年の下2桁（例: 25）
+
+### 月（Month）
+- `M` = 月（1-12、例: 2）
+- `MM` = 月（01-12、例: 02）
+- `MMM` = 月の短縮名（例: Feb）
+- `MMMM` = 月の完全名（例: February）
+
+### 日（Day）
+- `d` = 日（1-31、例: 5）
+- `dd` = 日（01-31、例: 05）
+
+### 時（Hour）
+- `H` / `HH` = 24時間制（0-23、例: 14）
+- `h` / `hh` = 12時間制（1-12、例: 2）
+
+### 分（Minute）
+- `m` / `mm` = 分（0-59、例: 30）
+
+### 秒（Second）
+- `s` / `ss` = 秒（0-59、例: 45）
+
+### その他
+- `a` = AM/PM（12時間制と併用）
+- `E` / `EEEE` = 曜日（例: Mon / Monday）
+
+## 使用例
+
+```java
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+
+// LocalDate 用（日付のみ）
+LocalDate date = LocalDate.now();
+DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyy年MM月dd日");
+// 出力例: 2025年02月05日
+
+DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+// 出力例: 2025/02/05
+
+// LocalDateTime 用（日時）
+LocalDateTime dateTime = LocalDateTime.now();
+DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH時mm分ss秒");
+// 出力例: 2025年02月05日 14時30分45秒
+
+DateTimeFormatter dtf4 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+// 出力例: 2025-02-05 14:30:45
+
+// 12時間制
+DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("yyyy年MM月dd日 hh時mm分 a");
+// 出力例: 2025年02月05日 02時30分 PM
+```
+
+## 注意点
+
+1. 大文字・小文字の区別
+   - `MM` = 月、`mm` = 分
+   - `HH` = 24時間制、`hh` = 12時間制
+
+2. 使用するクラスに合わせる
+   - `LocalDate` → 日付のみ（年・月・日）
+   - `LocalTime` → 時刻のみ（時・分・秒）
+   - `LocalDateTime` → 日時（年・月・日・時・分・秒）
+
+3. 文字列をそのまま表示したい場合
+   - シングルクォートで囲む: `'西暦'yyyy年` → "西暦2025年"
+
+## よく使うパターン例
+
+```java
+// 日本語形式
+"yyyy年MM月dd日"
+"yyyy年MM月dd日 HH時mm分"
+
+// ISO形式
+"yyyy-MM-dd"
+"yyyy-MM-dd HH:mm:ss"
+
+// スラッシュ区切り
+"yyyy/MM/dd"
+"MM/dd/yyyy"
+
+// 曜日付き
+"yyyy年MM月dd日(E)"
+```
+
+これで、目的に合わせてパターンを指定できます。
