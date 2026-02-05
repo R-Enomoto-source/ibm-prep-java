@@ -114,8 +114,15 @@ function Invoke-GitCommand {
             $exitCode = $LASTEXITCODE
             if ($null -eq $exitCode) { $exitCode = 0 }
             
-            $outputStr = ($output | Out-String).Trim() -replace "`r`n", "`n"
-            $isPushUpToDate = ($Command -like "push*") -and ($outputStr -like "*Everything*up*date*" -or $outputStr -like "*up-to-date*" -or $outputStr -match "up.to.date")
+            $outputParts = @($output) | ForEach-Object { if ($null -eq $_) { "" } else { $_.ToString() } }
+            if (-not $outputParts -or $outputParts.Count -eq 0) { $outputParts = @("") }
+            $outputStr = ([string]::Join(" ", $outputParts)).Trim()
+            $isPushUpToDate = ($Command -like "push*") -and (
+                $outputStr -like "*Everything*" -or
+                $outputStr -like "*up-to-date*" -or
+                $outputStr -match "up.to.date" -or
+                $outputStr -match "Everything"
+            )
             if ($exitCode -eq 0 -or $isPushUpToDate) {
                 return @{ Success = $true; Output = $output }
             } else {
