@@ -8,7 +8,8 @@ public class Main {
         // 1. 現在の日時をDate型で取得する。
         Date dt = new Date();
         // 2. 取得した日時情報をCalendarにセットする。
-        Calendar cl = setTime(dt);
+        Calendar cl = Calendar.getInstance();
+        
         // 3. Calendarから「日」の数値を取得する。
         // 4. 取得した値に100を足した値をCalendarの「日」にセットする。
         // 5. Calendarの日時情報をDate型に変換する。
