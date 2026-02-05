@@ -11,7 +11,7 @@ public class Main {
         Calendar cl = Calendar.getInstance();
         cl.setTime(dt);
         // 3. Calendarから「日」の数値を取得する。
-        Calendar  cl.get(Calendar.D)
+        Calendar  cl.get(Calendar.DAY_OF_MONTH)
         // 4. 取得した値に100を足した値をCalendarの「日」にセットする。
         // 5. Calendarの日時情報をDate型に変換する。
         // 6. SimpleDateFormatを用いて、指定された形式でDateインスタンスの内容を表示する。
