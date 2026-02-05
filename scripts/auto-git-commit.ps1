@@ -109,13 +109,14 @@ function Invoke-GitCommand {
     while ($attempt -lt $RetryCount) {
         try {
             Push-Location $RepoRoot
-            $output = Invoke-Expression "git $Command" 2>&1
+            $argList = $Command -split " "
+            $output = & git @argList 2>&1
             $exitCode = $LASTEXITCODE
+            if ($null -eq $exitCode) { $exitCode = 0 }
             
-            $outputStr = ($output | Out-String) -replace "`r`n", "`n"
-            if ($exitCode -eq 0) {
-                return @{ Success = $true; Output = $output }
-            } elseif ($Command -like "push*" -and $outputStr -like "*Everything up-to-date*") {
+            $outputStr = ($output | Out-String).Trim() -replace "`r`n", "`n"
+            $isPushUpToDate = ($Command -like "push*") -and ($outputStr -like "*Everything*up*date*" -or $outputStr -like "*up-to-date*" -or $outputStr -match "up.to.date")
+            if ($exitCode -eq 0 -or $isPushUpToDate) {
                 return @{ Success = $true; Output = $output }
             } else {
                 throw "git $Command failed (exit code: $exitCode): $output"
