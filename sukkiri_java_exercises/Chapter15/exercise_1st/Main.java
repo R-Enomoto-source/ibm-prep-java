@@ -22,7 +22,7 @@ public class Main {
         // 5. Calendarの日時情報をDate型に変換する。
         dt = cl.getTime();
         // 6. SimpleDateFormatを用いて、指定された形式でDateインスタンスの内容を表示する。
-        SimpleDateFormat sdf = new SimpleDateFormat("西暦yyyy/");
+        SimpleDateFormat sdf = new SimpleDateFormat("西暦yyyy年mm月dd日");
         String dateAfterHundredDate = sdf.format(dt);
         
     }
