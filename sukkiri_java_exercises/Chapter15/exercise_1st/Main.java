@@ -23,7 +23,7 @@ public class Main {
         dt = cl.getTime();
         // 6. SimpleDateFormatを用いて、指定された形式でDateインスタンスの内容を表示する。
         SimpleDateFormat sdf = new SimpleDateFormat();
-        String 
+        String dateAfterHundredDate = f.format();
         
     }
 }
