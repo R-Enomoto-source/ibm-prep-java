@@ -24,6 +24,7 @@ public class Main {
         // 6. SimpleDateFormatを用いて、指定された形式でDateインスタンスの内容を表示する。
         SimpleDateFormat sdf = new SimpleDateFormat("西暦yyyy年mm月dd日");
         String dateAfterHundredDate = sdf.format(dt);
+        System.out.println(dateAfterHundredDate);
         
     }
 }
