@@ -1,7 +1,0 @@
-package Chapter12.exercise3_1st;
-
-public final class A extends Y {
-    public void a() { System.out.print("Aa"); }
-    public void b() { System.out.print("Ab"); }
-    public void c() { System.out.print("Ac"); }
-}
