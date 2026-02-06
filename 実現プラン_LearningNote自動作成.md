@@ -94,3 +94,4 @@
 - **`.vscode/tasks.json`** … フォルダーを開いたときに上記スクリプトを実行するタスク（`runOn: "folderOpen"`）
 
 **あなたが行うこと（初回のみ）**: コマンドパレット（`Ctrl+Shift+P`）→ **「Tasks: Allow Automatic Tasks in Folder」** を実行し、**「Allow Automatic Tasks in Folder」** を選択して許可してください。その後、このフォルダを開くたびにその日の LearningNote がなければ自動作成されます。
+1
