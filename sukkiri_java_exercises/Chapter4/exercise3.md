@@ -1,0 +1,2 @@
+5行目　java.lang.NullPointerException
+6行目　java.lang.ArrayIndexOfBoundsExceptlon
