@@ -261,6 +261,13 @@ function Main {
     
     $PID | Out-File -FilePath $LockFile -Encoding ASCII -Force
     
+    # Use credential store for this repo so scheduled/non-interactive push works (avoids wincredman failure)
+    try {
+        Push-Location $RepoRoot
+        & git config credential.helper store
+        Pop-Location
+    } catch { Pop-Location; throw }
+    
     $config = Get-Config
     $polling = $config.pollingInterval
     $debounce = $config.debounceSeconds
