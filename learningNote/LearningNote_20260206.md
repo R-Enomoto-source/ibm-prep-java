@@ -12,13 +12,25 @@ Fix it, verify, and then give a concise explanation. @sukkiri_java_exercises/Cha
 
 アシスタント: 両ファイルの内容を確認しています。
 
-（中略：ファイル読み取り・修正）
+（Concat.java から `package Chapter15.1st.exercise2_1st;` を削除、Main.java から同パッケージ宣言を削除し、Main 内の `Chapter15.1st.exercise2_1st.Exercise2_1st_Concat` を `Exercise2_1st_Concat` に変更）
 
-パッケージ宣言を削除し、Main 内の完全修飾クラス名を `Exercise2_1st_Concat` に変更しました。コンパイル・実行で確認しました。`c:\javadev\readme.txt` が出力されています。
+コンパイルで確認しています。
+
+（PowerShell で `&&` 使用時にエラー）
+
+PowerShellでは `&&` が使えないため、`;` で区切って実行します。
+
+（コンパイル成功）
+
+コンパイルは成功しました（exit code: 0）。実行して動作を確認します。
+
+（実行し `c:\javadev\readme.txt` が出力された）
+
+コンパイル・実行とも問題ありません。`c:\javadev\readme.txt` が出力されています。
 
 ---
 
-**修正内容の説明**
+#### 修正内容の説明
 
 - **原因**  
   プロジェクトのソースルートが `exercise2_1st` フォルダになっているため、その直下の `.java` は「パッケージなし（デフォルトパッケージ）」として扱われます。  
@@ -28,7 +40,7 @@ Fix it, verify, and then give a concise explanation. @sukkiri_java_exercises/Cha
   1. 両方のファイルから `package Chapter15.1st.exercise2_1st;` を削除し、デフォルトパッケージにしました。  
   2. `Main` 内の `Chapter15.1st.exercise2_1st.Exercise2_1st_Concat` を、同じパッケージなので `Exercise2_1st_Concat` に変更しました。
 
-**ポイント**  
+#### ポイント  
 Java では「パッケージ宣言 = そのファイルがあるディレクトリパス」である必要があります。  
 ソースルートが `exercise2_1st` なら、その直下のファイルはパッケージ宣言を書かず、デフォルトパッケージにしておくのが正しい設定です。
 
@@ -48,7 +60,7 @@ Fix it, verify, and then give a concise explanation. @sukkiri_java_exercises/Cha
 
 ---
 
-**修正内容の説明**
+#### 修正内容の説明
 
 - **原因**  
   ソースが `Chapter15/1st/exercise2_1st/` にあり、パッケージを `Chapter15.1st.exercise2_1st` にすると、**Java ではパッケージ名の一部を数字で始められない**ため、`1st` が文法エラーになっていました。その結果、パッケージが正しく解釈されず、`Exercise2_1st_Concat` が型として解決されていませんでした。
@@ -58,5 +70,6 @@ Fix it, verify, and then give a concise explanation. @sukkiri_java_exercises/Cha
   - `Exercise2_1st_Concat.java` と `Exercise2_1st_Main.java` は **`Chapter15/exercise2_1st/`** にあります（`1st` フォルダの下ではなく、`Chapter15` の直下）。  
   - 同じパッケージにしたので、`Exercise2_1st_Concat` はそのまま型として参照できます。
 
-**ポイント**  
+#### ポイント
+
 パッケージ名は「数字で始まらない識別子」である必要があり、`1st` のようなフォルダ名をそのままパッケージに使えません。そのため、`Chapter15` 直下の `exercise2_1st` に置き、`Chapter15.exercise2_1st` という有効なパッケージ名にしました。
