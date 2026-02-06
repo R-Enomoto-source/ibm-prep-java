@@ -85,3 +85,12 @@
 - **重複防止**: スクリプト内で「その日のファイルがなければ作成」のみ行う。
 
 以上で、①～③の検討と実現プランを満たす構成とする。
+
+---
+
+## 実装済み（作成したファイル）
+
+- **`scripts/create-learning-note.ps1`** … 当日の `learningNote/LearningNote_yyyyMMdd.md` がなければ新規作成する PowerShell スクリプト
+- **`.vscode/tasks.json`** … フォルダーを開いたときに上記スクリプトを実行するタスク（`runOn: "folderOpen"`）
+
+**あなたが行うこと（初回のみ）**: コマンドパレット（`Ctrl+Shift+P`）→ **「Tasks: Allow Automatic Tasks in Folder」** を実行し、**「Allow Automatic Tasks in Folder」** を選択して許可してください。その後、このフォルダを開くたびにその日の LearningNote がなければ自動作成されます。
