@@ -290,10 +290,50 @@ function Invoke-CommitAndPush {
     }
     
     Write-Log "$(Get-Message 'gitPushRunning') origin $($Config.branchName)" "INFO"
-    # Use -c option to force credential.helper=store for this command
-    $pushResult = Invoke-GitCommand "-c credential.helper=store push origin $($Config.branchName)" -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds
+    # Execute git push directly with -c option and environment variable to force store credential helper
+    $pushAttempt = 0
+    $pushSuccess = $false
+    $pushResult = $null
+    while ($pushAttempt -lt $Config.retryAttempts -and -not $pushSuccess) {
+        try {
+            Push-Location $RepoRoot
+            # Set environment variable and use -c option to force credential.helper=store
+            $env:GIT_CREDENTIAL_HELPER = "store"
+            $output = & git -c credential.helper=store push origin $Config.branchName 2>&1
+            $exitCode = $LASTEXITCODE
+            if ($null -eq $exitCode) { $exitCode = 0 }
+            
+            $outputStr = ($output | ForEach-Object { $_.ToString() }) -join " "
+            $isPushUpToDate = $outputStr -like "*Everything*" -or $outputStr -like "*up-to-date*" -or $outputStr -match "up.to.date"
+            
+            if ($exitCode -eq 0 -or $isPushUpToDate) {
+                $pushSuccess = $true
+                $pushResult = @{ Success = $true; Output = $output }
+            } else {
+                throw "git push failed (exit code: $exitCode): $output"
+            }
+        } catch {
+            $pushAttempt++
+            if ($pushAttempt -ge $Config.retryAttempts) {
+                $outputStr = ($output | ForEach-Object { $_.ToString() }) -join " "
+                $isPushUpToDate = $outputStr -like "*Everything*" -or $outputStr -like "*up-to-date*" -or $outputStr -match "up.to.date"
+                if ($isPushUpToDate) {
+                    $pushResult = @{ Success = $true; Output = $output }
+                } else {
+                    $pushResult = @{ Success = $false; Error = $_.Exception.Message }
+                }
+            } else {
+                Write-Log "$(Get-Message 'retry') $pushAttempt/$($Config.retryAttempts): $_" "WARN"
+                Start-Sleep -Seconds $Config.retryDelaySeconds
+            }
+        } finally {
+            Pop-Location
+        }
+    }
+    
     if (-not $pushResult.Success) {
-        if ($pushResult.Error -and ($pushResult.Error -like "*Everything*up*date*" -or $pushResult.Error -like "*up-to-date*")) {
+        $outputStr = if ($pushResult.Output) { ($pushResult.Output | ForEach-Object { $_.ToString() }) -join " " } else { $pushResult.Error }
+        if ($outputStr -and ($outputStr -like "*Everything*up*date*" -or $outputStr -like "*up-to-date*")) {
             Write-Log (Get-Message "commitPushDone") "INFO"
             $statusOutput | Out-File -FilePath $LastStatusFile -Encoding UTF8 -Force
             (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") | Out-File -FilePath $LastCommitTimeFile -Encoding UTF8 -Force
