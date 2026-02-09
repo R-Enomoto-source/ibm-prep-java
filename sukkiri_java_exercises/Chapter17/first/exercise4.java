@@ -3,8 +3,9 @@ package Chapter17.first;
 import java.io.*;
 
 public class exercise4 {
+    @SuppressWarnings("unused")
     public static void main(String[] args) throws IOException{
-        FileReader fr = new FileReader(text.txt);
+        FileReader fr = new FileReader("text.txt");
     }
 }
 /*
