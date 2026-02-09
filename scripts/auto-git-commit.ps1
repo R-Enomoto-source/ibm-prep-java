@@ -285,12 +285,11 @@ function Main {
     # Use credential store for this repo so scheduled/non-interactive push works (avoids wincredman failure)
     try {
         Push-Location $RepoRoot
-        # Remove wincredman and set store as the only credential helper
-        & git config --unset credential.helper 2>$null
+        # Remove all credential helpers and set store as the only one for this repo
+        & git config --unset-all credential.helper 2>$null
         & git config --add credential.helper store
-        # Also disable wincredman globally if it exists
-        & git config --global --unset credential.helper 2>$null
-        & git config --global --add credential.helper store
+        # For global config, only change if manager/wincredman is causing issues
+        # Keep global as-is to avoid affecting other repos, but ensure store is used for this repo
         Pop-Location
     } catch { Pop-Location; throw }
     
