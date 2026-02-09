@@ -6,6 +6,6 @@ public class NameDisplay {
         Hero hero1 = new Hero("斎藤",3);
         Hero hero2 = new Hero("鈴木",7);
 
-        Map 
+        Map <String,int> hNameAndNum = new Map<>();
     }
 }
