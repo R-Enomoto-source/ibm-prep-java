@@ -138,34 +138,59 @@ function Invoke-GitCommand {
             $exitCode = $LASTEXITCODE
             if ($null -eq $exitCode) { $exitCode = 0 }
             
+            # Get original output string for checking
+            $originalOutputParts = @($output) | ForEach-Object { if ($null -eq $_) { "" } else { $_.ToString() } } | Where-Object { $_ -ne $null }
+            if (-not $originalOutputParts -or $originalOutputParts.Count -eq 0) { 
+                $originalOutputStr = "" 
+            } else {
+                $originalOutputStr = ($originalOutputParts -join " ").Trim()
+            }
+            
             # Filter out CRLF warnings if requested
             if ($SuppressCrlfWarnings) {
                 $output = $output | Where-Object { 
                     $line = if ($null -eq $_) { "" } else { $_.ToString() }
-                    $line -notmatch "CRLF will be replaced by LF"
+                    $line -and $line -notmatch "CRLF will be replaced by LF"
                 }
             }
             
-            $outputParts = @($output) | ForEach-Object { if ($null -eq $_) { "" } else { $_.ToString() } }
-            if (-not $outputParts -or $outputParts.Count -eq 0) { $outputParts = @("") }
-            $outputStr = ([string]::Join(" ", $outputParts)).Trim()
+            $outputParts = @()
+            if ($output) {
+                $outputParts = @($output) | ForEach-Object { 
+                    if ($null -eq $_) { 
+                        "" 
+                    } else { 
+                        $str = $_.ToString()
+                        if ($str) { $str }
+                    } 
+                } | Where-Object { $_ -ne $null -and $_ -ne "" }
+            }
+            if (-not $outputParts -or $outputParts.Count -eq 0) { 
+                $outputStr = "" 
+            } else {
+                $outputStr = ($outputParts -join " ").Trim()
+            }
+            
             $isPushUpToDate = ($Command -like "push*") -and (
                 $outputStr -like "*Everything*" -or
                 $outputStr -like "*up-to-date*" -or
                 $outputStr -match "up.to.date" -or
                 $outputStr -match "Everything"
             )
+            
             # CRLF warning only: git add/commit often exits non-zero on Windows but files are staged; treat as success
-            # Even if we filtered warnings, check if only CRLF warnings were present
+            $hasCrlfWarning = $originalOutputStr -match "CRLF will be replaced by LF"
+            $hasFatalError = $originalOutputStr -match "fatal:" -or $originalOutputStr -match "error:"
             $isCrlfWarningOnly = ($Command -like "add*" -or $Command -like "commit*") -and
-                ($outputStr -match "CRLF will be replaced by LF" -or ($SuppressCrlfWarnings -and -not $outputStr)) -and
-                $outputStr -notmatch "fatal:" -and
-                $outputStr -notmatch "error:"
-            # For git add, if exit code is non-zero but only CRLF warnings exist, treat as success
-            if ($Command -like "add*" -and $exitCode -ne 0 -and $SuppressCrlfWarnings -and -not $outputStr) {
-                # No output after filtering means only CRLF warnings were present
-                return @{ Success = $true; Output = @() }
+                $hasCrlfWarning -and
+                -not $hasFatalError
+            
+            # For git add with SuppressCrlfWarnings, if only CRLF warnings exist (filtered out), treat as success
+            if ($Command -like "add*" -and $SuppressCrlfWarnings -and $hasCrlfWarning -and -not $hasFatalError) {
+                # Only CRLF warnings were present, treat as success even if exit code is non-zero
+                return @{ Success = $true; Output = $output }
             }
+            
             if ($exitCode -eq 0 -or $isPushUpToDate -or $isCrlfWarningOnly) {
                 return @{ Success = $true; Output = $output }
             } else {
@@ -300,17 +325,11 @@ function Invoke-CommitAndPush {
             # Set environment variables to force store credential helper
             $env:GIT_CREDENTIAL_HELPER = "store"
             $env:GIT_TERMINAL_PROMPT = "0"
-            # Temporarily override git config to use store only
-            $originalHelper = & git config --local credential.helper 2>$null
-            & git config --local credential.helper store 2>$null
-            try {
-                $output = & git push origin $Config.branchName 2>&1
-            } finally {
-                # Restore original config if it existed
-                if ($originalHelper) {
-                    & git config --local credential.helper $originalHelper 2>$null
-                }
-            }
+            # Remove all credential helpers and set store as the only one
+            & git config --local --unset-all credential.helper 2>$null
+            & git config --local --add credential.helper store 2>$null
+            # Use -c option to override any global config
+            $output = & git -c credential.helper=store push origin $Config.branchName 2>&1
             $exitCode = $LASTEXITCODE
             if ($null -eq $exitCode) { $exitCode = 0 }
             
