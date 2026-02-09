@@ -102,7 +102,8 @@ function Invoke-GitCommand {
     param(
         [string]$Command,
         [int]$RetryCount = 3,
-        [int]$RetryDelay = 5
+        [int]$RetryDelay = 5,
+        [switch]$SuppressCrlfWarnings
     )
     
     $attempt = 0
@@ -114,6 +115,14 @@ function Invoke-GitCommand {
             $exitCode = $LASTEXITCODE
             if ($null -eq $exitCode) { $exitCode = 0 }
             
+            # Filter out CRLF warnings if requested
+            if ($SuppressCrlfWarnings) {
+                $output = $output | Where-Object { 
+                    $line = if ($null -eq $_) { "" } else { $_.ToString() }
+                    $line -notmatch "CRLF will be replaced by LF"
+                }
+            }
+            
             $outputParts = @($output) | ForEach-Object { if ($null -eq $_) { "" } else { $_.ToString() } }
             if (-not $outputParts -or $outputParts.Count -eq 0) { $outputParts = @("") }
             $outputStr = ([string]::Join(" ", $outputParts)).Trim()
@@ -124,10 +133,16 @@ function Invoke-GitCommand {
                 $outputStr -match "Everything"
             )
             # CRLF warning only: git add/commit often exits non-zero on Windows but files are staged; treat as success
+            # Even if we filtered warnings, check if only CRLF warnings were present
             $isCrlfWarningOnly = ($Command -like "add*" -or $Command -like "commit*") -and
-                $outputStr -match "CRLF will be replaced by LF" -and
+                ($outputStr -match "CRLF will be replaced by LF" -or ($SuppressCrlfWarnings -and -not $outputStr)) -and
                 $outputStr -notmatch "fatal:" -and
                 $outputStr -notmatch "error:"
+            # For git add, if exit code is non-zero but only CRLF warnings exist, treat as success
+            if ($Command -like "add*" -and $exitCode -ne 0 -and $SuppressCrlfWarnings -and -not $outputStr) {
+                # No output after filtering means only CRLF warnings were present
+                return @{ Success = $true; Output = @() }
+            }
             if ($exitCode -eq 0 -or $isPushUpToDate -or $isCrlfWarningOnly) {
                 return @{ Success = $true; Output = $output }
             } else {
@@ -210,7 +225,8 @@ function Invoke-CommitAndPush {
     $commitMessage | Out-File -FilePath $CommitMessageFile -Encoding UTF8 -Force
     
     Write-Log (Get-Message "gitAddRunning") "INFO"
-    $addResult = Invoke-GitCommand "add ." -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds
+    # Suppress CRLF warnings by redirecting stderr warnings to null for git add
+    $addResult = Invoke-GitCommand "add ." -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds -SuppressCrlfWarnings
     if (-not $addResult.Success) {
         Write-Log "$(Get-Message 'gitAddFailed'): $($addResult.Error)" "ERROR"
         return $false
@@ -269,7 +285,12 @@ function Main {
     # Use credential store for this repo so scheduled/non-interactive push works (avoids wincredman failure)
     try {
         Push-Location $RepoRoot
-        & git config credential.helper store
+        # Remove wincredman and set store as the only credential helper
+        & git config --unset credential.helper 2>$null
+        & git config --add credential.helper store
+        # Also disable wincredman globally if it exists
+        & git config --global --unset credential.helper 2>$null
+        & git config --global --add credential.helper store
         Pop-Location
     } catch { Pop-Location; throw }
     
