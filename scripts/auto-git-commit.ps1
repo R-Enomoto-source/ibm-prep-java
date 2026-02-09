@@ -110,6 +110,8 @@ function Invoke-GitCommand {
     while ($attempt -lt $RetryCount) {
         try {
             Push-Location $RepoRoot
+            # Force use of store credential helper to avoid wincredman issues
+            $env:GIT_CREDENTIAL_HELPER = "store"
             $argList = $Command -split " "
             $output = & git @argList 2>&1
             $exitCode = $LASTEXITCODE
@@ -288,8 +290,8 @@ function Main {
         # Remove all credential helpers and set store as the only one for this repo
         & git config --unset-all credential.helper 2>$null
         & git config --add credential.helper store
-        # For global config, only change if manager/wincredman is causing issues
-        # Keep global as-is to avoid affecting other repos, but ensure store is used for this repo
+        # Set environment variable to force use of store helper (overrides global config)
+        $env:GIT_CREDENTIAL_HELPER = "store"
         Pop-Location
     } catch { Pop-Location; throw }
     
