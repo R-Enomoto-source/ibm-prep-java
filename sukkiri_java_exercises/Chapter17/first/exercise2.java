@@ -2,11 +2,11 @@ package Chapter17.first;
 
 public class exercise2 {
     public static void main(String[] args) {
-        String s = null;
         try {
-            
+            String s = null;
+            System.out.println(s.length());            
         } catch (Exception e) {
-            // TODO: handle exception
-        }System.out.println(s.length());
+            System.out.println("NullPointerException 例外を catch しました");
+        }
     }
 }
