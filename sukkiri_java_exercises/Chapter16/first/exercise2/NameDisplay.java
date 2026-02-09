@@ -9,11 +9,11 @@ public class NameDisplay {
         Hero hero2 = new Hero("鈴木");
 
         List<String> heroNames = new ArrayList<String>();
-        heroNames.add(hero1.name);
-        heroNames.add(hero2.name);
+        heroNames.add(hero1.getName());
+        heroNames.add(hero2.getName());
         
         for(String dispay : heroNames){
-
+            System.out.println(dispay);
         }
     }
 }
