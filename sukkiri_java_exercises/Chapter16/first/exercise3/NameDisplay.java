@@ -14,7 +14,9 @@ public class NameDisplay {
         hNameAndNum.put(hero2.getName(),hero2.getKilleEnemyNum());
 
         //Mapの取り出しと表示
-        
+        for(String ){
+
+        }
 
     }
 }
