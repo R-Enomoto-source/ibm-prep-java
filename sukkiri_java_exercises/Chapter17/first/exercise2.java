@@ -7,6 +7,10 @@ public class exercise2 {
             System.out.println(s.length());            
         } catch (Exception e) {
             System.out.println("NullPointerException 例外を catch しました");
+            System.out.println("ーースタックトレース(ここから)--");
+            System.out.println();
+            System.out.println("ーースタックトレース(ここまで)--");
+
         }
     }
 }
