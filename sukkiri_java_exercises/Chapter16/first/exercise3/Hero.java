@@ -5,15 +5,15 @@ public class Hero {
     private String name;
     private int killedEnemyNum;
 
-    public Hero(String name) {
+    public Hero(String name , int killedEnemyNum) {
          this.name = name;
-         this.killedEnemyNum =  
+         this.killedEnemyNum = killedEnemyNum; 
         }
     public String getName() { 
         return this.name; 
     }
-    public int getKilleEnemyNum(int ){
-
+    public int getKilleEnemyNum(){
+        return this.killedEnemyNum;
     }
 }
 
