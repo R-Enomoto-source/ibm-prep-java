@@ -297,11 +297,20 @@ function Invoke-CommitAndPush {
     while ($pushAttempt -lt $Config.retryAttempts -and -not $pushSuccess) {
         try {
             Push-Location $RepoRoot
-            # Set environment variables to force store credential helper and disable interactive prompts
+            # Set environment variables to force store credential helper
             $env:GIT_CREDENTIAL_HELPER = "store"
             $env:GIT_TERMINAL_PROMPT = "0"
-            # Use -c option to override any config and force store credential helper
-            $output = & git -c credential.helper=store -c credential.helper= push origin $Config.branchName 2>&1
+            # Temporarily override git config to use store only
+            $originalHelper = & git config --local credential.helper 2>$null
+            & git config --local credential.helper store 2>$null
+            try {
+                $output = & git push origin $Config.branchName 2>&1
+            } finally {
+                # Restore original config if it existed
+                if ($originalHelper) {
+                    & git config --local credential.helper $originalHelper 2>$null
+                }
+            }
             $exitCode = $LASTEXITCODE
             if ($null -eq $exitCode) { $exitCode = 0 }
             
