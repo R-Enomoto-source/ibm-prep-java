@@ -9,7 +9,6 @@ public class NameDisplay {
         Hero hero2 = new Hero("鈴木");
 
         List<Hero> heroNames = new ArrayList<Hero>();
-        
-        
+        heroNames.add(hero1.name);
     }
 }
