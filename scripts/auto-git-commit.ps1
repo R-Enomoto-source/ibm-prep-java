@@ -112,7 +112,28 @@ function Invoke-GitCommand {
             Push-Location $RepoRoot
             # Force use of store credential helper to avoid wincredman issues
             $env:GIT_CREDENTIAL_HELPER = "store"
-            $argList = $Command -split " "
+            # Parse command and handle quoted arguments properly
+            # Split by spaces but preserve quoted strings
+            $argList = @()
+            $currentArg = ""
+            $inQuotes = $false
+            for ($i = 0; $i -lt $Command.Length; $i++) {
+                $char = $Command[$i]
+                if ($char -eq '"') {
+                    $inQuotes = -not $inQuotes
+                    $currentArg += $char
+                } elseif ($char -eq ' ' -and -not $inQuotes) {
+                    if ($currentArg) {
+                        $argList += $currentArg.Trim('"')
+                        $currentArg = ""
+                    }
+                } else {
+                    $currentArg += $char
+                }
+            }
+            if ($currentArg) {
+                $argList += $currentArg.Trim('"')
+            }
             $output = & git @argList 2>&1
             $exitCode = $LASTEXITCODE
             if ($null -eq $exitCode) { $exitCode = 0 }
@@ -235,7 +256,34 @@ function Invoke-CommitAndPush {
     }
     
     Write-Log (Get-Message "gitCommitRunning") "INFO"
-    $commitResult = Invoke-GitCommand "commit -F `"$CommitMessageFile`"" -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds
+    # Execute git commit directly with proper path handling
+    $commitAttempt = 0
+    $commitSuccess = $false
+    while ($commitAttempt -lt $Config.retryAttempts -and -not $commitSuccess) {
+        try {
+            Push-Location $RepoRoot
+            $env:GIT_CREDENTIAL_HELPER = "store"
+            $output = & git commit -F $CommitMessageFile 2>&1
+            $exitCode = $LASTEXITCODE
+            if ($null -eq $exitCode) { $exitCode = 0 }
+            if ($exitCode -eq 0) {
+                $commitSuccess = $true
+                $commitResult = @{ Success = $true; Output = $output }
+            } else {
+                throw "git commit failed (exit code: $exitCode): $output"
+            }
+        } catch {
+            $commitAttempt++
+            if ($commitAttempt -ge $Config.retryAttempts) {
+                $commitResult = @{ Success = $false; Error = $_.Exception.Message }
+            } else {
+                Write-Log "$(Get-Message 'retry') $commitAttempt/$($Config.retryAttempts): $_" "WARN"
+                Start-Sleep -Seconds $Config.retryDelaySeconds
+            }
+        } finally {
+            Pop-Location
+        }
+    }
     if (-not $commitResult.Success) {
         Write-Log "$(Get-Message 'gitCommitFailed'): $($commitResult.Error)" "ERROR"
         return $false
