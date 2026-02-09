@@ -15,7 +15,8 @@ public class NameDisplay {
 
         //Mapの取り出しと表示
         for(String key:hNameAndNum.keySet()){
-            int value = key.get(key);
+            int value = hNameAndNum.get(key);
+            System.out.println(key + "が倒した数=" + value);
         }
 
     }
