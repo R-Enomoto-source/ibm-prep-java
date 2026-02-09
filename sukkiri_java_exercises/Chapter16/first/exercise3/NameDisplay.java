@@ -9,7 +9,7 @@ public class NameDisplay {
         Hero hero2 = new Hero("鈴木",7);
 
         //Mapの作成と格納
-        Map <String,Integer> hNameAndNum = new HashMap<String,Integer>();
+        var hNameAndNum = new HashMap<String,Integer>();
         hNameAndNum.put(hero1.getName(),hero1.getKilleEnemyNum());
         hNameAndNum.put(hero2.getName(),hero2.getKilleEnemyNum());
 
