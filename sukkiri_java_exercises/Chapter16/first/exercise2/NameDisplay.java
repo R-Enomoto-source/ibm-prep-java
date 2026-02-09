@@ -1,5 +1,6 @@
 package Chapter16.first.exercise2;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class NameDisplay {
@@ -8,6 +9,7 @@ public class NameDisplay {
         Hero hero2 = new Hero("鈴木");
 
         List<Hero> heroNames = new ArrayList<>();
+        
         
     }
 }
