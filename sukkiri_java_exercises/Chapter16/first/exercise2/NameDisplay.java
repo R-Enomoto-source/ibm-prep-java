@@ -11,7 +11,9 @@ public class NameDisplay {
         List<String> heroNames = new ArrayList<String>();
         heroNames.add(hero1.name);
         heroNames.add(hero2.name);
+        
+        for(String dispay : heroNames){
 
-        for
+        }
     }
 }
