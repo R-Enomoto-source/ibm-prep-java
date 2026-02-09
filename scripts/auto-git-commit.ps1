@@ -290,7 +290,8 @@ function Invoke-CommitAndPush {
     }
     
     Write-Log "$(Get-Message 'gitPushRunning') origin $($Config.branchName)" "INFO"
-    $pushResult = Invoke-GitCommand "push origin $($Config.branchName)" -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds
+    # Use -c option to force credential.helper=store for this command
+    $pushResult = Invoke-GitCommand "-c credential.helper=store push origin $($Config.branchName)" -RetryCount $Config.retryAttempts -RetryDelay $Config.retryDelaySeconds
     if (-not $pushResult.Success) {
         if ($pushResult.Error -and ($pushResult.Error -like "*Everything*up*date*" -or $pushResult.Error -like "*up-to-date*")) {
             Write-Log (Get-Message "commitPushDone") "INFO"
