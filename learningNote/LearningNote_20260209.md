@@ -59,16 +59,7 @@ hero.name       // × エラー（private なので不可）
 
 ### Chapter16 練習問題1stの採点・間違い抽出と解説（List/Mapの格納対象と再発防止）
 
-ユーザー: sukkiri_java_exercises\Chapter16\first内のフォルダと
-sukkiri_java_exercisesExplanation\Chapter16\exerciseExplain1_1st.md
-sukkiri_java_exercisesExplanation\Chapter16\exerciseExplain2_1st.md
-sukkiri_java_exercisesExplanation\Chapter16\exerciseExplain3_1st.md
-のファイルを参照して採点をしてください。
-採点結果は下記ファイルの末尾に記載してください
-
-sukkiri_java_exercisesExplanation\Chapter16\exerciseExplain1_1st.md
-sukkiri_java_exercisesExplanation\Chapter16\exerciseExplain2_1st.md
-sukkiri_java_exercisesExplanation\Chapter16\exerciseExplain3_1st.md
+ユーザー: sukkiri_java_exercises\Chapter16\first内のフォルダを採点してください。
 
 アシスタント: 採点を終え、3つの説明ファイルの末尾に採点結果を追記しました。
 
