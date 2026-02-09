@@ -14,7 +14,7 @@ public class NameDisplay {
         hNameAndNum.put(hero2.getName(),hero2.getKilleEnemyNum());
 
         //Mapの取り出しと表示
-        for(String key:hNameAndNum.keySet()){
+        for(String key : hNameAndNum.keySet()){
             int value = hNameAndNum.get(key);
             System.out.println(key + "が倒した数=" + value);
         }
