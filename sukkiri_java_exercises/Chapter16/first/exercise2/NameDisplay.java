@@ -5,6 +5,6 @@ public class NameDisplay {
         Hero hero1 = new Hero("斎藤");
         Hero hero2 = new Hero("鈴木");
 
-        
+        List 
     }
 }
