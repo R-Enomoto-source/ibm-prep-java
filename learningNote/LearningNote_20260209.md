@@ -157,3 +157,122 @@ for (Hero key : heroes.keySet()) {
 - **単語のスペルは IDE や辞書で確認する**  
   display / killed など、よく使う単語は typo するとバグの原因になるので、メソッド名・変数名では特に注意する。
 
+### throw と throws の基本と違い（Java 例外処理）
+
+ユーザー: throwとthrowsの基本と違いを分かりやすく一つ一つ丁寧に教えてください
+
+アシスタント: Java の **throw** と **throws** の基本と違いを整理して説明します。
+
+---
+
+#### 1. 役割の違い（一言で）
+
+| キーワード | 役割 |
+|-----------|------|
+| **throw** | 「ここで例外を発生させる」と**書く**（実行時に例外を投げる） |
+| **throws** | 「このメソッドはこの例外を投げる可能性がある」と**宣言する**（メソッドのシグネチャに書く） |
+
+---
+
+#### 2. throw（例外を「投げる」）
+
+**throw** は「この行で例外を発生させる」ときに使います。
+
+- **書く場所**: メソッドの**中身（ブロック内）**
+- **使い方**: `throw new 例外クラス名(...);`
+
+```java
+public void setAge(int age) {
+    if (age < 0 || age > 150) {
+        throw new IllegalArgumentException("年齢は0〜150の範囲で指定してください");
+    }
+    this.age = age;
+}
+```
+
+- `throw` が実行されると、その時点で例外が発生し、通常の処理の流れが止まります。
+- 呼び出し元で `try-catch` していなければ、そのまま上位に伝播します。
+
+---
+
+#### 3. throws（例外を「投げる可能性がある」と宣言する）
+
+**throws** は「このメソッドは、指定した種類のチェック例外を投げる可能性がある」と**宣言**するときに使います。
+
+- **書く場所**: メソッドの**宣言（シグネチャ）**の後ろ
+- **使い方**: `戻り値の型 メソッド名(...) throws 例外クラス1, 例外クラス2 { ... }`
+
+```java
+// 「このメソッドは IOException を投げる可能性がある」という宣言
+public void readFile(String path) throws IOException {
+    FileReader fr = new FileReader(path);  // IOException が発生しうる
+    // ...
+}
+```
+
+- **チェック例外**（例: `IOException`, `SQLException`）は、メソッド内で発生しうるなら、原則として `throws` で宣言する必要があります。
+- 宣言しておくことで、「呼び出し元はこの例外を catch するか、さらに throws で伝播させる必要がある」とコンパイラがチェックしてくれます。
+
+---
+
+#### 4. 両方を使う例
+
+メソッド内で **throw** で例外を投げ、そのメソッドの宣言で **throws** で「どんな例外を投げるか」を書くパターンです。
+
+```java
+// throws: 「このメソッドは MyException を投げる可能性がある」と宣言
+public void validate(String name) throws MyException {
+    if (name == null || name.isEmpty()) {
+        // throw: ここで実際に例外を発生させる
+        throw new MyException("名前を入力してください");
+    }
+}
+```
+
+- **throw** … メソッドの**中**で「例外を発生させる」処理
+- **throws** … メソッドの**宣言**で「どんな例外を投げうるか」を書く
+
+---
+
+#### 5. 違いのまとめ
+
+| 項目 | throw | throws |
+|------|--------|--------|
+| **意味** | 例外を「投げる」（発生させる） | 例外を「投げる可能性がある」と宣言する |
+| **書く場所** | メソッドの**中**（ブロック内） | メソッドの**宣言**の後ろ |
+| **文か宣言か** | 1つの**文**（`throw new ...;`） | **宣言の一部**（`throws 例外名`） |
+| **数** | 1回の throw で投げる例外は1つ | カンマ区切りで複数書ける（`throws A, B`） |
+
+---
+
+#### 6. 呼び出し元での扱い
+
+`throws` で宣言されたチェック例外は、呼び出し元で次のどちらかが必要です。
+
+1. **try-catch で捕まえる**
+
+```java
+try {
+    readFile("data.txt");
+} catch (IOException e) {
+    System.out.println("ファイル読み込みエラー: " + e.getMessage());
+}
+```
+
+2. **自分も throws で宣言して、さらに上位に任せる**
+
+```java
+public void doSomething() throws IOException {
+    readFile("data.txt");  // readFile が throws IOException なので、ここでも宣言
+}
+```
+
+---
+
+#### 7. 覚え方のコツ
+
+- **throw** … 「throw = 投げる」→ **実際に例外を投げる文**（メソッドの中に書く）
+- **throws** … 「throws = ～を投げる（可能性がある）」→ **メソッドの宣言に付ける「投げうる例外のリスト」**
+
+「throw は実行する文」「throws は宣言の一部」と覚えると、役割の違いが分かりやすいです。
+
