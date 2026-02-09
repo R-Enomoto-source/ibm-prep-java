@@ -1,11 +1,12 @@
-# LearningNote 自動作成スクリプト
-# 実行日の LearningNote_yyyyMMdd.md が learningNote になければ新規作成する。
-# Cursor/VSCode の「フォルダーを開いたとき」タスクから呼び出す想定。
+# LearningNote auto-creation script
+# Creates LearningNote_yyyyMMdd.md in learningNote if it does not exist.
+# Intended to be called from Cursor/VSCode "when folder is opened" task.
 
 $ErrorActionPreference = 'Stop'
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $projectRoot = Split-Path -Parent $scriptDir
 $learningNoteDir = Join-Path $projectRoot 'learningNote'
+$templatePath = Join-Path $scriptDir 'learning-note-template.md'
 
 $today = Get-Date -Format 'yyyyMMdd'
 $dateDisplay = Get-Date -Format 'yyyy-MM-dd'
@@ -16,11 +17,10 @@ if (-not (Test-Path $filePath)) {
     if (-not (Test-Path $learningNoteDir)) {
         New-Item -ItemType Directory -Path $learningNoteDir -Force | Out-Null
     }
-    $header = @"
-# LearningNote $dateDisplay
-
-## セッションログ（ユーザー入力＋回答）
-
-"@
-    Set-Content -Path $filePath -Value $header -Encoding UTF8
+    # Read template as UTF-8 (avoids mojibake regardless of script encoding)
+    $utf8 = New-Object System.Text.UTF8Encoding $false
+    $content = [System.IO.File]::ReadAllText($templatePath, [System.Text.Encoding]::UTF8)
+    $content = $content.Replace('{{date}}', $dateDisplay)
+    # Write as UTF-8 without BOM
+    [System.IO.File]::WriteAllText($filePath, $content, $utf8)
 }

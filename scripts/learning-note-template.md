@@ -1,4 +1,4 @@
-# LearningNote 2026-02-07
+# LearningNote {{date}}
 
 ## セッションログ（ユーザー入力＋回答）
 
