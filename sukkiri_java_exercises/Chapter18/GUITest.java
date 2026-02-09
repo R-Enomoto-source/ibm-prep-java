@@ -16,4 +16,3 @@ public class GUITest {
         frame.setVisible(true);
     }
 }
-
