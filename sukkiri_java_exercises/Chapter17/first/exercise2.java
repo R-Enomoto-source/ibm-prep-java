@@ -1,6 +1,7 @@
 package Chapter17.first;
 
 public class exercise2 {
+    @SuppressWarnings("null")
     public static void main(String[] args) {
         try {
             String s = null;
@@ -8,7 +9,7 @@ public class exercise2 {
         } catch (Exception e) {
             System.out.println("NullPointerException 例外を catch しました");
             System.out.println("ーースタックトレース(ここから)--");
-            System.out.println();
+            e.printStackTrace();
             System.out.println("ーースタックトレース(ここまで)--");
 
         }
