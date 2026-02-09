@@ -123,7 +123,12 @@ function Invoke-GitCommand {
                 $outputStr -match "up.to.date" -or
                 $outputStr -match "Everything"
             )
-            if ($exitCode -eq 0 -or $isPushUpToDate) {
+            # CRLF warning only: git add/commit often exits non-zero on Windows but files are staged; treat as success
+            $isCrlfWarningOnly = ($Command -like "add*" -or $Command -like "commit*") -and
+                $outputStr -match "CRLF will be replaced by LF" -and
+                $outputStr -notmatch "fatal:" -and
+                $outputStr -notmatch "error:"
+            if ($exitCode -eq 0 -or $isPushUpToDate -or $isCrlfWarningOnly) {
                 return @{ Success = $true; Output = $output }
             } else {
                 throw "git $Command failed (exit code: $exitCode): $output"
