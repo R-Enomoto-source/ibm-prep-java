@@ -17,7 +17,7 @@ while ($RepoRoot) {
     $RepoRoot = $parent
 }
 $ConfigFile = Join-Path $ScriptDir $ConfigPath
-$TempDir = Join-Path $RepoRoot ".git-auto-commit"
+$TempDir = Join-Path $ScriptDir ".git-auto-commit"
 $LogDir = Join-Path $TempDir "logs"
 $CommitMessageFile = Join-Path $TempDir "commit-message.txt"
 $LastStatusFile = Join-Path $TempDir "last-status.txt"

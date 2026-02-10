@@ -113,7 +113,7 @@ try {
     Write-Host "  - スクリプト: $MainScript" -ForegroundColor White
     Write-Host ""
     Write-Host "次回ログオン時（またはログオフして再ログオン）で、自動でスクリプトが開始されます。" -ForegroundColor Cyan
-    Write-Host "ログフォルダ: $RepoRoot\.git-auto-commit\logs\ （日ごとに log-yyyy-MM-dd.txt）" -ForegroundColor White
+    Write-Host "ログフォルダ: $ScriptDir\.git-auto-commit\logs\ （日ごとに log-yyyy-MM-dd.txt）" -ForegroundColor White
     Write-Host ""
     Write-Host "タスクを削除する場合: .\setup-auto-start.ps1 -Remove" -ForegroundColor Yellow
     Write-Host ""

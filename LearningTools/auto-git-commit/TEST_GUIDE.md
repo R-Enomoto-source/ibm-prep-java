@@ -1,14 +1,14 @@
 # 自動コミット・プッシュのテスト手順
 
-本フォルダ（LearningTools/auto-git-commit）のスクリプト用です。ログは**リポジトリルート**の `.git-auto-commit/logs/` に出力されます。
+本フォルダ（LearningTools/auto-git-commit）のスクリプト用です。ログは**このフォルダ内**の `.git-auto-commit/logs/` に出力されます。
 
 ## 📋 テストの流れ
 
 ### ステップ1: スクリプトが実行中か確認
 
 ```powershell
-# リポジトリルートで
-cd "C:\Users\20171\IT_Learning\pre-joining-learning"
+# このフォルダ（LearningTools/auto-git-commit）で
+cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commit"
 
 # ログを確認（当日のログファイル）
 Get-Content ".git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt" -Tail 5
@@ -35,7 +35,7 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commi
 
 ### ステップ4〜6: ログ・Git・GitHubで確認
 
-- ログ: リポジトリルートの `.git-auto-commit\logs\log-yyyy-MM-dd.txt`
+- ログ: このフォルダの `.git-auto-commit\logs\log-yyyy-MM-dd.txt`
 - `git log --oneline -5` でコミット確認
 - GitHubでプッシュ確認
 

@@ -9,7 +9,7 @@ while ($RepoRoot) {
     if (-not $parent -or $parent -eq $RepoRoot) { $RepoRoot = Split-Path -Parent $ScriptDir; break }
     $RepoRoot = $parent
 }
-$LogDir = Join-Path $RepoRoot ".git-auto-commit\logs"
+$LogDir = Join-Path $ScriptDir ".git-auto-commit\logs"
 $LogFile = Join-Path $LogDir "log-$(Get-Date -Format 'yyyy-MM-dd').txt"
 
 Write-Host "=== 自動コミット・プッシュテスト ===" -ForegroundColor Cyan

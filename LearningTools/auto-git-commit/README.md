@@ -17,10 +17,9 @@ LearningTools/auto-git-commit/
 ├── messages.json              # 日本語メッセージ
 └── README.md                  # このファイル
 
-リポジトリルート/
-└── .git-auto-commit/          # 一時ファイル（自動生成・リポジトリルートに作成）
-    ├── logs/                  # ログ専用フォルダ（日ごとに1ファイル）
-    │   └── log-yyyy-MM-dd.txt
+LearningTools/auto-git-commit/
+└── .git-auto-commit/          # 一時ファイル（スクリプト実行時に自動作成・このフォルダ内）
+    ├── logs/                  # ログ（日ごとに log-yyyy-MM-dd.txt）
     ├── commit-message.txt
     ├── last-status.txt
     └── last-commit-time.txt
@@ -39,14 +38,9 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commi
 
 ### 2. 手動で実行する場合（テスト用）
 
-リポジトリルートからランチャーを実行するか、このフォルダで直接実行します：
+このフォルダでスクリプトを直接実行します：
 
 ```powershell
-# リポジトリルートから（推奨）
-cd "C:\Users\20171\IT_Learning\pre-joining-learning"
-.\auto-git-commit.ps1
-
-# またはこのフォルダから
 cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commit"
 .\auto-git-commit.ps1
 ```
@@ -69,9 +63,9 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commi
 2. 30秒ごとに`git status`をチェック
 3. 変更を検出したら、デバウンス時間（30秒）待機
 4. デバウンス時間内に新しい変更がなければ、コミット・プッシュを実行
-5. ログはリポジトリルートの `.git-auto-commit/logs/` に出力
+5. ログはこのフォルダ内の `.git-auto-commit/logs/` に出力
 
 ## 📚 関連ドキュメント
 
-- リポジトリルートの [AUTO_GIT_COMMIT_PLAN_REVIEW.md](../../AUTO_GIT_COMMIT_PLAN_REVIEW.md) - 詳細な実装計画と設計思想
+- [AUTO_GIT_COMMIT_PLAN_REVIEW.md](AUTO_GIT_COMMIT_PLAN_REVIEW.md) - 詳細な実装計画と設計思想
 - [TEST_GUIDE.md](TEST_GUIDE.md) - テスト手順
