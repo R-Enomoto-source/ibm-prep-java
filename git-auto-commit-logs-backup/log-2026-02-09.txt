@@ -1,0 +1,810 @@
+﻿[2026-02-09 10:42:47] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 10:42:47] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 10:42:49] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 10:55:23] [INFO] 変更を検出しました
+[2026-02-09 10:55:53] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 10:55:54] [INFO] git add . を実行中...
+[2026-02-09 10:55:54] [WARN] リトライ 1/3: warning: in the working copy of 'learningNote/LearningNote_20260209.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 10:55:59] [INFO] git commit を実行中...
+[2026-02-09 10:55:59] [INFO] git push を実行中... origin main
+[2026-02-09 10:56:05] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 10:56:13] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 10:56:20] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 10:57:20] [INFO] 変更を検出しました
+[2026-02-09 10:57:50] [INFO] 変更を検出しました
+[2026-02-09 10:58:20] [INFO] 変更を検出しました (4 ファイル). コミット・プッシュを実行します
+[2026-02-09 10:58:20] [INFO] git add . を実行中...
+[2026-02-09 10:58:20] [WARN] リトライ 1/3: warning: in the working copy of 'learningNote/LearningNote_20260207.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 10:58:25] [INFO] git commit を実行中...
+[2026-02-09 10:58:26] [INFO] git push を実行中... origin main
+[2026-02-09 10:58:29] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 10:58:37] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 10:58:44] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:02:45] [INFO] 変更を検出しました
+[2026-02-09 11:03:15] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:03:15] [INFO] git add . を実行中...
+[2026-02-09 11:03:15] [INFO] git commit を実行中...
+[2026-02-09 11:03:15] [INFO] git push を実行中... origin main
+[2026-02-09 11:03:19] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:03:26] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:03:34] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:05:34] [INFO] 変更を検出しました
+[2026-02-09 11:06:04] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:06:04] [INFO] git add . を実行中...
+[2026-02-09 11:06:05] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/exercise1.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:06:10] [INFO] git commit を実行中...
+[2026-02-09 11:06:10] [INFO] git push を実行中... origin main
+[2026-02-09 11:06:19] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:06:27] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:06:35] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:07:35] [INFO] 変更を検出しました
+[2026-02-09 11:08:05] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:08:05] [INFO] git add . を実行中...
+[2026-02-09 11:08:05] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/exercise1.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:08:10] [INFO] git commit を実行中...
+[2026-02-09 11:08:11] [INFO] git push を実行中... origin main
+[2026-02-09 11:08:24] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:08:40] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:08:47] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:09:17] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:09:18] [INFO] git add . を実行中...
+[2026-02-09 11:09:18] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/exercise1.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:09:23] [INFO] git commit を実行中...
+[2026-02-09 11:09:23] [INFO] git push を実行中... origin main
+[2026-02-09 11:09:26] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:09:34] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:09:42] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:10:12] [INFO] 変更を検出しました
+[2026-02-09 11:10:42] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:10:42] [INFO] git add . を実行中...
+[2026-02-09 11:10:42] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise1.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:10:47] [INFO] git commit を実行中...
+[2026-02-09 11:10:47] [INFO] git push を実行中... origin main
+[2026-02-09 11:10:52] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:11:00] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:11:07] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:11:37] [INFO] 変更を検出しました
+[2026-02-09 11:12:07] [INFO] 変更を検出しました
+[2026-02-09 11:12:37] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:12:38] [INFO] git add . を実行中...
+[2026-02-09 11:12:38] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:12:43] [INFO] git commit を実行中...
+[2026-02-09 11:12:43] [INFO] git push を実行中... origin main
+[2026-02-09 11:12:46] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:12:54] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:13:02] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:13:32] [INFO] 変更を検出しました
+[2026-02-09 11:14:02] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:14:02] [INFO] git add . を実行中...
+[2026-02-09 11:14:02] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:14:07] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:14:13] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:14:43] [INFO] 変更を検出しました
+[2026-02-09 11:15:13] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:15:13] [INFO] git add . を実行中...
+[2026-02-09 11:15:13] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:15:18] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:15:23] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:15:53] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:15:54] [INFO] git add . を実行中...
+[2026-02-09 11:15:54] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:15:59] [INFO] git commit を実行中...
+[2026-02-09 11:15:59] [INFO] git push を実行中... origin main
+[2026-02-09 11:16:03] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:16:11] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:16:19] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:16:49] [INFO] 変更を検出しました
+[2026-02-09 11:17:19] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:17:19] [INFO] git add . を実行中...
+[2026-02-09 11:17:19] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:17:24] [INFO] git commit を実行中...
+[2026-02-09 11:17:24] [INFO] git push を実行中... origin main
+[2026-02-09 11:17:27] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:17:35] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:17:43] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:18:13] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:18:13] [INFO] git add . を実行中...
+[2026-02-09 11:18:13] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:18:18] [INFO] git commit を実行中...
+[2026-02-09 11:18:18] [INFO] git push を実行中... origin main
+[2026-02-09 11:18:21] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:18:29] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:18:36] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:19:06] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:19:07] [INFO] git add . を実行中...
+[2026-02-09 11:19:07] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:19:12] [INFO] git commit を実行中...
+[2026-02-09 11:19:12] [INFO] git push を実行中... origin main
+[2026-02-09 11:19:15] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:19:25] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:19:33] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:20:03] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:20:03] [INFO] git add . を実行中...
+[2026-02-09 11:20:03] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:20:08] [INFO] git commit を実行中...
+[2026-02-09 11:20:09] [INFO] git push を実行中... origin main
+[2026-02-09 11:20:12] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:20:22] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:20:30] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:22:00] [INFO] 変更を検出しました
+[2026-02-09 11:22:30] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:22:30] [INFO] git add . を実行中...
+[2026-02-09 11:22:30] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:22:35] [INFO] git commit を実行中...
+[2026-02-09 11:22:35] [INFO] git push を実行中... origin main
+[2026-02-09 11:22:39] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:22:47] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:22:55] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:24:56] [INFO] 変更を検出しました
+[2026-02-09 11:25:26] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:25:26] [INFO] git add . を実行中...
+[2026-02-09 11:25:26] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:25:31] [INFO] git commit を実行中...
+[2026-02-09 11:25:31] [INFO] git push を実行中... origin main
+[2026-02-09 11:25:35] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:25:43] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:25:51] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:28:51] [INFO] 変更を検出しました
+[2026-02-09 11:29:21] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:29:22] [INFO] git add . を実行中...
+[2026-02-09 11:29:22] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:29:27] [INFO] git commit を実行中...
+[2026-02-09 11:29:27] [INFO] git push を実行中... origin main
+[2026-02-09 11:29:31] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:29:39] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:29:47] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:30:17] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:30:17] [INFO] git add . を実行中...
+[2026-02-09 11:30:17] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:30:22] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:30:27] [INFO] git commit を実行中...
+[2026-02-09 11:30:28] [INFO] git push を実行中... origin main
+[2026-02-09 11:30:31] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:30:39] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:30:46] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:31:17] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:31:17] [INFO] git add . を実行中...
+[2026-02-09 11:31:17] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:31:22] [INFO] git commit を実行中...
+[2026-02-09 11:31:22] [INFO] git push を実行中... origin main
+[2026-02-09 11:31:26] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:31:33] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:31:41] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:32:11] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:32:11] [INFO] git add . を実行中...
+[2026-02-09 11:32:11] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:32:16] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:32:21] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:32:51] [INFO] 変更を検出しました
+[2026-02-09 11:33:21] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:33:22] [INFO] git add . を実行中...
+[2026-02-09 11:33:22] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:33:27] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:33:32] [INFO] git commit を実行中...
+[2026-02-09 11:33:32] [INFO] git push を実行中... origin main
+[2026-02-09 11:33:36] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:33:44] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:33:52] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:34:52] [INFO] 変更を検出しました
+[2026-02-09 11:35:22] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:35:22] [INFO] git add . を実行中...
+[2026-02-09 11:35:22] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise2/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:35:27] [INFO] git commit を実行中...
+[2026-02-09 11:35:27] [INFO] git push を実行中... origin main
+[2026-02-09 11:35:31] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:35:39] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:35:47] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:37:47] [INFO] 変更を検出しました
+[2026-02-09 11:38:17] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:38:17] [INFO] git add . を実行中...
+[2026-02-09 11:38:18] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:38:23] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:38:28] [INFO] git commit を実行中...
+[2026-02-09 11:38:28] [INFO] git push を実行中... origin main
+[2026-02-09 11:38:31] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:38:39] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:38:46] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:40:46] [INFO] 変更を検出しました
+[2026-02-09 11:41:16] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:41:17] [INFO] git add . を実行中...
+[2026-02-09 11:41:17] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:41:22] [INFO] git commit を実行中...
+[2026-02-09 11:41:22] [INFO] git push を実行中... origin main
+[2026-02-09 11:41:25] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:41:33] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:41:41] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:42:11] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:42:11] [INFO] git add . を実行中...
+[2026-02-09 11:42:11] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:42:16] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:42:22] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:42:52] [INFO] 変更を検出しました
+[2026-02-09 11:43:22] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:43:22] [INFO] git add . を実行中...
+[2026-02-09 11:43:22] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:43:27] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:43:32] [INFO] git commit を実行中...
+[2026-02-09 11:43:32] [INFO] git push を実行中... origin main
+[2026-02-09 11:43:37] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:43:44] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:43:52] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:44:22] [INFO] 変更を検出しました
+[2026-02-09 11:44:52] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:44:52] [INFO] git add . を実行中...
+[2026-02-09 11:44:52] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/Hero.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:44:58] [INFO] git commit を実行中...
+[2026-02-09 11:44:58] [INFO] git push を実行中... origin main
+[2026-02-09 11:45:01] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:45:09] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:45:17] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:45:47] [INFO] 変更を検出しました
+[2026-02-09 11:46:17] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:46:17] [INFO] git add . を実行中...
+[2026-02-09 11:46:17] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:46:22] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:46:28] [INFO] git commit を実行中...
+[2026-02-09 11:46:28] [INFO] git push を実行中... origin main
+[2026-02-09 11:46:35] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:46:43] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:46:50] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 11:47:50] [INFO] 変更を検出しました
+[2026-02-09 11:48:21] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:48:21] [INFO] git add . を実行中...
+[2026-02-09 11:48:21] [WARN] リトライ 1/3: warning: in the working copy of 'docs/PowerShell繧､繝ｳ繧ｹ繝医・繝ｫ_winget繧ｨ繝ｩ繝ｼ蟇ｾ蜃ｦ.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:48:26] [INFO] git commit を実行中...
+[2026-02-09 11:48:26] [INFO] git push を実行中... origin main
+[2026-02-09 11:48:29] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 11:48:37] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 11:48:45] [INFO] コミット・プッシュが完了しました
+[2026-02-09 11:49:15] [INFO] 変更を検出しました
+[2026-02-09 11:49:45] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:49:45] [INFO] git add . を実行中...
+[2026-02-09 11:49:45] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:49:50] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:49:55] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:50:25] [INFO] 変更を検出しました
+[2026-02-09 11:50:56] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:50:56] [INFO] git add . を実行中...
+[2026-02-09 11:50:56] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:51:01] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:51:06] [INFO] git commit を実行中...
+[2026-02-09 11:51:06] [INFO] git push を実行中... origin main
+[2026-02-09 11:51:09] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 11:51:16] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 11:51:23] [INFO] コミット・プッシュが完了しました
+[2026-02-09 11:51:53] [INFO] 変更を検出しました
+[2026-02-09 11:52:24] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:52:24] [INFO] git add . を実行中...
+[2026-02-09 11:52:24] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:52:29] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:52:34] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:53:04] [INFO] 変更を検出しました
+[2026-02-09 11:53:34] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:53:34] [INFO] git add . を実行中...
+[2026-02-09 11:53:34] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:53:40] [INFO] git commit を実行中...
+[2026-02-09 11:53:40] [INFO] git push を実行中... origin main
+[2026-02-09 11:53:43] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 11:53:50] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 11:53:57] [INFO] コミット・プッシュが完了しました
+[2026-02-09 11:54:27] [INFO] 変更を検出しました
+[2026-02-09 11:54:57] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:54:57] [INFO] git add . を実行中...
+[2026-02-09 11:54:57] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:55:03] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:55:08] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:55:38] [INFO] 変更を検出しました
+[2026-02-09 11:56:08] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:56:08] [INFO] git add . を実行中...
+[2026-02-09 11:56:08] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:56:13] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:56:18] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:56:48] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:56:49] [INFO] git add . を実行中...
+[2026-02-09 11:56:49] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:56:54] [INFO] git commit を実行中...
+[2026-02-09 11:56:54] [INFO] git push を実行中... origin main
+[2026-02-09 11:56:57] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 11:57:04] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 11:57:11] [INFO] コミット・プッシュが完了しました
+[2026-02-09 11:57:41] [INFO] 変更を検出しました
+[2026-02-09 11:58:11] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:58:12] [INFO] git add . を実行中...
+[2026-02-09 11:58:12] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:58:17] [INFO] git commit を実行中...
+[2026-02-09 11:58:17] [INFO] git push を実行中... origin main
+[2026-02-09 11:58:21] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 11:58:29] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 11:58:36] [INFO] コミット・プッシュが完了しました
+[2026-02-09 11:59:06] [INFO] 変更を検出しました
+[2026-02-09 11:59:36] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 11:59:37] [INFO] git add . を実行中...
+[2026-02-09 11:59:37] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 11:59:42] [INFO] git commit を実行中...
+[2026-02-09 11:59:42] [INFO] git push を実行中... origin main
+[2026-02-09 11:59:45] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 11:59:52] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 11:59:59] [INFO] コミット・プッシュが完了しました
+[2026-02-09 12:02:29] [INFO] 変更を検出しました
+[2026-02-09 12:02:59] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 12:03:00] [INFO] git add . を実行中...
+[2026-02-09 12:03:00] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:03:05] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:03:10] [INFO] git commit を実行中...
+[2026-02-09 12:03:10] [INFO] git push を実行中... origin main
+[2026-02-09 12:03:13] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 12:03:20] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 12:03:27] [INFO] コミット・プッシュが完了しました
+[2026-02-09 12:03:57] [INFO] 変更を検出しました
+[2026-02-09 12:04:28] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 12:04:28] [INFO] git add . を実行中...
+[2026-02-09 12:04:28] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:04:33] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:04:38] [INFO] git commit を実行中...
+[2026-02-09 12:04:38] [INFO] git push を実行中... origin main
+[2026-02-09 12:04:41] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 12:04:48] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 12:04:55] [INFO] コミット・プッシュが完了しました
+[2026-02-09 12:05:25] [INFO] 変更を検出しました
+[2026-02-09 12:05:55] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 12:05:56] [INFO] git add . を実行中...
+[2026-02-09 12:05:56] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:06:01] [INFO] git commit を実行中...
+[2026-02-09 12:06:01] [INFO] git push を実行中... origin main
+[2026-02-09 12:06:04] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 12:06:11] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 12:06:18] [INFO] コミット・プッシュが完了しました
+[2026-02-09 12:07:18] [INFO] 変更を検出しました
+[2026-02-09 12:07:48] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 12:07:48] [INFO] git add . を実行中...
+[2026-02-09 12:07:48] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter16/first/exercise3/NameDisplay.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:07:53] [INFO] git commit を実行中...
+[2026-02-09 12:07:54] [INFO] git push を実行中... origin main
+[2026-02-09 12:07:57] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 12:08:03] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 12:08:10] [INFO] コミット・プッシュが完了しました
+[2026-02-09 12:10:41] [INFO] 変更を検出しました
+[2026-02-09 12:11:11] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 12:11:11] [INFO] git add . を実行中...
+[2026-02-09 12:11:11] [WARN] リトライ 1/3: warning: in the working copy of 'learningNote/LearningNote_20260209.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:11:16] [INFO] git commit を実行中...
+[2026-02-09 12:11:16] [INFO] git push を実行中... origin main
+[2026-02-09 12:11:19] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 12:11:26] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 12:11:33] [INFO] コミット・プッシュが完了しました
+[2026-02-09 12:12:34] [INFO] 変更を検出しました
+[2026-02-09 12:13:04] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 12:13:04] [INFO] git add . を実行中...
+[2026-02-09 12:13:04] [INFO] git commit を実行中...
+[2026-02-09 12:13:04] [INFO] git push を実行中... origin main
+[2026-02-09 12:13:07] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 12:13:14] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 12:13:21] [INFO] コミット・プッシュが完了しました
+[2026-02-09 12:26:53] [INFO] 変更を検出しました
+[2026-02-09 12:27:24] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 12:27:24] [INFO] git add . を実行中...
+[2026-02-09 12:27:24] [WARN] リトライ 1/3: warning: in the working copy of 'learningNote/LearningNote_20260209.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:27:29] [INFO] git commit を実行中...
+[2026-02-09 12:27:29] [INFO] git push を実行中... origin main
+[2026-02-09 12:27:32] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 12:27:39] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 12:27:46] [INFO] コミット・プッシュが完了しました
+[2026-02-09 12:28:46] [INFO] 変更を検出しました
+[2026-02-09 12:29:17] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 12:29:17] [INFO] git add . を実行中...
+[2026-02-09 12:29:17] [WARN] リトライ 1/3: warning: in the working copy of 'learningNote/LearningNote_20260209.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:29:22] [INFO] git commit を実行中...
+[2026-02-09 12:29:22] [INFO] git push を実行中... origin main
+[2026-02-09 12:29:25] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 12:29:32] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 12:29:39] [INFO] コミット・プッシュが完了しました
+[2026-02-09 12:30:09] [INFO] 変更を検出しました
+[2026-02-09 12:30:39] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 12:30:39] [INFO] git add . を実行中...
+[2026-02-09 12:30:39] [WARN] リトライ 1/3: warning: in the working copy of 'learningNote/LearningNote_20260209.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 12:30:45] [INFO] git commit を実行中...
+[2026-02-09 12:30:45] [INFO] git push を実行中... origin main
+[2026-02-09 12:30:47] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 12:30:54] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 12:31:01] [INFO] コミット・プッシュが完了しました
+[2026-02-09 14:26:30] [INFO] 変更を検出しました
+[2026-02-09 14:27:00] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:27:00] [INFO] git add . を実行中...
+[2026-02-09 14:27:00] [WARN] リトライ 1/3: warning: in the working copy of 'learningNote/LearningNote_20260209.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:27:05] [INFO] git commit を実行中...
+[2026-02-09 14:27:05] [INFO] git push を実行中... origin main
+[2026-02-09 14:27:08] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 14:27:15] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 14:27:23] [INFO] コミット・プッシュが完了しました
+[2026-02-09 14:40:55] [INFO] 変更を検出しました
+[2026-02-09 14:41:25] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:41:25] [INFO] git add . を実行中...
+[2026-02-09 14:41:25] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise1.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:41:30] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise1.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:41:35] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise1.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:42:05] [INFO] 変更を検出しました
+[2026-02-09 14:42:35] [INFO] 変更を検出しました
+[2026-02-09 14:43:06] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:43:06] [INFO] git add . を実行中...
+[2026-02-09 14:43:06] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise1.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:43:11] [INFO] git commit を実行中...
+[2026-02-09 14:43:11] [INFO] git push を実行中... origin main
+[2026-02-09 14:43:14] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 14:43:21] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 14:43:28] [INFO] コミット・プッシュが完了しました
+[2026-02-09 14:44:29] [INFO] 変更を検出しました
+[2026-02-09 14:44:59] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:44:59] [INFO] git add . を実行中...
+[2026-02-09 14:44:59] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise1.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:45:04] [INFO] git commit を実行中...
+[2026-02-09 14:45:04] [INFO] git push を実行中... origin main
+[2026-02-09 14:45:07] [WARN] リトライ 1/3: remote: Internal Server Error        
+[2026-02-09 14:45:16] [WARN] リトライ 2/3: remote: Internal Server Error        
+[2026-02-09 14:45:24] [ERROR] git push に失敗しました: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 14:45:54] [INFO] 変更を検出しました
+[2026-02-09 14:46:25] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:46:25] [INFO] git add . を実行中...
+[2026-02-09 14:46:25] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise2.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:46:30] [INFO] git commit を実行中...
+[2026-02-09 14:46:30] [INFO] git push を実行中... origin main
+[2026-02-09 14:46:33] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 14:46:40] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 14:46:48] [INFO] コミット・プッシュが完了しました
+[2026-02-09 14:47:18] [INFO] 変更を検出しました
+[2026-02-09 14:47:48] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:47:48] [INFO] git add . を実行中...
+[2026-02-09 14:47:48] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise2.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:47:53] [INFO] git commit を実行中...
+[2026-02-09 14:47:54] [INFO] git push を実行中... origin main
+[2026-02-09 14:47:56] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 14:48:03] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 14:48:11] [INFO] コミット・プッシュが完了しました
+[2026-02-09 14:50:41] [INFO] 変更を検出しました
+[2026-02-09 14:51:12] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:51:12] [INFO] git add . を実行中...
+[2026-02-09 14:51:12] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise2.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:51:17] [INFO] git commit を実行中...
+[2026-02-09 14:51:17] [INFO] git push を実行中... origin main
+[2026-02-09 14:51:21] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 14:51:29] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 14:51:36] [INFO] コミット・プッシュが完了しました
+[2026-02-09 14:52:06] [INFO] 変更を検出しました
+[2026-02-09 14:52:36] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:52:36] [INFO] git add . を実行中...
+[2026-02-09 14:52:36] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise2.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:52:41] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise2.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:52:46] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise2.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:53:16] [INFO] 変更を検出しました
+[2026-02-09 14:53:47] [INFO] 変更を検出しました
+[2026-02-09 14:54:17] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:54:17] [INFO] git add . を実行中...
+[2026-02-09 14:54:17] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise2.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:54:22] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:54:27] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:54:57] [INFO] 変更を検出しました
+[2026-02-09 14:55:27] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:55:28] [INFO] git add . を実行中...
+[2026-02-09 14:55:28] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:55:33] [INFO] git commit を実行中...
+[2026-02-09 14:55:33] [INFO] git push を実行中... origin main
+[2026-02-09 14:55:36] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 14:55:44] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 14:55:51] [INFO] コミット・プッシュが完了しました
+[2026-02-09 14:57:22] [INFO] 変更を検出しました
+[2026-02-09 14:57:52] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:57:52] [INFO] git add . を実行中...
+[2026-02-09 14:57:52] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:57:57] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:58:02] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:58:32] [INFO] 変更を検出しました
+[2026-02-09 14:59:03] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:59:03] [INFO] git add . を実行中...
+[2026-02-09 14:59:03] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:59:08] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:59:13] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:59:43] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 14:59:43] [INFO] git add . を実行中...
+[2026-02-09 14:59:43] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:59:49] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 14:59:54] [INFO] git commit を実行中...
+[2026-02-09 14:59:54] [INFO] git push を実行中... origin main
+[2026-02-09 14:59:57] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 15:00:05] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 15:00:12] [INFO] コミット・プッシュが完了しました
+[2026-02-09 15:00:42] [INFO] 変更を検出しました
+[2026-02-09 15:01:12] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 15:01:12] [INFO] git add . を実行中...
+[2026-02-09 15:01:12] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 15:01:17] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 15:01:22] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 15:01:52] [INFO] 変更を検出しました
+[2026-02-09 15:02:23] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 15:02:23] [INFO] git add . を実行中...
+[2026-02-09 15:02:23] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 15:02:28] [INFO] git commit を実行中...
+[2026-02-09 15:02:28] [INFO] git push を実行中... origin main
+[2026-02-09 15:02:31] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 15:02:38] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 15:02:45] [INFO] コミット・プッシュが完了しました
+[2026-02-09 15:03:15] [INFO] 変更を検出しました
+[2026-02-09 15:03:45] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 15:03:45] [INFO] git add . を実行中...
+[2026-02-09 15:03:45] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 15:03:50] [INFO] git commit を実行中...
+[2026-02-09 15:03:50] [INFO] git push を実行中... origin main
+[2026-02-09 15:03:53] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 15:04:00] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 15:04:08] [INFO] コミット・プッシュが完了しました
+[2026-02-09 15:04:38] [INFO] 変更を検出しました
+[2026-02-09 15:05:08] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 15:05:08] [INFO] git add . を実行中...
+[2026-02-09 15:05:08] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise4.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 15:05:13] [INFO] git commit を実行中...
+[2026-02-09 15:05:13] [INFO] git push を実行中... origin main
+[2026-02-09 15:05:16] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 15:05:23] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 15:05:30] [INFO] コミット・プッシュが完了しました
+[2026-02-09 17:46:25] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 17:46:25] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 17:46:26] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 17:58:58] [INFO] 変更を検出しました
+[2026-02-09 17:59:28] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 17:59:28] [INFO] git add . を実行中...
+[2026-02-09 17:59:28] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 17:59:33] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise3.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 17:59:38] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise4.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:00:08] [INFO] 変更を検出しました
+[2026-02-09 18:00:38] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 18:00:39] [INFO] git add . を実行中...
+[2026-02-09 18:00:39] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise4.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:00:44] [INFO] git commit を実行中...
+[2026-02-09 18:00:44] [INFO] git push を実行中... origin main
+[2026-02-09 18:00:47] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:00:54] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:01:01] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:01:31] [INFO] 変更を検出しました
+[2026-02-09 18:02:01] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 18:02:01] [INFO] git add . を実行中...
+[2026-02-09 18:02:01] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise4.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:02:06] [INFO] git commit を実行中...
+[2026-02-09 18:02:06] [INFO] git push を実行中... origin main
+[2026-02-09 18:02:09] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:02:16] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:02:22] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:02:52] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 18:02:53] [INFO] git add . を実行中...
+[2026-02-09 18:02:53] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise4.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:02:58] [WARN] リトライ 2/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise4.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:03:03] [ERROR] git add に失敗しました: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise4.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:03:33] [INFO] 変更を検出しました
+[2026-02-09 18:04:03] [INFO] 変更を検出しました
+[2026-02-09 18:04:33] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 18:04:33] [INFO] git add . を実行中...
+[2026-02-09 18:04:33] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise4.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:04:38] [INFO] git commit を実行中...
+[2026-02-09 18:04:38] [INFO] git push を実行中... origin main
+[2026-02-09 18:04:41] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:04:48] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:04:55] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:22:01] [INFO] 変更を検出しました
+[2026-02-09 18:22:31] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 18:22:31] [INFO] git add . を実行中...
+[2026-02-09 18:22:31] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter17/first/exercise4.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:22:36] [INFO] git commit を実行中...
+[2026-02-09 18:22:36] [INFO] git push を実行中... origin main
+[2026-02-09 18:22:39] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:22:45] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:22:52] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:55:50] [INFO] 変更を検出しました
+[2026-02-09 18:56:20] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 18:56:20] [INFO] git add . を実行中...
+[2026-02-09 18:56:20] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter18/GUITest.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:56:25] [INFO] git commit を実行中...
+[2026-02-09 18:56:26] [INFO] git push を実行中... origin main
+[2026-02-09 18:56:28] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:56:35] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:56:42] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:57:12] [INFO] 変更を検出しました
+[2026-02-09 18:57:42] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 18:57:42] [INFO] git add . を実行中...
+[2026-02-09 18:57:42] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter18/GUITest.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 18:57:47] [INFO] git commit を実行中...
+[2026-02-09 18:57:47] [INFO] git push を実行中... origin main
+[2026-02-09 18:57:50] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:57:57] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 18:58:04] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:09:05] [INFO] 変更を検出しました
+[2026-02-09 19:09:35] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:09:35] [INFO] git add . を実行中...
+[2026-02-09 19:09:35] [WARN] リトライ 1/3: warning: in the working copy of 'sukkiri_java_exercises/Chapter18/GUITest.java', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 19:09:41] [INFO] git commit を実行中...
+[2026-02-09 19:09:41] [INFO] git push を実行中... origin main
+[2026-02-09 19:09:44] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:09:50] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:09:57] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:10:57] [INFO] 変更を検出しました
+[2026-02-09 19:11:27] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:11:27] [INFO] git add . を実行中...
+[2026-02-09 19:11:28] [INFO] git commit を実行中...
+[2026-02-09 19:11:28] [INFO] git push を実行中... origin main
+[2026-02-09 19:11:30] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:11:37] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:11:44] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:14:44] [INFO] 変更を検出しました
+[2026-02-09 19:15:14] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:15:14] [INFO] git add . を実行中...
+[2026-02-09 19:15:14] [INFO] git commit を実行中...
+[2026-02-09 19:15:15] [INFO] git push を実行中... origin main
+[2026-02-09 19:15:17] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:15:24] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential stor.
+[2026-02-09 19:15:30] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:19:04] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:19:04] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:19:04] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 19:23:35] [INFO] 変更を検出しました
+[2026-02-09 19:24:05] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:24:06] [INFO] git add . を実行中...
+[2026-02-09 19:24:06] [INFO] git commit を実行中...
+[2026-02-09 19:24:06] [INFO] git push を実行中... origin main
+[2026-02-09 19:24:09] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:24:16] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:24:22] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:25:53] [INFO] 変更を検出しました
+[2026-02-09 19:26:23] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:26:23] [INFO] git add . を実行中...
+[2026-02-09 19:26:23] [INFO] git commit を実行中...
+[2026-02-09 19:26:23] [INFO] git push を実行中... origin main
+[2026-02-09 19:26:25] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 19:26:31] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 19:26:38] [INFO] コミット・プッシュが完了しました
+[2026-02-09 19:28:12] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:28:12] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:28:13] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 19:28:43] [INFO] 変更を検出しました
+[2026-02-09 19:29:13] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:29:13] [INFO] git add . を実行中...
+[2026-02-09 19:29:13] [INFO] git commit を実行中...
+[2026-02-09 19:29:13] [WARN] リトライ 1/3: git commit -F "C:\Users\20171\IT_Learning\pre-joining-learning\.git-auto-commit\commit-message.txt" failed (exit code: 128): fatal: could not read log file '"C:/Users/20171/IT_Learning/pre-joining-learning/.git-auto-commit/commit-message.txt"': No such file or directory
+[2026-02-09 19:29:18] [WARN] リトライ 2/3: git commit -F "C:\Users\20171\IT_Learning\pre-joining-learning\.git-auto-commit\commit-message.txt" failed (exit code: 128): fatal: could not read log file '"C:/Users/20171/IT_Learning/pre-joining-learning/.git-auto-commit/commit-message.txt"': No such file or directory
+[2026-02-09 19:29:23] [ERROR] git commit に失敗しました: git commit -F "C:\Users\20171\IT_Learning\pre-joining-learning\.git-auto-commit\commit-message.txt" failed (exit code: 128): fatal: could not read log file '"C:/Users/20171/IT_Learning/pre-joining-learning/.git-auto-commit/commit-message.txt"': No such file or directory
+[2026-02-09 19:29:53] [INFO] 変更を検出しました
+[2026-02-09 19:30:23] [INFO] 変更を検出しました
+[2026-02-09 19:30:54] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:30:54] [INFO] git add . を実行中...
+[2026-02-09 19:30:54] [INFO] git commit を実行中...
+[2026-02-09 19:30:54] [WARN] リトライ 1/3: git commit -F "C:\Users\20171\IT_Learning\pre-joining-learning\.git-auto-commit\commit-message.txt" failed (exit code: 128): fatal: could not read log file '"C:/Users/20171/IT_Learning/pre-joining-learning/.git-auto-commit/commit-message.txt"': No such file or directory
+[2026-02-09 19:30:59] [WARN] リトライ 2/3: git commit -F "C:\Users\20171\IT_Learning\pre-joining-learning\.git-auto-commit\commit-message.txt" failed (exit code: 128): fatal: could not read log file '"C:/Users/20171/IT_Learning/pre-joining-learning/.git-auto-commit/commit-message.txt"': No such file or directory
+[2026-02-09 19:31:04] [ERROR] git commit に失敗しました: git commit -F "C:\Users\20171\IT_Learning\pre-joining-learning\.git-auto-commit\commit-message.txt" failed (exit code: 128): fatal: could not read log file '"C:/Users/20171/IT_Learning/pre-joining-learning/.git-auto-commit/commit-message.txt"': No such file or directory
+[2026-02-09 19:32:23] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:32:24] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:32:24] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 19:32:25] [INFO] 変更を検出しました
+[2026-02-09 19:32:55] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:32:55] [INFO] git add . を実行中...
+[2026-02-09 19:32:55] [INFO] git commit を実行中...
+[2026-02-09 19:32:56] [INFO] git push を実行中... origin main
+[2026-02-09 19:33:00] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:33:07] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:33:14] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:33:44] [INFO] 変更を検出しました
+[2026-02-09 19:34:14] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:34:14] [INFO] git add . を実行中...
+[2026-02-09 19:34:14] [INFO] git commit を実行中...
+[2026-02-09 19:34:14] [INFO] git push を実行中... origin main
+[2026-02-09 19:34:17] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:34:24] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:34:30] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:35:01] [INFO] 変更を検出しました
+[2026-02-09 19:36:04] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:36:04] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:36:05] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 19:36:05] [INFO] 変更を検出しました
+[2026-02-09 19:36:35] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:36:36] [INFO] git add . を実行中...
+[2026-02-09 19:36:36] [INFO] git commit を実行中...
+[2026-02-09 19:36:36] [INFO] git push を実行中... origin main
+[2026-02-09 19:36:39] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:36:46] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:36:53] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:37:53] [INFO] 変更を検出しました
+[2026-02-09 19:38:23] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:38:23] [INFO] git add . を実行中...
+[2026-02-09 19:38:23] [INFO] git commit を実行中...
+[2026-02-09 19:38:23] [INFO] git push を実行中... origin main
+[2026-02-09 19:38:27] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:38:33] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:38:40] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:39:10] [INFO] 変更を検出しました
+[2026-02-09 19:40:00] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:40:01] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:40:01] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 19:40:01] [INFO] 変更を検出しました
+[2026-02-09 19:40:31] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:40:32] [INFO] git add . を実行中...
+[2026-02-09 19:40:32] [INFO] git commit を実行中...
+[2026-02-09 19:40:32] [INFO] git push を実行中... origin main
+[2026-02-09 19:40:36] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:40:43] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:40:49] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:41:20] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:41:20] [INFO] git add . を実行中...
+[2026-02-09 19:41:20] [INFO] git commit を実行中...
+[2026-02-09 19:41:20] [INFO] git push を実行中... origin main
+[2026-02-09 19:41:22] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:41:29] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:41:36] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:42:49] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:42:49] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:42:49] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 19:42:50] [INFO] 変更を検出しました
+[2026-02-09 19:43:20] [INFO] 変更を検出しました (1 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:43:20] [INFO] git add . を実行中...
+[2026-02-09 19:43:20] [INFO] git commit を実行中...
+[2026-02-09 19:43:20] [INFO] git push を実行中... origin main
+[2026-02-09 19:43:25] [WARN] リトライ 1/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:43:32] [WARN] リトライ 2/3: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:43:39] [ERROR] git push に失敗しました: fatal: Unable to persist credentials with the 'wincredman' credential store.
+[2026-02-09 19:44:09] [INFO] 変更を検出しました
+[2026-02-09 19:44:39] [INFO] 変更を検出しました
+[2026-02-09 19:45:49] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:45:49] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:45:49] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 19:45:49] [INFO] 変更を検出しました
+[2026-02-09 19:46:20] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:46:20] [INFO] git add . を実行中...
+[2026-02-09 19:46:20] [WARN] リトライ 1/3: warning: in the working copy of 'TestTest', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 19:46:25] [WARN] リトライ 2/3: warning: in the working copy of 'docs/PowerShell繧､繝ｳ繧ｹ繝医・繝ｫ_winget繧ｨ繝ｩ繝ｼ蟇ｾ蜃ｦ.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 19:46:30] [ERROR] git add に失敗しました: warning: in the working copy of 'docs/PowerShell繧､繝ｳ繧ｹ繝医・繝ｫ_winget繧ｨ繝ｩ繝ｼ蟇ｾ蜃ｦ.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 19:47:00] [INFO] 変更を検出しました
+[2026-02-09 19:48:08] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:48:08] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:48:08] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 19:48:08] [INFO] 変更を検出しました
+[2026-02-09 19:48:39] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:48:39] [INFO] git add . を実行中...
+[2026-02-09 19:48:39] [WARN] リトライ 1/3: "2" 個の引数を指定して "Join" を呼び出し中に例外が発生しました: "値を Null にすることはできません。
+パラメーター名:values"
+[2026-02-09 19:48:44] [WARN] リトライ 2/3: "2" 個の引数を指定して "Join" を呼び出し中に例外が発生しました: "値を Null にすることはできません。
+パラメーター名:values"
+[2026-02-09 19:48:49] [ERROR] git add に失敗しました: warning: in the working copy of 'docs/PowerShell繧､繝ｳ繧ｹ繝医・繝ｫ_winget繧ｨ繝ｩ繝ｼ蟇ｾ蜃ｦ.md', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 19:49:19] [INFO] 変更を検出しました
+[2026-02-09 19:49:49] [INFO] 変更を検出しました
+[2026-02-09 19:50:19] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:50:19] [INFO] git add . を実行中...
+[2026-02-09 19:50:20] [WARN] リトライ 1/3: "2" 個の引数を指定して "Join" を呼び出し中に例外が発生しました: "値を Null にすることはできません。
+パラメーター名:values"
+[2026-02-09 19:50:25] [WARN] リトライ 2/3: warning: in the working copy of 'TestFile.txt', CRLF will be replaced by LF the next time Git touches it
+[2026-02-09 19:50:28] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:50:28] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:50:29] [WARN] 既に実行中のインスタンスがあります (PID: 8968). 終了します.
+[2026-02-09 19:50:30] [ERROR] git add に失敗しました: "2" 個の引数を指定して "Join" を呼び出し中に例外が発生しました: "値を Null にすることはできません。
+パラメーター名:values"
+[2026-02-09 19:51:00] [INFO] 変更を検出しました
+[2026-02-09 19:51:30] [INFO] 変更を検出しました (3 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:51:30] [INFO] git add . を実行中...
+[2026-02-09 19:51:30] [WARN] リトライ 1/3: "2" 個の引数を指定して "Join" を呼び出し中に例外が発生しました: "値を Null にすることはできません。
+パラメーター名:values"
+[2026-02-09 19:51:35] [WARN] リトライ 2/3: "2" 個の引数を指定して "Join" を呼び出し中に例外が発生しました: "値を Null にすることはできません。
+パラメーター名:values"
+[2026-02-09 19:51:40] [ERROR] git add に失敗しました: "2" 個の引数を指定して "Join" を呼び出し中に例外が発生しました: "値を Null にすることはできません。
+パラメーター名:values"
+[2026-02-09 19:51:55] [INFO] 自動Gitコミット・プッシュスクリプトを開始します
+[2026-02-09 19:51:55] [INFO] リポジトリパス: C:\Users\20171\IT_Learning\pre-joining-learning
+[2026-02-09 19:51:55] [INFO] 設定を読み込みました (ポーリング間隔: 30秒, デバウンス: 30秒)
+[2026-02-09 19:51:56] [INFO] 変更を検出しました
+[2026-02-09 19:52:26] [INFO] 変更を検出しました (3 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:52:26] [INFO] git add . を実行中...
+[2026-02-09 19:52:26] [INFO] git commit を実行中...
+[2026-02-09 19:52:26] [INFO] git push を実行中... origin main
+[2026-02-09 19:52:29] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 19:52:36] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 19:52:42] [INFO] コミット・プッシュが完了しました
+[2026-02-09 19:53:42] [INFO] 変更を検出しました
+[2026-02-09 19:54:13] [INFO] 変更を検出しました
+[2026-02-09 19:54:43] [INFO] 変更を検出しました (2 ファイル). コミット・プッシュを実行します
+[2026-02-09 19:54:43] [INFO] git add . を実行中...
+[2026-02-09 19:54:43] [INFO] git commit を実行中...
+[2026-02-09 19:54:43] [INFO] git push を実行中... origin main
+[2026-02-09 19:54:45] [WARN] リトライ 1/3: To https://github.com/R-Enomoto-source/pre-joining-learning.git
+[2026-02-09 19:54:52] [WARN] リトライ 2/3: Everything up-to-date
+[2026-02-09 19:54:58] [INFO] コミット・プッシュが完了しました
