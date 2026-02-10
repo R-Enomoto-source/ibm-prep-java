@@ -13,6 +13,25 @@ import tempfile
 import os
 import shutil
 import re
+from dataclasses import dataclass
+from typing import List
+
+try:
+    import ocrmypdf
+    OCR_AVAILABLE = shutil.which("tesseract") is not None
+except (ImportError, AttributeError):
+    OCR_AVAILABLE = False
+
+
+# --- データ構造 ---
+@dataclass
+class ChapterInfo:
+    title: str
+    page_num: int
+    level: int
+    source: str
+    selected: bool = True
+
 
 # さまざまな書籍で使われやすい「章タイトル」のパターン（グループ化）
 CHAPTER_PATTERN_GROUPS = [
@@ -82,23 +101,7 @@ def suggest_chapter_pattern_ids(chapters: List[ChapterInfo]) -> List[str]:
     if not used_ids:
         return [g["id"] for g in CHAPTER_PATTERN_GROUPS]
     return sorted(used_ids)
-from dataclasses import dataclass
-from typing import List
 
-try:
-    import ocrmypdf
-    OCR_AVAILABLE = shutil.which("tesseract") is not None
-except (ImportError, AttributeError):
-    OCR_AVAILABLE = False
-
-# --- データ構造 ---
-@dataclass
-class ChapterInfo:
-    title: str
-    page_num: int
-    level: int
-    source: str
-    selected: bool = True
 
 # --- コアロジック ---
 class PDFProcessor:
