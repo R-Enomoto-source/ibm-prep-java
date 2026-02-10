@@ -14,20 +14,53 @@ import os
 import shutil
 import re
 
-# さまざまな書籍で使われやすい「章タイトル」のパターン
-CHAPTER_TITLE_REGEXES = [
-    # 日本語
-    re.compile(r"第?\s*[0-9０-９一二三四五六七八九十百千ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+\s*章"),
-    re.compile(r"[0-9０-９一二三四五六七八九十]+\s*章"),
-    re.compile(r"第?\s*[0-9０-９一二三四五六七八九十]+\s*(部|編|講|回)"),
-    # 英語
-    re.compile(r"\bchapter\s+[0-9ivxlcdm]+\b", re.IGNORECASE),
-    re.compile(r"\bchap\.\s*[0-9ivxlcdm]+\b", re.IGNORECASE),
-    re.compile(r"\bpart\s+[0-9ivxlcdm]+\b", re.IGNORECASE),
-    re.compile(r"\blesson\s+[0-9ivxlcdm]+\b", re.IGNORECASE),
-    # 欧州言語など
-    re.compile(r"\b(kapitel|chapitre|cap[ií]tulo|capitolo|capitulo|glava|глава)\s+[0-9ivxlcdm一二三四五六七八九十]+\b", re.IGNORECASE),
+# さまざまな書籍で使われやすい「章タイトル」のパターン（グループ化）
+CHAPTER_PATTERN_GROUPS = [
+    {
+        "id": "ja_chapter",
+        "label": "日本語: 第1章 / 1章 / 第一章",
+        "patterns": [
+            re.compile(r"第?\s*[0-9０-９一二三四五六七八九十百千ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+\s*章"),
+            re.compile(r"[0-9０-９一二三四五六七八九十]+\s*章"),
+        ],
+    },
+    {
+        "id": "ja_part",
+        "label": "日本語: 第1部 / 編 / 講 / 回",
+        "patterns": [
+            re.compile(r"第?\s*[0-9０-９一二三四五六七八九十]+\s*(部|編|講|回)"),
+        ],
+    },
+    {
+        "id": "en_chapter",
+        "label": "英語: Chapter / CHAPTER / Chap.",
+        "patterns": [
+            re.compile(r"\bchapter\s+[0-9ivxlcdm]+\b", re.IGNORECASE),
+            re.compile(r"\bchap\.\s*[0-9ivxlcdm]+\b", re.IGNORECASE),
+        ],
+    },
+    {
+        "id": "en_part_lesson",
+        "label": "英語: Part / Lesson",
+        "patterns": [
+            re.compile(r"\bpart\s+[0-9ivxlcdm]+\b", re.IGNORECASE),
+            re.compile(r"\blesson\s+[0-9ivxlcdm]+\b", re.IGNORECASE),
+        ],
+    },
+    {
+        "id": "eu_chapter",
+        "label": "その他: Kapitel / Chapitre / Capítulo / Capitolo / Глава など",
+        "patterns": [
+            re.compile(
+                r"\b(kapitel|chapitre|cap[ií]tulo|capitolo|capitulo|glava|глава)\s+[0-9ivxlcdm一二三四五六七八九十]+\b",
+                re.IGNORECASE,
+            ),
+        ],
+    },
 ]
+
+# すべてのパターンを平坦化したリスト（デフォルト用）
+CHAPTER_TITLE_REGEXES = [p for g in CHAPTER_PATTERN_GROUPS for p in g["patterns"]]
 from dataclasses import dataclass
 from typing import List
 
@@ -142,6 +175,7 @@ class PDFProcessor:
     def filter_major_chapters(
         self,
         chapters: List[ChapterInfo],
+        selected_pattern_ids: List[str] | None = None,
         keyword: str | None = None,
         min_distance: int = 5,
     ) -> List[ChapterInfo]:
@@ -157,6 +191,15 @@ class PDFProcessor:
         filtered: List[ChapterInfo] = []
         seen_pages_by_title = {}
 
+        # どのパターンを使うか決定（チェックボックスで未選択なら全パターン）
+        if selected_pattern_ids:
+            active_patterns = []
+            for g in CHAPTER_PATTERN_GROUPS:
+                if g["id"] in selected_pattern_ids:
+                    active_patterns.extend(g["patterns"])
+        else:
+            active_patterns = CHAPTER_TITLE_REGEXES
+
         for ch in sorted(chapters, key=lambda c: c.page_num):
             title = (ch.title or "").strip()
             if not title:
@@ -166,7 +209,7 @@ class PDFProcessor:
             if keyword and keyword in title:
                 looks_like_chapter = True
             else:
-                for pat in CHAPTER_TITLE_REGEXES:
+                for pat in active_patterns:
                     if pat.search(title):
                         looks_like_chapter = True
                         break
@@ -278,6 +321,18 @@ with st.sidebar:
     st.session_state.header_scale = header_scale
     st.session_state.min_page_gap = min_page_gap
 
+    st.subheader("4. 章タイトル判定ルール")
+    chapter_pattern_ids = [g["id"] for g in CHAPTER_PATTERN_GROUPS]
+    default_selected = st.session_state.get("chapter_pattern_selected", chapter_pattern_ids)
+    selected_ids = st.multiselect(
+        "章タイトルとして扱うパターン",
+        options=chapter_pattern_ids,
+        default=default_selected,
+        format_func=lambda id_: next(g["label"] for g in CHAPTER_PATTERN_GROUPS if g["id"] == id_),
+        help="本の言語や構成に合わせて、章タイトルとして使われそうなパターンだけを有効にできます。",
+    )
+    st.session_state.chapter_pattern_selected = selected_ids
+
 if 'processor' not in st.session_state:
     st.session_state.processor = None
 if 'chapters' not in st.session_state:
@@ -329,7 +384,13 @@ if uploaded_file is not None:
                 st.rerun()
         with col2:
             if st.button("📑 『章』だけに自動整理（重複除去）"):
-                filtered = processor.filter_major_chapters(st.session_state.chapters, keyword=None, min_distance=5)
+                selected_ids = st.session_state.get("chapter_pattern_selected")
+                filtered = processor.filter_major_chapters(
+                    st.session_state.chapters,
+                    selected_pattern_ids=selected_ids,
+                    keyword=None,
+                    min_distance=5,
+                )
                 if not filtered:
                     st.warning("章レベルの見出しが自動では判定できませんでした。必要に応じて手動で調整してください。")
                 else:
