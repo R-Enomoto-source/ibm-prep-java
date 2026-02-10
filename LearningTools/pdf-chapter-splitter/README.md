@@ -15,7 +15,9 @@ PDFを**章ごとに分割**し、**分割した範囲を画像（JPEG）に変�
 - Python 3.9+
 - **OCRを使う場合**: システムに [Tesseract](https://github.com/UB-Mannheim/tesseract/wiki) と Ghostscript をインストールし、PATH を通す
 
-## セットアップ
+## セットアップ（初回のみ）
+
+PowerShell または コマンドプロンプト（cmd）で実行してください。
 
 ```powershell
 cd LearningTools\pdf-chapter-splitter
