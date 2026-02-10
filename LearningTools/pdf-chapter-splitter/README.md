@@ -24,7 +24,15 @@ pip install -r requirements.txt
 
 ## 起動
 
+**方法1（推奨）** — ダブルクリックまたはコマンドで起動:
+
+- **run.bat** … ダブルクリック、または `run.bat` を実行（必要なときだけ依存関係をインストール）
+- **run.ps1** … PowerShell で `.\run.ps1` を実行
+
+**方法2** — 手動で起動:
+
 ```powershell
+cd LearningTools\pdf-chapter-splitter
 streamlit run pdf_master.py
 ```
 
