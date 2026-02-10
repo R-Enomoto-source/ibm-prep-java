@@ -77,8 +77,8 @@ $action = New-ScheduledTaskAction -Execute "powershell.exe" `
     -Argument "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$MainScript`"" `
     -WorkingDirectory $ScriptDir
 
-Write-Host "トリガーを設定します（ログオン時）..." -ForegroundColor Cyan
-$trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME
+Write-Host "トリガーを設定します（ログオンから1分後）..." -ForegroundColor Cyan
+$trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME -Delay (New-TimeSpan -Minutes 1)
 
 Write-Host "タスクの設定を定義します..." -ForegroundColor Cyan
 $settings = New-ScheduledTaskSettingsSet `
@@ -90,11 +90,11 @@ $settings = New-ScheduledTaskSettingsSet `
     -ExecutionTimeLimit (New-TimeSpan -Hours 0) `
     -MultipleInstances IgnoreNew
 
-Write-Host "実行権限を設定します..." -ForegroundColor Cyan
+Write-Host "実行権限を設定します（通常ユーザー）..." -ForegroundColor Cyan
 $principal = New-ScheduledTaskPrincipal `
     -UserId "$env:USERDOMAIN\$env:USERNAME" `
     -LogonType Interactive `
-    -RunLevel Highest
+    -RunLevel Limited
 
 Write-Host "タスクを登録します..." -ForegroundColor Cyan
 try {

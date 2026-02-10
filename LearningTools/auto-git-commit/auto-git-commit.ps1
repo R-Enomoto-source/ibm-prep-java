@@ -410,16 +410,9 @@ function Main {
     
     $PID | Out-File -FilePath $LockFile -Encoding ASCII -Force
     
-    # Use credential store for this repo so scheduled/non-interactive push works (avoids wincredman failure)
-    try {
-        Push-Location $RepoRoot
-        # Remove all credential helpers and set store as the only one for this repo
-        & git config --unset-all credential.helper 2>$null
-        & git config --add credential.helper store
-        # Set environment variable to force use of store helper (overrides global config)
-        $env:GIT_CREDENTIAL_HELPER = "store"
-        Pop-Location
-    } catch { Pop-Location; throw }
+    # SSH: use same known_hosts as user and accept GitHub host key when run from task (avoids "Host key verification failed")
+    $sshKnownHosts = Join-Path $env:USERPROFILE ".ssh\known_hosts"
+    $env:GIT_SSH_COMMAND = "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=$sshKnownHosts"
     
     $config = Get-Config
     $polling = $config.pollingInterval
