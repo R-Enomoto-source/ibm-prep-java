@@ -55,7 +55,7 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commi
 ## ⚙️ 設定（config.json）
 
 設定ファイルを編集することで、動作をカスタマイズできます。  
-項目の説明や環境ごとの上書き（config.local.json）については、リポジトリ直下の `GIT_WORKFLOW_GUIDE.md` や従来の scripts README を参照してください。
+項目の説明や環境ごとの上書き（config.local.json）については、[docs/GIT_WORKFLOW_GUIDE.md](../../docs/GIT_WORKFLOW_GUIDE.md) を参照してください。
 
 ## 📝 動作の流れ
 
