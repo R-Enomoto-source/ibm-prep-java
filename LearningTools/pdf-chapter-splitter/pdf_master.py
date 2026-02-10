@@ -70,7 +70,12 @@ class PDFProcessor:
                     chapters.append(ChapterInfo(title=title, page_num=page, level=lvl, source="既存目次"))
         return chapters
 
-    def detect_chapters_by_style(self) -> List[ChapterInfo]:
+    def detect_chapters_by_style(
+        self,
+        header_scale: float = 1.3,
+        min_page_gap: int = 2,
+        top_ratio: float = 0.5,
+    ) -> List[ChapterInfo]:
         font_counts = {}
         sample_pages = range(min(20, len(self.doc)))
         for page_num in sample_pages:
@@ -91,22 +96,31 @@ class PDFProcessor:
             return []
         body_style = max(font_counts, key=font_counts.get)
         body_size = body_style[0]
-        min_header_size = body_size * 1.2
+        min_header_size = body_size * header_scale
         candidates = []
-        for page_num in range(len(self.doc)):
-            page = self.doc[page_num]
+        for page_index in range(len(self.doc)):
+            page = self.doc[page_index]
+            page_height = page.rect.height
+            page_no = page_index + 1
+
+            if candidates and (page_no - candidates[-1].page_num) < min_page_gap:
+                continue
+
             blocks = page.get_text("dict")["blocks"]
             page_candidates = []
             for b in blocks:
                 if "lines" in b:
                     for l in b["lines"]:
+                        line_top = l.get("bbox", [0, 0, 0, 0])[1]
+                        if line_top > page_height * top_ratio:
+                            continue
                         for s in l["spans"]:
                             text = s["text"].strip()
-                            if 1 < len(text) < 100 and s["size"] >= min_header_size:
+                            if 1 < len(text) < 60 and s["size"] >= min_header_size:
                                 page_candidates.append(text)
             if page_candidates:
                 title = " ".join(page_candidates[:1])
-                candidates.append(ChapterInfo(title=title, page_num=page_num + 1, level=1, source="自動検出"))
+                candidates.append(ChapterInfo(title=title, page_num=page_no, level=1, source="自動検出"))
         return candidates
 
     def process_export(self, chapters: List[ChapterInfo], export_mode: str, img_zoom: float = 2.0) -> bytes:
@@ -182,6 +196,27 @@ with st.sidebar:
         else:
             img_zoom = 3.0
 
+    st.subheader("3. 章検出のきめ細かさ (目次なし用)")
+    sensitivity = st.select_slider(
+        "自動検出の粒度",
+        options=["細かい", "標準", "粗い"],
+        value="標準",
+        help="PDFに埋め込み目次がない場合に使用されます。『粗い』ほど少ない章にまとまります。",
+    )
+    header_scale = 1.3
+    min_page_gap = 2
+    if sensitivity == "細かい":
+        header_scale = 1.1
+        min_page_gap = 1
+    elif sensitivity == "標準":
+        header_scale = 1.3
+        min_page_gap = 3
+    else:
+        header_scale = 1.5
+        min_page_gap = 5
+    st.session_state.header_scale = header_scale
+    st.session_state.min_page_gap = min_page_gap
+
 if 'processor' not in st.session_state:
     st.session_state.processor = None
 if 'chapters' not in st.session_state:
@@ -200,7 +235,11 @@ if uploaded_file is not None:
             st.session_state.ocr_done = False
             st.session_state.chapters = st.session_state.processor.get_existing_toc()
             if not st.session_state.chapters:
-                st.session_state.chapters = st.session_state.processor.detect_chapters_by_style()
+                header_scale = st.session_state.get("header_scale", 1.3)
+                min_page_gap = st.session_state.get("min_page_gap", 2)
+                st.session_state.chapters = st.session_state.processor.detect_chapters_by_style(
+                    header_scale, min_page_gap
+                )
 
     processor = st.session_state.processor
 
@@ -208,7 +247,9 @@ if uploaded_file is not None:
         with st.spinner("OCR処理中... ページ数によっては数分かかります☕"):
             if processor.run_ocr():
                 st.session_state.ocr_done = True
-                st.session_state.chapters = processor.detect_chapters_by_style()
+                header_scale = st.session_state.get("header_scale", 1.3)
+                min_page_gap = st.session_state.get("min_page_gap", 2)
+                st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
                 st.success("OCR完了！テキスト情報を取得しました。")
                 st.rerun()
 
@@ -217,6 +258,12 @@ if uploaded_file is not None:
     else:
         st.subheader("🛠 フォルダ構成の編集")
         st.caption("『階層(Lv)』を調整すると、フォルダの入れ子構造を作成できます (Lv1=親フォルダ, Lv2=サブフォルダ...)。")
+        if st.button("🔁 見出し自動検出をやり直す（目次なし用）"):
+            header_scale = st.session_state.get("header_scale", 1.3)
+            min_page_gap = st.session_state.get("min_page_gap", 2)
+            st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
+            st.success("現在の設定で見出しを再検出しました。")
+            st.rerun()
         df_data = [
             {"Selected": c.selected, "Level": c.level, "Page": c.page_num, "Title": c.title, "Source": c.source}
             for c in st.session_state.chapters
