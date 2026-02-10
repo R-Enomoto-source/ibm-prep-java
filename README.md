@@ -15,10 +15,11 @@
 - `java_blackbook/`: Java Black Bookの演習ファイル
 - `learningNote/`: 学習ノート（日付ごとの記録）
 - `sukkiri_java_exercises/`: 「スッキリわかるJava」演習メモ
+- `LearningTools/`: 学習補助（自動コミット・学習ノート自動作成・ドキュメント・プロジェクト設定テンプレなど）。詳細は `LearningTools/README.md` を参照。
 - `GIT_WORKFLOW_GUIDE.md`: Git運用ルール・手順
 - `SECURITY_CHECK.md`: セキュリティ観点のチェック項目
 - `SETUP.md`: **環境構築**（.project / .classpath / .settings が無いときの初期設定）
-- `.project.example`, `.classpath.example`, `.settings.example/`: 上記 SETUP 用のテンプレ（clone 直後にコピーして使用）
+- `LearningTools/project-setup-example/`: 上記 SETUP 用のテンプレ（.project.example, .classpath.example, .settings.example；clone 直後にルートへコピーして使用）
 - `.gitignore`: 不要なファイルを管理から外す設定
 
 ## 開発・実行環境（このリポジトリの Run 時）

@@ -73,5 +73,5 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commi
 
 ## 📚 関連ドキュメント
 
-- [AUTO_GIT_COMMIT_PLAN_REVIEW.md](AUTO_GIT_COMMIT_PLAN_REVIEW.md) - 詳細な実装計画と設計思想
+- リポジトリルートの [AUTO_GIT_COMMIT_PLAN_REVIEW.md](../../AUTO_GIT_COMMIT_PLAN_REVIEW.md) - 詳細な実装計画と設計思想
 - [TEST_GUIDE.md](TEST_GUIDE.md) - テスト手順
