@@ -1,5 +1,27 @@
 # GitHubアップロード前のセキュリティチェック結果
 
+## リポジトリ全体のチェック（pre-joining-learning / 2026-02-10）
+
+**結論: Git に上げて問題なし**（以下の対応を実施済み）
+
+### 確認内容
+- **パスワード・APIキー・トークン**: なし
+- **credential 等**: スクリプト内は「Git credential store を使う」設定のみ。資格情報の記述なし
+- **.gitignore**: `.env`、`config.local.json`、`.git-auto-commit/` 等で機密・ログを除外済み
+
+### 実施した対応
+1. **.gitignore に追加**
+   - `git-auto-commit-logs-backup/` … ログにローカルパス（`C:\Users\20171\...`）が含まれるため除外
+   - `*known_hosts*`、`*.sshknown_hosts` … SSH 関連の誤コピーを追跡しないため
+2. **個人パスの修正**
+   - `sukkiri_java_exercises/Chapter6/exercise2.md` の絶対パスを `cd sukkiri_java_exercises` に変更
+
+### 注意（プライバシー）
+- **learningNote/** の一部ファイルには、学習メモとしてターミナル出力やパス（`C:\Users\20171\...`）が含まれています。**プライベートリポジトリ**であればそのままで問題ありません。**公開リポジトリ**にする場合は、必要に応じてパスをプレースホルダに置き換えることを検討してください。
+- ルートに `CUsers20171.sshknown_hosts` のようなファイルがある場合は、上記 .gitignore で追跡対象外になります。
+
+---
+
 ## ✅ 完了したチェック項目
 
 ### 1. `.gitignore`ファイルの改善

@@ -134,6 +134,11 @@ coverage/
 # 自動Gitコミット用の一時ファイル
 # ============================================
 .git-auto-commit/
+git-auto-commit-logs-backup/
+
+# SSH等（誤ってコピーした known_hosts 等を追跡しない）
+*known_hosts*
+*.sshknown_hosts
 
 # 環境ごとの設定（絶対パス・個人用識別子を書く場合はここに。リポジトリに載せない）
 scripts/config.local.json

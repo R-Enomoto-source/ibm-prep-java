@@ -14,7 +14,7 @@
 ## コンパイルに成功したコマンド
 
 ```powershell
-cd C:\Users\20171\IT_Learning\pre-joining-learning\sukkiri_java_exercises
+cd sukkiri_java_exercises
 javac Chapter6\exercise1\Main.java
 ```
 
