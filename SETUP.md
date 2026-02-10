@@ -1,7 +1,7 @@
 # 環境構築（Java プロジェクトの初期設定）
 
 `.project`、`.classpath`、`.settings/` は `.gitignore` で除外されているため、リポジトリを clone した直後は存在しません。  
-以下で **テンプレからコピー** して Java プロジェクトとして認識させてください。
+以下で **LearningTools 内のテンプレからコピー** して Java プロジェクトとして認識させてください。
 
 ## 手順（PowerShell）
 
@@ -9,12 +9,12 @@
 cd pre-joining-learning
 
 # 1. プロジェクト定義
-Copy-Item .project.example .project
-Copy-Item .classpath.example .classpath
+Copy-Item LearningTools\project-setup-example\.project.example .project
+Copy-Item LearningTools\project-setup-example\.classpath.example .classpath
 
 # 2. コンパイラ・エンコーディング設定
 New-Item -ItemType Directory -Force -Path .settings | Out-Null
-Copy-Item .settings.example\org.eclipse.jdt.core.prefs .settings\
+Copy-Item LearningTools\project-setup-example\.settings.example\org.eclipse.jdt.core.prefs .settings\
 ```
 
 ## 必要なもの
