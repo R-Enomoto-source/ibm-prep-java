@@ -13,6 +13,21 @@ import tempfile
 import os
 import shutil
 import re
+
+# さまざまな書籍で使われやすい「章タイトル」のパターン
+CHAPTER_TITLE_REGEXES = [
+    # 日本語
+    re.compile(r"第?\s*[0-9０-９一二三四五六七八九十百千ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ]+\s*章"),
+    re.compile(r"[0-9０-９一二三四五六七八九十]+\s*章"),
+    re.compile(r"第?\s*[0-9０-９一二三四五六七八九十]+\s*(部|編|講|回)"),
+    # 英語
+    re.compile(r"\bchapter\s+[0-9ivxlcdm]+\b", re.IGNORECASE),
+    re.compile(r"\bchap\.\s*[0-9ivxlcdm]+\b", re.IGNORECASE),
+    re.compile(r"\bpart\s+[0-9ivxlcdm]+\b", re.IGNORECASE),
+    re.compile(r"\blesson\s+[0-9ivxlcdm]+\b", re.IGNORECASE),
+    # 欧州言語など
+    re.compile(r"\b(kapitel|chapitre|cap[ií]tulo|capitolo|capitulo|glava|глава)\s+[0-9ivxlcdm一二三四五六七八九十]+\b", re.IGNORECASE),
+]
 from dataclasses import dataclass
 from typing import List
 
@@ -127,12 +142,13 @@ class PDFProcessor:
     def filter_major_chapters(
         self,
         chapters: List[ChapterInfo],
-        keyword: str = "章",
+        keyword: str | None = None,
         min_distance: int = 5,
     ) -> List[ChapterInfo]:
         """
         章だけを残すためのフィルタ:
-        - タイトルに keyword（デフォルトは「章」）を含む行だけ残す
+        - タイトルが章タイトルらしいものだけを残す
+          （キーワード、または CHAPTER_TITLE_REGEXES にマッチ）
         - 同じタイトルが近いページに繰り返し出る場合は、最初の1つだけ残す
         """
         if not chapters:
@@ -142,8 +158,20 @@ class PDFProcessor:
         seen_pages_by_title = {}
 
         for ch in sorted(chapters, key=lambda c: c.page_num):
-            title = ch.title or ""
-            if keyword and keyword not in title:
+            title = (ch.title or "").strip()
+            if not title:
+                continue
+
+            looks_like_chapter = False
+            if keyword and keyword in title:
+                looks_like_chapter = True
+            else:
+                for pat in CHAPTER_TITLE_REGEXES:
+                    if pat.search(title):
+                        looks_like_chapter = True
+                        break
+
+            if not looks_like_chapter:
                 continue
 
             norm_title = re.sub(r"\s+", "", title)
@@ -301,12 +329,12 @@ if uploaded_file is not None:
                 st.rerun()
         with col2:
             if st.button("📑 『章』だけに自動整理（重複除去）"):
-                filtered = processor.filter_major_chapters(st.session_state.chapters, keyword="章", min_distance=5)
+                filtered = processor.filter_major_chapters(st.session_state.chapters, keyword=None, min_distance=5)
                 if not filtered:
-                    st.warning("「章」を含む見出しが見つかりませんでした。")
+                    st.warning("章レベルの見出しが自動では判定できませんでした。必要に応じて手動で調整してください。")
                 else:
                     st.session_state.chapters = filtered
-                    st.success(f"{len(filtered)}件の章見出しに絞り込みました。")
+                    st.success(f"{len(filtered)}件の章レベル見出しに絞り込みました。")
                     st.rerun()
         df_data = [
             {"Selected": c.selected, "Level": c.level, "Page": c.page_num, "Title": c.title, "Source": c.source}
