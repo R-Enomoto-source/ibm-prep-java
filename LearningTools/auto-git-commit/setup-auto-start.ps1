@@ -66,7 +66,11 @@ try {
         Write-Host "Removed." -ForegroundColor Green
     }
 } catch {
-    Write-Host "Failed to remove existing task (continuing): $_" -ForegroundColor Yellow
+    Write-Host "Failed to remove existing task (access denied)." -ForegroundColor Red
+    Write-Host "The task was created with Administrator rights. Please:" -ForegroundColor Yellow
+    Write-Host "  1. Right-click PowerShell -> Run as Administrator" -ForegroundColor Yellow
+    Write-Host "  2. Run: cd `"$ScriptDir`"; .\setup-auto-start.ps1" -ForegroundColor Yellow
+    exit 1
 }
 
 Write-Host "Setting task action..." -ForegroundColor Cyan
@@ -74,8 +78,8 @@ $action = New-ScheduledTaskAction -Execute "powershell.exe" `
     -Argument "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$MainScript`"" `
     -WorkingDirectory $ScriptDir
 
-Write-Host "Setting trigger (1 minute after logon)..." -ForegroundColor Cyan
-$trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME -Delay (New-TimeSpan -Minutes 1)
+Write-Host "Setting trigger (at logon)..." -ForegroundColor Cyan
+$trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME
 
 Write-Host "Setting task options..." -ForegroundColor Cyan
 $settings = New-ScheduledTaskSettingsSet `
@@ -106,7 +110,7 @@ try {
     Write-Host "Done. Task registered successfully." -ForegroundColor Green
     Write-Host ""
     Write-Host "  Task name: $TaskName" -ForegroundColor White
-    Write-Host "  Trigger: 1 minute after logon" -ForegroundColor White
+    Write-Host "  Trigger: at logon" -ForegroundColor White
     Write-Host "  Script: $MainScript" -ForegroundColor White
     Write-Host ""
     Write-Host "Logs: $ScriptDir\.git-auto-commit\logs\ (log-yyyy-MM-dd.txt)" -ForegroundColor White
