@@ -61,6 +61,27 @@ CHAPTER_PATTERN_GROUPS = [
 
 # すべてのパターンを平坦化したリスト（デフォルト用）
 CHAPTER_TITLE_REGEXES = [p for g in CHAPTER_PATTERN_GROUPS for p in g["patterns"]]
+
+
+def suggest_chapter_pattern_ids(chapters: List[ChapterInfo]) -> List[str]:
+    """
+    OCR などで検出した見出しタイトルから、
+    どの章タイトルパターンが実際に使われていそうかを推定する。
+    """
+    if not chapters:
+        return [g["id"] for g in CHAPTER_PATTERN_GROUPS]
+
+    used_ids = set()
+    for ch in chapters:
+        title = (ch.title or "").strip()
+        if not title:
+            continue
+        for g in CHAPTER_PATTERN_GROUPS:
+            if any(pat.search(title) for pat in g["patterns"]):
+                used_ids.add(g["id"])
+    if not used_ids:
+        return [g["id"] for g in CHAPTER_PATTERN_GROUPS]
+    return sorted(used_ids)
 from dataclasses import dataclass
 from typing import List
 
@@ -323,6 +344,24 @@ with st.sidebar:
 
     st.subheader("4. 章タイトル判定ルール")
     chapter_pattern_ids = [g["id"] for g in CHAPTER_PATTERN_GROUPS]
+    if "chapter_pattern_selected" not in st.session_state:
+        st.session_state.chapter_pattern_selected = chapter_pattern_ids
+    if "chapter_pattern_manual" not in st.session_state:
+        st.session_state.chapter_pattern_manual = False
+
+    selected_ids = st.multiselect(
+        "章タイトルとして扱うパターン",
+        options=chapter_pattern_ids,
+        default=st.session_state.chapter_pattern_selected,
+        format_func=lambda id_: next(g["label"] for g in CHAPTER_PATTERN_GROUPS if g["id"] == id_),
+        help="本の言語や構成に合わせて、章タイトルとして使われそうなパターンだけを有効にできます。",
+    )
+    if set(selected_ids) != set(st.session_state.chapter_pattern_selected):
+        st.session_state.chapter_pattern_selected = selected_ids
+        st.session_state.chapter_pattern_manual = True
+
+    st.subheader("4. 章タイトル判定ルール")
+    chapter_pattern_ids = [g["id"] for g in CHAPTER_PATTERN_GROUPS]
     default_selected = st.session_state.get("chapter_pattern_selected", chapter_pattern_ids)
     selected_ids = st.multiselect(
         "章タイトルとして扱うパターン",
@@ -356,6 +395,12 @@ if uploaded_file is not None:
                 st.session_state.chapters = st.session_state.processor.detect_chapters_by_style(
                     header_scale, min_page_gap
                 )
+            # まだユーザーが明示的に変更していない場合は、検出された見出しから
+            # 章タイトル判定ルールのおすすめセットを自動で推定する
+            if not st.session_state.get("chapter_pattern_manual", False):
+                st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
+                    st.session_state.chapters
+                )
 
     processor = st.session_state.processor
 
@@ -367,6 +412,10 @@ if uploaded_file is not None:
                 min_page_gap = st.session_state.get("min_page_gap", 2)
                 st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
                 st.success("OCR完了！テキスト情報を取得しました。")
+                if not st.session_state.get("chapter_pattern_manual", False):
+                    st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
+                        st.session_state.chapters
+                    )
                 st.rerun()
 
     if not st.session_state.chapters:
@@ -381,6 +430,10 @@ if uploaded_file is not None:
                 min_page_gap = st.session_state.get("min_page_gap", 2)
                 st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
                 st.success("現在の設定で見出しを再検出しました。")
+                if not st.session_state.get("chapter_pattern_manual", False):
+                    st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
+                        st.session_state.chapters
+                    )
                 st.rerun()
         with col2:
             if st.button("📑 『章』だけに自動整理（重複除去）"):
