@@ -133,11 +133,13 @@
 
 ## 付録: 必要なソースコードの所在と役割
 
-提示されたドキュメント内で完成形として説明されているコードは、以下のファイル名で保存して利用できます。
+本リポジトリでは、実行用のアプリを **`LearningTools/pdf-chapter-splitter/`** に配置しています。
 
-| ファイル名（例） | 内容 |
-|------------------|------|
-| `pdf_master.py` または `pdf_structure_master.py` | Streamlit UI ＋ PDFProcessor クラス（目次取得・フォント解析・OCR・process_export で PDF/画像の両方）。実行は `streamlit run pdf_master.py`。 |
+| ファイル | 内容 |
+|----------|------|
+| `LearningTools/pdf-chapter-splitter/pdf_master.py` | Streamlit UI ＋ PDFProcessor クラス（目次取得・フォント解析・OCR・process_export で PDF/画像の両方）。 |
+| `LearningTools/pdf-chapter-splitter/requirements.txt` | 依存パッケージ（streamlit, pymupdf, pandas, ocrmypdf）。 |
+| `LearningTools/pdf-chapter-splitter/README.md` | セットアップ・起動方法（`streamlit run pdf_master.py`）。 |
 
 この 1 ファイルに以下が含まれます。
 
