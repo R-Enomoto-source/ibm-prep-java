@@ -358,22 +358,11 @@ with st.sidebar:
         default=st.session_state.chapter_pattern_selected,
         format_func=lambda id_: next(g["label"] for g in CHAPTER_PATTERN_GROUPS if g["id"] == id_),
         help="本の言語や構成に合わせて、章タイトルとして使われそうなパターンだけを有効にできます。",
+        key="chapter_pattern_rules",
     )
     if set(selected_ids) != set(st.session_state.chapter_pattern_selected):
         st.session_state.chapter_pattern_selected = selected_ids
         st.session_state.chapter_pattern_manual = True
-
-    st.subheader("4. 章タイトル判定ルール")
-    chapter_pattern_ids = [g["id"] for g in CHAPTER_PATTERN_GROUPS]
-    default_selected = st.session_state.get("chapter_pattern_selected", chapter_pattern_ids)
-    selected_ids = st.multiselect(
-        "章タイトルとして扱うパターン",
-        options=chapter_pattern_ids,
-        default=default_selected,
-        format_func=lambda id_: next(g["label"] for g in CHAPTER_PATTERN_GROUPS if g["id"] == id_),
-        help="本の言語や構成に合わせて、章タイトルとして使われそうなパターンだけを有効にできます。",
-    )
-    st.session_state.chapter_pattern_selected = selected_ids
 
 if 'processor' not in st.session_state:
     st.session_state.processor = None
