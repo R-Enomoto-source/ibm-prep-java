@@ -12,6 +12,7 @@ import zipfile
 import tempfile
 import os
 import shutil
+import re
 from dataclasses import dataclass
 from typing import List
 
@@ -122,6 +123,38 @@ class PDFProcessor:
                 title = " ".join(page_candidates[:1])
                 candidates.append(ChapterInfo(title=title, page_num=page_no, level=1, source="自動検出"))
         return candidates
+
+    def filter_major_chapters(
+        self,
+        chapters: List[ChapterInfo],
+        keyword: str = "章",
+        min_distance: int = 5,
+    ) -> List[ChapterInfo]:
+        """
+        章だけを残すためのフィルタ:
+        - タイトルに keyword（デフォルトは「章」）を含む行だけ残す
+        - 同じタイトルが近いページに繰り返し出る場合は、最初の1つだけ残す
+        """
+        if not chapters:
+            return []
+
+        filtered: List[ChapterInfo] = []
+        seen_pages_by_title = {}
+
+        for ch in sorted(chapters, key=lambda c: c.page_num):
+            title = ch.title or ""
+            if keyword and keyword not in title:
+                continue
+
+            norm_title = re.sub(r"\s+", "", title)
+            last_page = seen_pages_by_title.get(norm_title)
+            if last_page is not None and (ch.page_num - last_page) < min_distance:
+                continue
+
+            seen_pages_by_title[norm_title] = ch.page_num
+            filtered.append(ch)
+
+        return filtered
 
     def process_export(self, chapters: List[ChapterInfo], export_mode: str, img_zoom: float = 2.0) -> bytes:
         zip_buffer = io.BytesIO()
@@ -258,12 +291,23 @@ if uploaded_file is not None:
     else:
         st.subheader("🛠 フォルダ構成の編集")
         st.caption("『階層(Lv)』を調整すると、フォルダの入れ子構造を作成できます (Lv1=親フォルダ, Lv2=サブフォルダ...)。")
-        if st.button("🔁 見出し自動検出をやり直す（目次なし用）"):
-            header_scale = st.session_state.get("header_scale", 1.3)
-            min_page_gap = st.session_state.get("min_page_gap", 2)
-            st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
-            st.success("現在の設定で見出しを再検出しました。")
-            st.rerun()
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("🔁 見出し自動検出をやり直す（目次なし用）"):
+                header_scale = st.session_state.get("header_scale", 1.3)
+                min_page_gap = st.session_state.get("min_page_gap", 2)
+                st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
+                st.success("現在の設定で見出しを再検出しました。")
+                st.rerun()
+        with col2:
+            if st.button("📑 『章』だけに自動整理（重複除去）"):
+                filtered = processor.filter_major_chapters(st.session_state.chapters, keyword="章", min_distance=5)
+                if not filtered:
+                    st.warning("「章」を含む見出しが見つかりませんでした。")
+                else:
+                    st.session_state.chapters = filtered
+                    st.success(f"{len(filtered)}件の章見出しに絞り込みました。")
+                    st.rerun()
         df_data = [
             {"Selected": c.selected, "Level": c.level, "Page": c.page_num, "Title": c.title, "Source": c.source}
             for c in st.session_state.chapters
