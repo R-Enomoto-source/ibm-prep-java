@@ -17,7 +17,7 @@ PDFを**章ごとに分割**し、**分割した範囲を画像（JPEG）に変�
 
 ## セットアップ（初回のみ）
 
-PowerShell または コマンドプロンプト（cmd）で実行してください。
+Cursor のターミナル、PowerShell、コマンドプロンプト（cmd）のいずれかで実行してください。
 
 ```powershell
 cd LearningTools\pdf-chapter-splitter
