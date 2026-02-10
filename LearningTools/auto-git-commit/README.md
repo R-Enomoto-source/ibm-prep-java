@@ -32,7 +32,7 @@ LearningTools/auto-git-commit/
 管理者権限でPowerShellを開き、このフォルダに移動して実行します：
 
 ```powershell
-cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commit"
+cd "LearningTools\auto-git-commit"
 .\setup-auto-start.ps1
 ```
 
@@ -41,14 +41,14 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commi
 このフォルダでスクリプトを直接実行します：
 
 ```powershell
-cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commit"
+cd "LearningTools\auto-git-commit"
 .\auto-git-commit.ps1
 ```
 
 ### 3. 自動起動を無効にする場合
 
 ```powershell
-cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commit"
+cd "LearningTools\auto-git-commit"
 .\setup-auto-start.ps1 -Remove
 ```
 

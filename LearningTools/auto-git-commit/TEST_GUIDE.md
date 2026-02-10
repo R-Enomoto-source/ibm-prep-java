@@ -8,7 +8,7 @@
 
 ```powershell
 # このフォルダ（LearningTools/auto-git-commit）で
-cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commit"
+cd "LearningTools\auto-git-commit"
 
 # ログを確認（当日のログファイル）
 Get-Content ".git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt" -Tail 5
@@ -19,7 +19,7 @@ Get-Content ".git-auto-commit\logs\log-$(Get-Date -Format 'yyyy-MM-dd').txt" -Ta
 ### ステップ2: テスト用ファイルを作成または変更
 
 ```powershell
-cd "C:\Users\20171\IT_Learning\pre-joining-learning"
+# リポジトリのルートで実行
 "テスト用ファイル - $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')" | Out-File -FilePath "test-auto-commit.txt" -Encoding UTF8
 ```
 
@@ -29,7 +29,7 @@ cd "C:\Users\20171\IT_Learning\pre-joining-learning"
 簡単な一括テストは **test-auto-commit.ps1** を実行してください：
 
 ```powershell
-cd "C:\Users\20171\IT_Learning\pre-joining-learning\LearningTools\auto-git-commit"
+cd "LearningTools\auto-git-commit"
 .\test-auto-commit.ps1
 ```
 

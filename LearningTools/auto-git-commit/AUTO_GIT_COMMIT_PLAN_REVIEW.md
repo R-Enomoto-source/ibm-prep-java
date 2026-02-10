@@ -447,9 +447,9 @@ while ($true) {
    - 「プログラム/スクリプト」: `powershell.exe`
    - 「引数の追加」: 
      ```
-     -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\Users\20171\IT_Learning\pre-joining-learning\scripts\auto-git-commit.ps1"
+     -WindowStyle Hidden -ExecutionPolicy Bypass -File "<リポジトリのパス>\LearningTools\auto-git-commit\auto-git-commit.ps1"
      ```
-   - 「開始位置」: `C:\Users\20171\IT_Learning\pre-joining-learning\scripts`
+   - 「開始位置」: `<リポジトリのパス>\LearningTools\auto-git-commit`
 
 5. **条件の設定**
    - 「タスクの実行条件」タブ
@@ -488,9 +488,9 @@ while ($true) {
    - ショートカットを右クリック → 「プロパティ」
    - 「リンク先」を以下に変更:
      ```
-     powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\Users\20171\IT_Learning\pre-joining-learning\scripts\auto-git-commit.ps1"
+     powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -File "<リポジトリのパス>\LearningTools\auto-git-commit\auto-git-commit.ps1"
      ```
-   - 「作業フォルダー」: `C:\Users\20171\IT_Learning\pre-joining-learning\scripts`
+   - 「作業フォルダー」: `<リポジトリのパス>\LearningTools\auto-git-commit`
 
 3. **スタートアップフォルダに配置**
    - Windowsキー + R → `shell:startup` → Enter
