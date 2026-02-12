@@ -138,7 +138,10 @@ if pdf_path:
                 for i, page_idx in enumerate(pages_to_convert):
                     page = doc[page_idx]
                     pix = page.get_pixmap(matrix=mat, alpha=use_png)
-                    pix.set_dpi(dpi, dpi)
+                    try:
+                        pix.set_dpi(dpi, dpi)
+                    except AttributeError:
+                        pass  # 一部バージョンでは未対応
 
                     buf = io.BytesIO()
                     if use_png:
