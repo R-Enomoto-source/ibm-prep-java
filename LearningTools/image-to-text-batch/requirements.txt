@@ -1,0 +1,7 @@
+# 画像→テキスト バッチ処理
+# 推奨: easyocr（Tesseract不要）
+easyocr>=1.7.0
+
+# 代替: pytesseract（軽量だが Tesseract のインストールが必要）
+# pytesseract>=0.3.10
+# Pillow>=10.0.0
