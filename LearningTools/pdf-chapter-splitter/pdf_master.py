@@ -107,6 +107,12 @@ CHAPTER_PATTERN_GROUPS = [
 # すべてのパターンを平坦化したリスト（デフォルト用）
 CHAPTER_TITLE_REGEXES = [p for g in CHAPTER_PATTERN_GROUPS for p in g["patterns"]]
 
+# 目次行のパターン（章パターンに加え、「1. はじめに」「1) はじめに」などにも対応）
+TOC_ENTRY_PATTERNS = [
+    re.compile(r"^\d+[\.\)]\s"),  # "1. " or "1) "
+    re.compile(r"^\d+\s+[^\d]"),  # "1 はじめに" (数字+スペース+非数字)
+] + CHAPTER_TITLE_REGEXES
+
 
 def suggest_chapter_pattern_ids(chapters: List[ChapterInfo]) -> List[str]:
     """
@@ -169,54 +175,80 @@ class PDFProcessor:
                     chapters.append(ChapterInfo(title=title, page_num=page, level=lvl, source="既存目次"))
         return chapters
 
+    def _get_page_body_size(self, page) -> float | None:
+        """ページ内の本文フォントサイズ（最頻出）を返す。"""
+        font_counts = {}
+        try:
+            for b in page.get_text("dict").get("blocks", []):
+                for line in b.get("lines", []):
+                    for s in line.get("spans", []):
+                        sz = round(s.get("size", 0), 1)
+                        if sz > 0:
+                            text_len = len((s.get("text") or "").strip())
+                            font_counts[sz] = font_counts.get(sz, 0) + text_len
+        except Exception:
+            return None
+        if not font_counts:
+            return None
+        return max(font_counts, key=font_counts.get)
+
+    def _get_doc_body_size(self, max_pages: int = 20) -> float | None:
+        """ドキュメント全体の本文フォントサイズ（最頻出）を返す。"""
+        font_counts = {}
+        for pi in range(min(max_pages, len(self.doc))):
+            try:
+                bs = self._get_page_body_size(self.doc[pi])
+                if bs is not None:
+                    font_counts[bs] = font_counts.get(bs, 0) + 1
+            except Exception:
+                continue
+        return max(font_counts, key=font_counts.get) if font_counts else None
+
     def detect_chapters_by_style(
         self,
         header_scale: float = 1.3,
         min_page_gap: int = 2,
         top_ratio: float = 0.5,
+        per_page_font: bool = True,
     ) -> List[ChapterInfo]:
-        font_counts = {}
-        sample_pages = range(min(20, len(self.doc)))
-        for page_num in sample_pages:
-            try:
-                page = self.doc[page_num]
-                blocks = page.get_text("dict")["blocks"]
-                for b in blocks:
-                    if "lines" in b:
-                        for l in b["lines"]:
-                            for s in l["spans"]:
-                                size = round(s["size"], 1)
-                                font = s["font"]
-                                key = (size, font)
-                                font_counts[key] = font_counts.get(key, 0) + len(s["text"].strip())
-            except Exception:
-                continue
-        if not font_counts:
+        """
+        フォントサイズ解析で見出しを検出。
+        per_page_font=True のとき、各ページごとに本文サイズを推定し、
+        そのページ内で「本文より大きい」テキストだけを見出し候補にする（ロバスト性向上）。
+        """
+        fallback_body = self._get_doc_body_size()
+        if not per_page_font and fallback_body is None:
             return []
-        body_style = max(font_counts, key=font_counts.get)
-        body_size = body_style[0]
-        min_header_size = body_size * header_scale
+
         candidates = []
         for page_index in range(len(self.doc)):
             page = self.doc[page_index]
-            page_height = page.rect.height
             page_no = page_index + 1
+            page_height = page.rect.height
 
             if candidates and (page_no - candidates[-1].page_num) < min_page_gap:
                 continue
 
-            blocks = page.get_text("dict")["blocks"]
+            body_size = self._get_page_body_size(page) if per_page_font else fallback_body
+            if body_size is None:
+                body_size = fallback_body
+            if body_size is None:
+                continue
+
+            min_header_size = body_size * header_scale
+            blocks = page.get_text("dict").get("blocks", [])
             page_candidates = []
             for b in blocks:
-                if "lines" in b:
-                    for l in b["lines"]:
-                        line_top = l.get("bbox", [0, 0, 0, 0])[1]
-                        if line_top > page_height * top_ratio:
-                            continue
-                        for s in l["spans"]:
-                            text = s["text"].strip()
-                            if 1 < len(text) < 60 and s["size"] >= min_header_size:
-                                page_candidates.append(text)
+                if "lines" not in b:
+                    continue
+                for line in b["lines"]:
+                    line_top = line.get("bbox", [0, 0, 0, 0])[1]
+                    if line_top > page_height * top_ratio:
+                        continue
+                    for s in line.get("spans", []):
+                        text = (s.get("text") or "").strip()
+                        if 1 < len(text) < 60 and s.get("size", 0) >= min_header_size:
+                            page_candidates.append(text)
             if page_candidates:
                 title = " ".join(page_candidates[:1])
                 candidates.append(ChapterInfo(title=title, page_num=page_no, level=1, source="自動検出"))
@@ -337,11 +369,11 @@ class PDFProcessor:
                     line_text = line_text.strip()
                     if not line_text or len(line_text) > 120:
                         continue
-                    # 章パターンにマッチするか
-                    if not any(pat.search(line_text) for pat in CHAPTER_TITLE_REGEXES):
+                    # 目次行として有効か（章パターン or 「1. はじめに」形式）
+                    if not any(pat.search(line_text) for pat in TOC_ENTRY_PATTERNS):
                         continue
-                    # 行末のページ番号を抽出（.... 15 や 15 など）
-                    page_match = re.search(r"[\s.\・…]*(\d{1,4})\s*$", line_text)
+                    # 行末のページ番号を抽出（.... 15, ……… 15, 15 など複数フォーマット）
+                    page_match = re.search(r"[\s.\・…－\-ー]*(\d{1,4})\s*$", line_text)
                     if not page_match:
                         continue
                     page_num = int(page_match.group(1))
@@ -350,7 +382,7 @@ class PDFProcessor:
                     if page_num in seen_pages:
                         continue
                     seen_pages.add(page_num)
-                    title = re.sub(r"[\s.\・…]*\d{1,4}\s*$", "", line_text).strip()
+                    title = re.sub(r"[\s.\・…－\-ー]*\d{1,4}\s*$", "", line_text).strip()
                     if not title:
                         title = line_text[:50]
                     chapters.append(
@@ -559,7 +591,7 @@ if uploaded_file is not None:
             if not st.session_state.chapters:
                 min_page_gap = st.session_state.get("min_page_gap", 2)
                 st.session_state.chapters = st.session_state.processor.detect_chapters_by_pattern(
-                    min_page_gap, top_ratio=0.45
+                    min_page_gap, top_ratio=0.45, min_size_ratio=0.85
                 )
             # まだユーザーが明示的に変更していない場合は、検出された見出しから
             # 章タイトル判定ルールのおすすめセットを自動で推定する
@@ -580,9 +612,9 @@ if uploaded_file is not None:
                 if not st.session_state.chapters:
                     st.session_state.chapters = processor.detect_chapters_from_toc_pages()
                 if not st.session_state.chapters:
-                    # パターン検出（ページ上部のみ・フッター除外）
+                    # パターン検出（ページ上部のみ・フッター除外・本文85%以上）
                     st.session_state.chapters = processor.detect_chapters_by_pattern(
-                        min_page_gap, top_ratio=0.45
+                        min_page_gap, top_ratio=0.45, min_size_ratio=0.85
                     )
                 if not st.session_state.get("chapter_pattern_manual", False):
                     st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
@@ -611,7 +643,7 @@ if uploaded_file is not None:
             if st.button("🔎 パターン検出を試す（ページ上部のみ）"):
                 min_page_gap = st.session_state.get("min_page_gap", 2)
                 st.session_state.chapters = processor.detect_chapters_by_pattern(
-                    min_page_gap, top_ratio=0.45
+                    min_page_gap, top_ratio=0.45, min_size_ratio=0.85
                 )
                 if st.session_state.chapters:
                     st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
@@ -636,7 +668,7 @@ if uploaded_file is not None:
                     st.session_state.chapters = processor.detect_chapters_from_toc_pages()
                 if not st.session_state.chapters:
                     st.session_state.chapters = processor.detect_chapters_by_pattern(
-                        min_page_gap, top_ratio=0.45
+                        min_page_gap, top_ratio=0.45, min_size_ratio=0.85
                     )
                 if not st.session_state.get("chapter_pattern_manual", False):
                     st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
