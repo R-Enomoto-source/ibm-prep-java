@@ -13,8 +13,24 @@ import tempfile
 import os
 import shutil
 import re
+import platform
+import subprocess
 from dataclasses import dataclass
 from typing import List
+
+
+def notify_ocr_complete():
+    """OCR完了時に通知を出す（デスクトップ通知・音）"""
+    try:
+        if platform.system() == "Windows":
+            # Windows: システム音で通知
+            import winsound
+            winsound.MessageBeep(winsound.MB_OK)
+        elif platform.system() == "Darwin":
+            # macOS: サブプロセスで通知音
+            subprocess.Popen(["afplay", "/System/Library/Sounds/Glass.aiff"], stderr=subprocess.DEVNULL)
+    except Exception:
+        pass
 
 try:
     import ocrmypdf
@@ -403,16 +419,20 @@ if uploaded_file is not None:
                 header_scale = st.session_state.get("header_scale", 1.3)
                 min_page_gap = st.session_state.get("min_page_gap", 2)
                 st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
-                st.success("OCR完了！テキスト情報を取得しました。")
                 if not st.session_state.get("chapter_pattern_manual", False):
                     st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
                         st.session_state.chapters
                     )
+                st.session_state.ocr_complete_toast = True
+                notify_ocr_complete()
+                st.success("OCR完了！テキスト情報を取得しました。")
                 st.rerun()
 
     if not st.session_state.chapters:
         st.error("章の区切りが見つかりませんでした。OCRを実行するか、ファイルを確認してください。")
     else:
+        if st.session_state.pop("ocr_complete_toast", False):
+            st.toast("OCRが完了しました", icon="✅")
         st.subheader("🛠 フォルダ構成の編集")
         st.caption("『階層(Lv)』を調整すると、フォルダの入れ子構造を作成できます (Lv1=親フォルダ, Lv2=サブフォルダ...)。")
         col1, col2 = st.columns(2)
