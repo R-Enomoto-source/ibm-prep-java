@@ -225,15 +225,35 @@ class PDFProcessor:
     def detect_chapters_by_pattern(
         self,
         min_page_gap: int = 2,
+        top_ratio: float = 0.45,
+        min_size_ratio: float = 0.0,
     ) -> List[ChapterInfo]:
         """
-        OCR後のPDF向け: フォントサイズによらず、ページテキストから
-        「第1章」「Chapter 1」などのパターンにマッチする行を章として検出する。
+        OCR後のPDF向け: パターンにマッチする行を章として検出。
+        - top_ratio: ページ上部（高さの top_ratio 以内）のテキストのみ対象（フッター除外）
+        - min_size_ratio: 本文フォントに対する最小倍率（0=無効）。0.85以上でフッターの小文字を除外可能。
         """
+        body_size = None
+        if min_size_ratio > 0:
+            font_counts = {}
+            for pi in range(min(20, len(self.doc))):
+                try:
+                    for b in self.doc[pi].get_text("dict").get("blocks", []):
+                        for line in b.get("lines", []):
+                            for s in line.get("spans", []):
+                                sz = round(s.get("size", 0), 1)
+                                if sz > 0:
+                                    font_counts[sz] = font_counts.get(sz, 0) + len((s.get("text") or "").strip())
+                except Exception:
+                    continue
+            if font_counts:
+                body_size = max(font_counts, key=font_counts.get)
+
         candidates = []
         for page_index in range(len(self.doc)):
             page = self.doc[page_index]
             page_no = page_index + 1
+            page_height = page.rect.height
 
             if candidates and (page_no - candidates[-1].page_num) < min_page_gap:
                 continue
@@ -246,10 +266,19 @@ class PDFProcessor:
                 for line in b["lines"]:
                     if page_matched:
                         break
+                    # ページ上部のみ対象（フッターの「第○章」を除外）
+                    line_bbox = line.get("bbox", [0, 0, 0, 0])
+                    if line_bbox[1] > page_height * top_ratio:
+                        continue
                     for span in line.get("spans", []):
                         text = (span.get("text") or "").strip()
                         if not text or len(text) > 80:
                             continue
+                        # フォントサイズでフィルタ（本文より小さい=フッターの可能性）
+                        if body_size and min_size_ratio > 0:
+                            sz = span.get("size", 0)
+                            if sz < body_size * min_size_ratio:
+                                continue
                         for pat in CHAPTER_TITLE_REGEXES:
                             if pat.search(text):
                                 candidates.append(
@@ -263,6 +292,69 @@ class PDFProcessor:
                                 page_matched = True
                                 break
         return candidates
+
+    def detect_chapters_from_toc_pages(
+        self,
+        toc_max_pages: int = 25,
+    ) -> List[ChapterInfo]:
+        """
+        目次ページを特定し、章タイトルと開始ページを抽出する。
+        目次フォーマットは書籍により異なるが、「第1章 ... 15」のように
+        行末にページ番号がある形式を想定する。
+        """
+        toc_page_indices = []
+        for pi in range(min(toc_max_pages, len(self.doc))):
+            try:
+                text = self.doc[pi].get_text()
+                if not text:
+                    continue
+                # 「目次」「Contents」などが含まれるページを候補に
+                if any(kw in text for kw in ("目次", "Contents", "CONTENTS", "Table of Contents")):
+                    toc_page_indices.append(pi)
+            except Exception:
+                continue
+
+        if not toc_page_indices:
+            return []
+
+        chapters = []
+        seen_pages = set()
+        for pi in toc_page_indices:
+            try:
+                blocks = self.doc[pi].get_text("dict").get("blocks", [])
+            except Exception:
+                continue
+            for b in blocks:
+                for line in b.get("lines", []):
+                    line_text = " ".join(s.get("text", "") for s in line.get("spans", []))
+                    line_text = line_text.strip()
+                    if not line_text or len(line_text) > 120:
+                        continue
+                    # 章パターンにマッチするか
+                    if not any(pat.search(line_text) for pat in CHAPTER_TITLE_REGEXES):
+                        continue
+                    # 行末のページ番号を抽出（.... 15 や 15 など）
+                    page_match = re.search(r"[\s.\・…]*(\d{1,4})\s*$", line_text)
+                    if not page_match:
+                        continue
+                    page_num = int(page_match.group(1))
+                    if page_num < 1 or page_num > len(self.doc):
+                        continue
+                    if page_num in seen_pages:
+                        continue
+                    seen_pages.add(page_num)
+                    title = re.sub(r"[\s.\・…]*\d{1,4}\s*$", "", line_text).strip()
+                    if not title:
+                        title = line_text[:50]
+                    chapters.append(
+                        ChapterInfo(
+                            title=title[:60],
+                            page_num=page_num,
+                            level=1,
+                            source="目次",
+                        )
+                    )
+        return sorted(chapters, key=lambda c: c.page_num)
 
     def filter_major_chapters(
         self,
@@ -450,10 +542,17 @@ if uploaded_file is not None:
             st.session_state.ocr_done = False
             st.session_state.chapters = st.session_state.processor.get_existing_toc()
             if not st.session_state.chapters:
+                st.session_state.chapters = st.session_state.processor.detect_chapters_from_toc_pages()
+            if not st.session_state.chapters:
                 header_scale = st.session_state.get("header_scale", 1.3)
                 min_page_gap = st.session_state.get("min_page_gap", 2)
                 st.session_state.chapters = st.session_state.processor.detect_chapters_by_style(
                     header_scale, min_page_gap
+                )
+            if not st.session_state.chapters:
+                min_page_gap = st.session_state.get("min_page_gap", 2)
+                st.session_state.chapters = st.session_state.processor.detect_chapters_by_pattern(
+                    min_page_gap, top_ratio=0.45
                 )
             # まだユーザーが明示的に変更していない場合は、検出された見出しから
             # 章タイトル判定ルールのおすすめセットを自動で推定する
@@ -471,9 +570,13 @@ if uploaded_file is not None:
                 header_scale = st.session_state.get("header_scale", 1.3)
                 min_page_gap = st.session_state.get("min_page_gap", 2)
                 st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
-                # OCR後はフォントサイズが均一になりがち→パターン検出をフォールバック
                 if not st.session_state.chapters:
-                    st.session_state.chapters = processor.detect_chapters_by_pattern(min_page_gap)
+                    st.session_state.chapters = processor.detect_chapters_from_toc_pages()
+                if not st.session_state.chapters:
+                    # パターン検出（ページ上部のみ・フッター除外）
+                    st.session_state.chapters = processor.detect_chapters_by_pattern(
+                        min_page_gap, top_ratio=0.45
+                    )
                 if not st.session_state.get("chapter_pattern_manual", False):
                     st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
                         st.session_state.chapters
@@ -485,15 +588,32 @@ if uploaded_file is not None:
 
     if not st.session_state.chapters:
         st.error("章の区切りが見つかりませんでした。OCRを実行するか、ファイルを確認してください。")
-        if st.session_state.ocr_done and st.button("🔎 パターン検出を試す（第1章・Chapter 1 など）"):
-            min_page_gap = st.session_state.get("min_page_gap", 2)
-            st.session_state.chapters = processor.detect_chapters_by_pattern(min_page_gap)
-            if st.session_state.chapters:
-                st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(st.session_state.chapters)
-                st.success(f"{len(st.session_state.chapters)}件の章を検出しました。")
-                st.rerun()
-            else:
-                st.warning("パターンに一致する見出しも見つかりませんでした。")
+        col_toc, col_pat = st.columns(2)
+        with col_toc:
+            if st.button("📑 目次ページから検出"):
+                st.session_state.chapters = processor.detect_chapters_from_toc_pages()
+                if st.session_state.chapters:
+                    st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
+                        st.session_state.chapters
+                    )
+                    st.success(f"{len(st.session_state.chapters)}件の章を検出しました。")
+                    st.rerun()
+                else:
+                    st.warning("目次ページが見つからないか、解析できませんでした。")
+        with col_pat:
+            if st.button("🔎 パターン検出を試す（ページ上部のみ）"):
+                min_page_gap = st.session_state.get("min_page_gap", 2)
+                st.session_state.chapters = processor.detect_chapters_by_pattern(
+                    min_page_gap, top_ratio=0.45
+                )
+                if st.session_state.chapters:
+                    st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
+                        st.session_state.chapters
+                    )
+                    st.success(f"{len(st.session_state.chapters)}件の章を検出しました。")
+                    st.rerun()
+                else:
+                    st.warning("パターンに一致する見出しも見つかりませんでした。")
     else:
         if st.session_state.pop("ocr_complete_toast", False):
             st.toast("OCRが完了しました", icon="✅")
@@ -501,15 +621,21 @@ if uploaded_file is not None:
         st.caption("『階層(Lv)』を調整すると、フォルダの入れ子構造を作成できます (Lv1=親フォルダ, Lv2=サブフォルダ...)。")
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("🔁 見出し自動検出をやり直す（目次なし用）"):
+            if st.button("🔁 見出し自動検出をやり直す"):
                 header_scale = st.session_state.get("header_scale", 1.3)
                 min_page_gap = st.session_state.get("min_page_gap", 2)
                 st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
-                st.success("現在の設定で見出しを再検出しました。")
+                if not st.session_state.chapters:
+                    st.session_state.chapters = processor.detect_chapters_from_toc_pages()
+                if not st.session_state.chapters:
+                    st.session_state.chapters = processor.detect_chapters_by_pattern(
+                        min_page_gap, top_ratio=0.45
+                    )
                 if not st.session_state.get("chapter_pattern_manual", False):
                     st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
                         st.session_state.chapters
                     )
+                st.success("見出しを再検出しました。" if st.session_state.chapters else "見出しが見つかりませんでした。")
                 st.rerun()
         with col2:
             if st.button("📑 『章』だけに自動整理（重複除去）"):
