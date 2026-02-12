@@ -145,13 +145,18 @@ if pdf_path:
                     except AttributeError:
                         pass  # 一部バージョンでは未対応
 
-                    buf = io.BytesIO()
+                    # pix.save() はファイルパスを期待するため、tobytes() を使用
                     if use_png:
-                        pix.save(buf, "png")
+                        img_bytes = pix.tobytes("png")
                     else:
-                        pix.save(buf, "jpeg", jpg_quality=jpg_quality)
-                    buf.seek(0)
-                    images_data.append((page_idx + 1, buf.getvalue()))
+                        # JPEG の場合は一時ファイル経由で品質指定
+                        with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as tmp:
+                            tmp_path = tmp.name
+                        pix.save(tmp_path, output="jpg", jpg_quality=jpg_quality)
+                        with open(tmp_path, "rb") as f:
+                            img_bytes = f.read()
+                        os.unlink(tmp_path)
+                    images_data.append((page_idx + 1, img_bytes))
 
             doc.close()
 
