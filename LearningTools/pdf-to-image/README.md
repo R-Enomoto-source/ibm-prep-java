@@ -36,6 +36,8 @@ run.bat
 
 - 初回だけ「Email:」と出て止まることがあります。**そのまま Enter キーを押す**とスキップして起動します。
 - ブラウザが自動で開かない場合は、表示された **http://localhost:8501** をブラウザで開いてください。
+- **run.bat をダブルクリックして「Python が見つかりません」と出る場合**  
+  コマンドプロンプトや PowerShell で `cd LearningTools\pdf-to-image` のあと `streamlit run pdf_to_image.py` を実行してください。
 
 ## 使い方
 
