@@ -455,7 +455,7 @@ if uploaded_file is not None:
                 "Title": st.column_config.TextColumn("フォルダ/ファイル名", width="large"),
                 "Source": st.column_config.TextColumn("検出元", disabled=True, width="small"),
             },
-            use_container_width=True,
+            width="stretch",
             num_rows="dynamic",
             height=400,
         )
