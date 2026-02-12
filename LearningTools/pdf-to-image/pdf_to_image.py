@@ -143,7 +143,8 @@ if pdf_path:
             zoom = dpi / 72.0
             mat = fitz.Matrix(zoom, zoom)
             ext = "png" if use_png else "jpg"
-            base_name = Path(pdf_path_str).stem
+            # フォルダ名・ファイル名用: アップロード時は元のファイル名を使用
+            base_name = Path(uploaded_file.name).stem if uploaded_file else Path(pdf_path_str).stem
 
             with st.spinner("変換中..."):
                 images_data = []
@@ -177,15 +178,18 @@ if pdf_path:
                 except Exception:
                     pass
 
-            # 保存先フォルダに画像を保存
+            # 保存先に「PDF名を元にしたフォルダ」を作成し、その中に画像を保存
             save_dir_path = Path(save_dir).resolve() if save_dir.strip() else None
             if save_dir_path:
-                save_dir_path.mkdir(parents=True, exist_ok=True)
+                # 画像化元のPDFファイル名を参考にした分かりやすいフォルダ名
+                output_folder_name = f"{base_name}_images"
+                output_folder = save_dir_path / output_folder_name
+                output_folder.mkdir(parents=True, exist_ok=True)
                 for page_no, img_bytes in images_data:
                     fname = f"{base_name}_page_{page_no:04d}.{ext}"
-                    out_path = save_dir_path / fname
+                    out_path = output_folder / fname
                     out_path.write_bytes(img_bytes)
-                st.success(f"フォルダに保存しました: **{save_dir_path}**")
+                st.success(f"フォルダに保存しました: **{output_folder}**")
 
             # ZIPでダウンロード
             zip_buffer = io.BytesIO()
