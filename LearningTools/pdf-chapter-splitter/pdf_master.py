@@ -226,11 +226,13 @@ class PDFProcessor:
         self,
         min_page_gap: int = 2,
         top_ratio: float = 0.45,
+        margin_ratio: float = 0.12,
         min_size_ratio: float = 0.0,
     ) -> List[ChapterInfo]:
         """
         OCR後のPDF向け: パターンにマッチする行を章として検出。
         - top_ratio: ページ上部（高さの top_ratio 以内）のテキストのみ対象（フッター除外）
+        - margin_ratio: 左右マージン（幅の margin_ratio ずつ）を除外。サイドバー「第○章」の誤検出を防ぐ。
         - min_size_ratio: 本文フォントに対する最小倍率（0=無効）。0.85以上でフッターの小文字を除外可能。
         """
         body_size = None
@@ -254,6 +256,7 @@ class PDFProcessor:
             page = self.doc[page_index]
             page_no = page_index + 1
             page_height = page.rect.height
+            page_width = page.rect.width
 
             if candidates and (page_no - candidates[-1].page_num) < min_page_gap:
                 continue
@@ -266,9 +269,13 @@ class PDFProcessor:
                 for line in b["lines"]:
                     if page_matched:
                         break
-                    # ページ上部のみ対象（フッターの「第○章」を除外）
                     line_bbox = line.get("bbox", [0, 0, 0, 0])
+                    # ページ上部のみ対象（フッターの「第○章」を除外）
                     if line_bbox[1] > page_height * top_ratio:
+                        continue
+                    # 左右マージン（サイドバー「第○章」など）を除外
+                    center_x = (line_bbox[0] + line_bbox[2]) / 2
+                    if center_x < page_width * margin_ratio or center_x > page_width * (1 - margin_ratio):
                         continue
                     for span in line.get("spans", []):
                         text = (span.get("text") or "").strip()
