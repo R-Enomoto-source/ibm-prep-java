@@ -222,6 +222,48 @@ class PDFProcessor:
                 candidates.append(ChapterInfo(title=title, page_num=page_no, level=1, source="自動検出"))
         return candidates
 
+    def detect_chapters_by_pattern(
+        self,
+        min_page_gap: int = 2,
+    ) -> List[ChapterInfo]:
+        """
+        OCR後のPDF向け: フォントサイズによらず、ページテキストから
+        「第1章」「Chapter 1」などのパターンにマッチする行を章として検出する。
+        """
+        candidates = []
+        for page_index in range(len(self.doc)):
+            page = self.doc[page_index]
+            page_no = page_index + 1
+
+            if candidates and (page_no - candidates[-1].page_num) < min_page_gap:
+                continue
+
+            blocks = page.get_text("dict").get("blocks", [])
+            page_matched = False
+            for b in blocks:
+                if "lines" not in b or page_matched:
+                    continue
+                for line in b["lines"]:
+                    if page_matched:
+                        break
+                    for span in line.get("spans", []):
+                        text = (span.get("text") or "").strip()
+                        if not text or len(text) > 80:
+                            continue
+                        for pat in CHAPTER_TITLE_REGEXES:
+                            if pat.search(text):
+                                candidates.append(
+                                    ChapterInfo(
+                                        title=text[:60],
+                                        page_num=page_no,
+                                        level=1,
+                                        source="パターン検出(OCR)",
+                                    )
+                                )
+                                page_matched = True
+                                break
+        return candidates
+
     def filter_major_chapters(
         self,
         chapters: List[ChapterInfo],
@@ -429,6 +471,9 @@ if uploaded_file is not None:
                 header_scale = st.session_state.get("header_scale", 1.3)
                 min_page_gap = st.session_state.get("min_page_gap", 2)
                 st.session_state.chapters = processor.detect_chapters_by_style(header_scale, min_page_gap)
+                # OCR後はフォントサイズが均一になりがち→パターン検出をフォールバック
+                if not st.session_state.chapters:
+                    st.session_state.chapters = processor.detect_chapters_by_pattern(min_page_gap)
                 if not st.session_state.get("chapter_pattern_manual", False):
                     st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(
                         st.session_state.chapters
@@ -440,6 +485,15 @@ if uploaded_file is not None:
 
     if not st.session_state.chapters:
         st.error("章の区切りが見つかりませんでした。OCRを実行するか、ファイルを確認してください。")
+        if st.session_state.ocr_done and st.button("🔎 パターン検出を試す（第1章・Chapter 1 など）"):
+            min_page_gap = st.session_state.get("min_page_gap", 2)
+            st.session_state.chapters = processor.detect_chapters_by_pattern(min_page_gap)
+            if st.session_state.chapters:
+                st.session_state.chapter_pattern_selected = suggest_chapter_pattern_ids(st.session_state.chapters)
+                st.success(f"{len(st.session_state.chapters)}件の章を検出しました。")
+                st.rerun()
+            else:
+                st.warning("パターンに一致する見出しも見つかりませんでした。")
     else:
         if st.session_state.pop("ocr_complete_toast", False):
             st.toast("OCRが完了しました", icon="✅")
