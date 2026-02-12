@@ -1,0 +1,4 @@
+# PDF→画像 高画質変換アプリ
+# インストール: pip install -r requirements.txt
+streamlit>=1.28.0
+pymupdf>=1.23.0
