@@ -1,0 +1,3 @@
+# 初回起動時のメール入力を表示しない
+[browser]
+gatherUsageStats = false
