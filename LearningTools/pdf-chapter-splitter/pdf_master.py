@@ -20,14 +20,24 @@ from typing import List
 
 
 def notify_ocr_complete():
-    """OCR完了時に通知を出す（デスクトップ通知・音）"""
+    """OCR完了時に通知を出す（デスクトップポップアップ・音）"""
+    # デスクトップ通知（ブラウザ非表示でも画面 corner に表示）
+    try:
+        from plyer import notification
+        notification.notify(
+            title="PDF Structure Master",
+            message="OCRが完了しました。",
+            app_name="PDF Structure Master",
+            timeout=10,
+        )
+    except Exception:
+        pass
+    # システム音で補足
     try:
         if platform.system() == "Windows":
-            # Windows: システム音で通知
             import winsound
             winsound.MessageBeep(winsound.MB_OK)
         elif platform.system() == "Darwin":
-            # macOS: サブプロセスで通知音
             subprocess.Popen(["afplay", "/System/Library/Sounds/Glass.aiff"], stderr=subprocess.DEVNULL)
     except Exception:
         pass

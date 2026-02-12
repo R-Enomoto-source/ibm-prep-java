@@ -4,6 +4,7 @@ streamlit>=1.28.0
 pymupdf>=1.23.0
 pandas>=2.0.0
 ocrmypdf>=16.0.0
+plyer>=2.1.0
 
 # OCR を使う場合はシステムに Tesseract と Ghostscript をインストールし、PATH を通してください。
 # Windows: https://github.com/UB-Mannheim/tesseract/wiki
