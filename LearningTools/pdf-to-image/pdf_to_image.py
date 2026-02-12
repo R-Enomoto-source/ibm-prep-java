@@ -106,13 +106,15 @@ else:
                 format_func=lambda x: Path(x).name,
             )
             if selected:
-                pdf_path = selected
+                pdf_path = str(selected)  # 文字列に明示的に変換
         else:
             st.warning(f"フォルダ内にPDFが見つかりません: {pdf_dir}")
 
 if pdf_path:
     try:
-        doc = fitz.open(pdf_path)
+        # パスを文字列に変換（PyMuPDF の互換性のため）
+        pdf_path_str = str(pdf_path)
+        doc = fitz.open(pdf_path_str)
         total_pages = len(doc)
 
         st.success(f"PDFを読み込みました: **{total_pages}** ページ")
@@ -131,7 +133,7 @@ if pdf_path:
             zoom = dpi / 72.0
             mat = fitz.Matrix(zoom, zoom)
             ext = "png" if use_png else "jpg"
-            base_name = Path(pdf_path).stem
+            base_name = Path(pdf_path_str).stem
 
             with st.spinner("変換中..."):
                 images_data = []
@@ -154,9 +156,9 @@ if pdf_path:
             doc.close()
 
             # 一時ファイルの削除（アップロード時）
-            if uploaded_file and os.path.exists(pdf_path):
+            if uploaded_file and os.path.exists(pdf_path_str):
                 try:
-                    os.unlink(pdf_path)
+                    os.unlink(pdf_path_str)
                 except Exception:
                     pass
 
