@@ -72,6 +72,17 @@ if page_range_mode == "指定範囲":
     with col2:
         page_end = st.number_input("終了ページ", min_value=1, value=10)
 
+# 保存先フォルダ
+st.sidebar.divider()
+st.sidebar.subheader("保存先")
+base_dir = Path(__file__).resolve().parent.parent.parent
+default_out = str(base_dir / "local_data" / "pdf_output")
+save_dir = st.sidebar.text_input(
+    "画像の保存先フォルダ",
+    value=default_out,
+    help="変換した画像を保存するフォルダ。存在しない場合は自動作成されます。",
+)
+
 # アップロード or パス指定
 input_mode = st.radio(
     "入力方法",
@@ -91,7 +102,6 @@ if input_mode == "ファイルをアップロード":
             pdf_path = tmp.name
 
 else:
-    base_dir = Path(__file__).resolve().parent.parent.parent
     default_path = str(base_dir / "local_data")
     pdf_dir = st.text_input(
         "PDFが入っているフォルダパス",
@@ -167,6 +177,16 @@ if pdf_path:
                 except Exception:
                     pass
 
+            # 保存先フォルダに画像を保存
+            save_dir_path = Path(save_dir).resolve() if save_dir.strip() else None
+            if save_dir_path:
+                save_dir_path.mkdir(parents=True, exist_ok=True)
+                for page_no, img_bytes in images_data:
+                    fname = f"{base_name}_page_{page_no:04d}.{ext}"
+                    out_path = save_dir_path / fname
+                    out_path.write_bytes(img_bytes)
+                st.success(f"フォルダに保存しました: **{save_dir_path}**")
+
             # ZIPでダウンロード
             zip_buffer = io.BytesIO()
             with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
@@ -181,7 +201,6 @@ if pdf_path:
                 file_name=f"{base_name}_images_{dpi}dpi.{ext}.zip",
                 mime="application/zip",
             )
-            st.success("変換が完了しました。")
 
     except Exception as e:
         st.error(f"エラー: {e}")
