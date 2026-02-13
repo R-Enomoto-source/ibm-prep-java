@@ -39,11 +39,12 @@ def to_short_alnum_name(original_name: str, max_length: int = 48) -> str:
     safe = re.sub(r"_+", "_", safe)
     # 前後のアンダースコアを除去
     safe = safe.strip("_")
-    # 意味のある断片だけ残す（長すぎる単語は先頭を利用）
+    # 意味のある断片だけ残す（最大6パーツまで）
     if safe:
         parts = [p for p in safe.split("_") if len(p) > 0]
-        # 例: JavaSE17Silver, 1Z0, 825 などを残すため、短いパーツは結合
-        combined = "_".join(parts[:6])  # 最大6パーツ
+        if prefix and parts and parts[0].isdigit() and parts[0] == prefix.lstrip("ch"):
+            parts = parts[1:]  # 章番号と重複する先頭数字を省略
+        combined = "_".join(parts[:6]) if parts else ""
         if len(combined) > max_length:
             combined = combined[:max_length].rstrip("_")
     else:
