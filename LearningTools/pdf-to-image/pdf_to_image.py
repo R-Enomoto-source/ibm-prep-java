@@ -6,6 +6,7 @@ PDFを画質を落とさずに画像化するアプリ
 - デフォルト 300 DPI（印刷・OCR品質）
 - デフォルト PNG（可逆・劣化ゼロ）
 - DPI・形式・ページ範囲をGUIで選択可能
+- 日本語フォルダ名・ファイル名: NFKC正規化＋用語マップ＋オプションで python-slugify により安全な英数字名に変換（RESEARCH.md 7章）
 
 起動: streamlit run pdf_to_image.py
 """
@@ -13,58 +14,78 @@ import io
 import os
 import re
 import tempfile
+import unicodedata
 import zipfile
 from pathlib import Path
 
 import fitz  # PyMuPDF
 import streamlit as st
 
+# オプション: python-slugify があれば Unicode→読みやすいASCII（日本語はローマ字近似）に利用
+try:
+    from slugify import slugify as _slugify
+    _HAS_SLUGIFY = True
+except ImportError:
+    _HAS_SLUGIFY = False
 
-# 日本語の言い回しを短い英数字の自然な言い換えに置き換える用語マップ
-# （フォルダ名・ファイル名に含まれる場合に適用。長い名前を読みやすくする）
+# Windows でファイル名に使えない文字（Microsoft Docs に基づく）
+_WIN_FORBIDDEN_CHARS = re.compile(r'[\\/:*?"<>|\x00-\x1f]')
+
+# 日本語の言い換え用語マップ（様々な書籍・フォルダ名に対応。RESEARCH.md 7章参照）
 _JAPANESE_TO_ALNUM_PHRASES = [
-    ("第", " "),  # 第3章 → 章番号は別処理で ch3 に
+    ("第", " "),
     ("章", " "),
+    ("巻", " "),
     ("問題集", " questions "),
     ("解説", " explanation "),
     ("徹底攻略", " guide "),
+    ("攻略", " guide "),
     ("対応", " edition "),
-    ("黒本", " "),  # ブランド名は短縮のため省略
+    ("黒本", " "),
+    ("白本", " "),
     ("コピー", " copy "),
-    ("志賀澄人", " "),  # 著者名は省略（他著者も必要に応じて追加可）
+    ("複製", " copy "),
+    ("上巻", " vol1 "),
+    ("下巻", " vol2 "),
+    ("志賀澄人", " "),
     ("　", " "),
 ]
 
 
+def _to_safe_alnum_only(s: str) -> str:
+    """英数字・ハイフン・アンダースコア以外を _ にし、連続 _ を1つにまとめる。"""
+    s = re.sub(r"[^a-zA-Z0-9_\-]", "_", s)
+    s = re.sub(r"_+", "_", s)
+    return s.strip("_")
+
+
 def to_short_alnum_name(original_name: str, max_length: int = 48) -> str:
     """
-    元のフォルダ名・ファイル名を、短く分かりやすい英数字のみの名前に変換する。
-    日本語は自然な言い換え（問題集→questions 等）を適用してから英数字のみにし、
-    章番号があれば chN を付与する。
+    様々な日本語を含むフォルダ名・ファイル名を、短く安全な英数字の名前に変換する。
+    処理: NFKC正規化 → 章番号検出(chN) → 用語マップ → slugifyまたは英数字のみ抽出 → Windows禁止文字除去。
     """
     if not original_name or not original_name.strip():
         return "pdf"
-    s = original_name.strip()
+    s = unicodedata.normalize("NFKC", original_name.strip())
     prefix = ""
-    # 第3章 / 3章 を元の文字列から先に検出 → ch3
-    chapter_match = re.search(r"第?\s*(\d+)\s*章", original_name)
+    chapter_match = re.search(r"第?\s*(\d+)\s*章", s)
     if chapter_match:
         prefix = f"ch{chapter_match.group(1)}"
-    # 日本語の言い回しを自然な英単語に言い換え
     for jp, en in _JAPANESE_TO_ALNUM_PHRASES:
         s = s.replace(jp, en)
-    # 英数字・ハイフン・アンダースコア以外をアンダースコアに置換
-    safe = re.sub(r"[^a-zA-Z0-9_\-]", "_", s)
-    # 連続アンダースコアを1つに
-    safe = re.sub(r"_+", "_", safe)
-    # 前後のアンダースコアを除去
-    safe = safe.strip("_")
-    # 意味のある断片だけ残す（最大8パーツで questions 等を残す）
+    if _HAS_SLUGIFY:
+        try:
+            slug = _slugify(s, separator="_", lowercase=False, max_length=max_length)
+            safe = _to_safe_alnum_only(slug)
+        except Exception:
+            safe = _to_safe_alnum_only(s)
+    else:
+        safe = _to_safe_alnum_only(s)
     if safe:
         parts = [p for p in safe.split("_") if len(p) > 0]
         if prefix and parts and parts[0].isdigit() and parts[0] == prefix.lstrip("ch"):
-            parts = parts[1:]  # 章番号と重複する先頭数字を省略
-        combined = "_".join(parts[:8]) if parts else ""  # 8パーツで questions 等を残しやすく
+            parts = parts[1:]
+        combined = "_".join(parts[:8]) if parts else ""
         if len(combined) > max_length:
             combined = combined[:max_length].rstrip("_")
     else:
@@ -75,6 +96,8 @@ def to_short_alnum_name(original_name: str, max_length: int = 48) -> str:
         result = combined or "pdf"
     if len(result) > max_length:
         result = result[:max_length].rstrip("_")
+    result = _WIN_FORBIDDEN_CHARS.sub("_", result)
+    result = re.sub(r"_+", "_", result).strip("_")
     return result or "pdf"
 
 # ページ設定
@@ -287,3 +310,4 @@ else:
 # フッター
 st.sidebar.divider()
 st.sidebar.caption("調査内容は RESEARCH.md を参照")
+st.sidebar.caption("日本語→安全なファイル名: NFKC＋用語マップ。より自然な変換は pip install python-slugify で有効化")

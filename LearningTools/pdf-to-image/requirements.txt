@@ -2,3 +2,7 @@
 # インストール: pip install -r requirements.txt
 streamlit>=1.28.0
 pymupdf>=1.23.0
+
+# オプション: 日本語フォルダ名・ファイル名をローマ字化して安全な名前に変換する場合
+# pip install python-slugify または python-slugify[unidecode]
+# python-slugify>=8.0.0
