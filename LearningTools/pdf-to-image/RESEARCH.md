@@ -113,3 +113,40 @@ pix = page.get_pixmap(alpha=True)
 - [Stack Overflow: PyMuPDF 300 DPI](https://stackoverflow.com/questions/69415164/pymupdf-how-to-convert-pdf-to-image-using-the-original-document-settings-for)
 - [PyMuPDF Documentation](https://pymupdf.readthedocs.io/)
 - 本リポジトリ: `docs/PDF_CHAPTER_SPLIT_IMAGE_APP_GUIDE.md`
+
+---
+
+## 7. 日本語フォルダ名・ファイル名の安全な変換（調査）
+
+様々な日本語のフォルダ名・ファイル名を、英数字中心の短く安全な名前に変換するための調査結果です。
+
+### 7.1 方針の整理（複数ソース）
+
+| ソース | 推奨手法 | 要点 |
+|--------|----------|------|
+| **Unicode正規化** (Python docs, note.nkmk.me) | `unicodedata.normalize('NFKC', s)` | 全角→半角・互換文字の統一。日本語前処理の定番。 |
+| **ASCII安全化** (Stack Overflow, gist) | ホワイトリスト `[a-zA-Z0-9_\-.]` のみ残す | 非ASCIIは除去または transliterate。 |
+| **Windows制約** (Microsoft Docs) | 禁止文字: `\ / : * ? " < > \|` および NUL, 制御文字(1-31) | ファイル名は最大255文字、パスは260文字。 |
+| **pathvalidate** (PyPI, Read the Docs) | `sanitize_filename()` | プラットフォーム別の無効文字を置換。依存なし。 |
+| **python-slugify** (PyPI) | `slugify(text)` + Unidecode/text-unidecode | Unicode→読みやすいASCIIスラグ。日本語はローマ字化の近似。 |
+| **ヘボン式ローマ字** (日本語資料) | 問題集・解説等は「英単語で言い換え」が可読性高い | 章→ch、問題集→questions 等の用語マップが有効。 |
+
+### 7.2 採用する処理順序
+
+1. **Unicode正規化 (NFKC)** … 全角英数字・記号を半角に、互換文字を正規化。
+2. **章番号の検出** … 「第N章」「N章」を検出しプレフィックス `chN` を確保。
+3. **用語マップ** … 問題集→questions、解説→explanation など、よく使う日本語を英単語に置換。
+4. **残りの日本語の扱い**  
+   - **オプションA**: `python-slugify` が利用可能なら Unidecode でローマ字化してスラグ化。  
+   - **オプションB**: 利用不可なら英数字・`_`・`-` 以外を `_` に置換し、連続 `_` を1つに。
+5. **Windows禁止文字の除去** … `\ / : * ? " < > |` および制御文字を確実に除去（ホワイトリストで再構成）。
+6. **長さ制限** … ベース名は 48 文字程度に打ち切り（ファイル名全体は255以内に収まるように）。
+
+### 7.3 参考文献
+
+- [Python unicodedata.normalize](https://docs.python.org/ja/3/library/unicodedata.html) / [note.nkmk.me 正規化](https://note.nkmk.me/python-unicodedata-normalize/)
+- [Stack Overflow: Create sane/safe filename from any string](https://stackoverflow.com/questions/7406102/create-sane-safe-filename-from-any-unsafe-string)
+- [Microsoft: Naming Files, Paths, and Namespaces](https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file)
+- [pathvalidate — sanitize_filename](https://pathvalidate.readthedocs.io/en/latest/pages/examples/sanitize.html)
+- [python-slugify (PyPI)](https://pypi.org/project/python-slugify/)
+- 日本語ファイル名の推奨（英数字）：[三美印刷 技術ガイド](https://www.sanbi.co.jp/related/technicalguide/all_name/) 等
