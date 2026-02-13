@@ -20,31 +20,51 @@ import fitz  # PyMuPDF
 import streamlit as st
 
 
+# 日本語の言い回しを短い英数字の自然な言い換えに置き換える用語マップ
+# （フォルダ名・ファイル名に含まれる場合に適用。長い名前を読みやすくする）
+_JAPANESE_TO_ALNUM_PHRASES = [
+    ("第", " "),  # 第3章 → 章番号は別処理で ch3 に
+    ("章", " "),
+    ("問題集", " questions "),
+    ("解説", " explanation "),
+    ("徹底攻略", " guide "),
+    ("対応", " edition "),
+    ("黒本", " "),  # ブランド名は短縮のため省略
+    ("コピー", " copy "),
+    ("志賀澄人", " "),  # 著者名は省略（他著者も必要に応じて追加可）
+    ("　", " "),
+]
+
+
 def to_short_alnum_name(original_name: str, max_length: int = 48) -> str:
     """
     元のフォルダ名・ファイル名を、短く分かりやすい英数字のみの名前に変換する。
-    日本語・括弧・スペースなどは除去し、章番号があれば chN を付与する。
+    日本語は自然な言い換え（問題集→questions 等）を適用してから英数字のみにし、
+    章番号があれば chN を付与する。
     """
     if not original_name or not original_name.strip():
         return "pdf"
     s = original_name.strip()
     prefix = ""
-    # 第3章 / 3章 のようなパターンを検出 → ch3
-    chapter_match = re.search(r"第?\s*(\d+)\s*章", s)
+    # 第3章 / 3章 を元の文字列から先に検出 → ch3
+    chapter_match = re.search(r"第?\s*(\d+)\s*章", original_name)
     if chapter_match:
         prefix = f"ch{chapter_match.group(1)}"
+    # 日本語の言い回しを自然な英単語に言い換え
+    for jp, en in _JAPANESE_TO_ALNUM_PHRASES:
+        s = s.replace(jp, en)
     # 英数字・ハイフン・アンダースコア以外をアンダースコアに置換
     safe = re.sub(r"[^a-zA-Z0-9_\-]", "_", s)
     # 連続アンダースコアを1つに
     safe = re.sub(r"_+", "_", safe)
     # 前後のアンダースコアを除去
     safe = safe.strip("_")
-    # 意味のある断片だけ残す（最大6パーツまで）
+    # 意味のある断片だけ残す（最大8パーツで questions 等を残す）
     if safe:
         parts = [p for p in safe.split("_") if len(p) > 0]
         if prefix and parts and parts[0].isdigit() and parts[0] == prefix.lstrip("ch"):
             parts = parts[1:]  # 章番号と重複する先頭数字を省略
-        combined = "_".join(parts[:6]) if parts else ""
+        combined = "_".join(parts[:8]) if parts else ""  # 8パーツで questions 等を残しやすく
         if len(combined) > max_length:
             combined = combined[:max_length].rstrip("_")
     else:
@@ -182,8 +202,18 @@ if pdf_path:
             zoom = dpi / 72.0
             mat = fitz.Matrix(zoom, zoom)
             ext = "png" if use_png else "jpg"
-            # フォルダ名・ファイル名用: アップロード時は元のファイル名を使用
-            base_name = Path(uploaded_file.name).stem if uploaded_file else Path(pdf_path_str).stem
+            # フォルダ名・ファイル名用: アップロード時は元のファイル名、パス指定時は親フォルダ名も考慮
+            if uploaded_file:
+                base_name = Path(uploaded_file.name).stem
+            else:
+                p = Path(pdf_path_str)
+                stem = p.stem
+                parent_name = p.parent.name
+                # 親フォルダ名に意味がある場合（日本語や章など）は含めて変換の材料にする
+                if parent_name and parent_name not in (".", "local_data", "pdf_output", ""):
+                    base_name = f"{parent_name}_{stem}"
+                else:
+                    base_name = stem
 
             with st.spinner("変換中..."):
                 images_data = []
