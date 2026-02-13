@@ -11,12 +11,50 @@ PDFを画質を落とさずに画像化するアプリ
 """
 import io
 import os
+import re
 import tempfile
 import zipfile
 from pathlib import Path
 
 import fitz  # PyMuPDF
 import streamlit as st
+
+
+def to_short_alnum_name(original_name: str, max_length: int = 48) -> str:
+    """
+    元のフォルダ名・ファイル名を、短く分かりやすい英数字のみの名前に変換する。
+    日本語・括弧・スペースなどは除去し、章番号があれば chN を付与する。
+    """
+    if not original_name or not original_name.strip():
+        return "pdf"
+    s = original_name.strip()
+    prefix = ""
+    # 第3章 / 3章 のようなパターンを検出 → ch3
+    chapter_match = re.search(r"第?\s*(\d+)\s*章", s)
+    if chapter_match:
+        prefix = f"ch{chapter_match.group(1)}"
+    # 英数字・ハイフン・アンダースコア以外をアンダースコアに置換
+    safe = re.sub(r"[^a-zA-Z0-9_\-]", "_", s)
+    # 連続アンダースコアを1つに
+    safe = re.sub(r"_+", "_", safe)
+    # 前後のアンダースコアを除去
+    safe = safe.strip("_")
+    # 意味のある断片だけ残す（長すぎる単語は先頭を利用）
+    if safe:
+        parts = [p for p in safe.split("_") if len(p) > 0]
+        # 例: JavaSE17Silver, 1Z0, 825 などを残すため、短いパーツは結合
+        combined = "_".join(parts[:6])  # 最大6パーツ
+        if len(combined) > max_length:
+            combined = combined[:max_length].rstrip("_")
+    else:
+        combined = ""
+    if prefix:
+        result = f"{prefix}_{combined}" if combined else prefix
+    else:
+        result = combined or "pdf"
+    if len(result) > max_length:
+        result = result[:max_length].rstrip("_")
+    return result or "pdf"
 
 # ページ設定
 st.set_page_config(
@@ -178,31 +216,33 @@ if pdf_path:
                 except Exception:
                     pass
 
+            # 保存用に短い英数字のベース名を生成（フォルダ名・ファイル名の文字化け・長さ対策）
+            short_base = to_short_alnum_name(base_name)
+
             # 保存先に「PDF名を元にしたフォルダ」を作成し、その中に画像を保存
             save_dir_path = Path(save_dir).resolve() if save_dir.strip() else None
             if save_dir_path:
-                # 画像化元のPDFファイル名を参考にした分かりやすいフォルダ名
-                output_folder_name = f"{base_name}_images"
+                output_folder_name = f"{short_base}_images"
                 output_folder = save_dir_path / output_folder_name
                 output_folder.mkdir(parents=True, exist_ok=True)
                 for page_no, img_bytes in images_data:
-                    fname = f"{base_name}_page_{page_no:04d}.{ext}"
+                    fname = f"{short_base}_page_{page_no:04d}.{ext}"
                     out_path = output_folder / fname
                     out_path.write_bytes(img_bytes)
                 st.success(f"フォルダに保存しました: **{output_folder}**")
 
-            # ZIPでダウンロード
+            # ZIPでダウンロード（ZIP内のファイル名も短い英数字に統一）
             zip_buffer = io.BytesIO()
             with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
                 for page_no, img_bytes in images_data:
-                    name = f"{base_name}_page_{page_no:04d}.{ext}"
+                    name = f"{short_base}_page_{page_no:04d}.{ext}"
                     zf.writestr(name, img_bytes)
 
             zip_buffer.seek(0)
             st.download_button(
                 label=f"📥 画像をZIPでダウンロード ({num_pages}枚)",
                 data=zip_buffer,
-                file_name=f"{base_name}_images_{dpi}dpi.{ext}.zip",
+                file_name=f"{short_base}_images_{dpi}dpi.{ext}.zip",
                 mime="application/zip",
             )
 
