@@ -154,15 +154,15 @@ if page_range_mode == "指定範囲":
     with col2:
         page_end = st.number_input("終了ページ", min_value=1, value=10)
 
-# 保存先フォルダ
+# 保存先フォルダ（デフォルト: C:\Users\20171\Learning\PDF_PICTURE）
 st.sidebar.divider()
 st.sidebar.subheader("保存先")
 base_dir = Path(__file__).resolve().parent.parent.parent
-default_out = str(base_dir / "local_data" / "pdf_output")
+default_out = r"C:\Users\20171\Learning\PDF_PICTURE"
 save_dir = st.sidebar.text_input(
     "画像の保存先フォルダ",
     value=default_out,
-    help="変換した画像を保存するフォルダ。存在しない場合は自動作成されます。",
+    help="変換した画像を保存するルートフォルダ。本フォルダ・画像フォルダは自動作成されます。",
 )
 
 # アップロード or パス指定
@@ -273,17 +273,31 @@ if pdf_path:
             # 保存用に短い英数字のベース名を生成（フォルダ名・ファイル名の文字化け・長さ対策）
             short_base = to_short_alnum_name(base_name)
 
-            # 保存先に「PDF名を元にしたフォルダ」を作成し、その中に画像を保存
+            # 本タイトル（親フォルダ名またはPDF名から）を取得し、本フォルダを自動作成
+            if uploaded_file:
+                book_title = Path(uploaded_file.name).stem
+            else:
+                p = Path(pdf_path_str)
+                parent_name = p.parent.name
+                if parent_name and parent_name not in (".", "local_data", "pdf_output", "PDF_PICTURE", ""):
+                    book_title = parent_name
+                else:
+                    book_title = p.stem
+            short_book = to_short_alnum_name(book_title)
+
+            # 保存先: [PDF_PICTURE]/[本フォルダ]/[分割PDFの画像フォルダ]/画像ファイル
             save_dir_path = Path(save_dir).resolve() if save_dir.strip() else None
             if save_dir_path:
+                book_folder = save_dir_path / short_book
+                book_folder.mkdir(parents=True, exist_ok=True)
                 output_folder_name = f"{short_base}_images"
-                output_folder = save_dir_path / output_folder_name
+                output_folder = book_folder / output_folder_name
                 output_folder.mkdir(parents=True, exist_ok=True)
                 for page_no, img_bytes in images_data:
                     fname = f"{short_base}_page_{page_no:04d}.{ext}"
                     out_path = output_folder / fname
                     out_path.write_bytes(img_bytes)
-                st.success(f"フォルダに保存しました: **{output_folder}**")
+                st.success(f"保存しました: **{output_folder}**")
 
             # ZIPでダウンロード（ZIP内のファイル名も短い英数字に統一）
             zip_buffer = io.BytesIO()

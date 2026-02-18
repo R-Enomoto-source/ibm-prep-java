@@ -16,7 +16,6 @@ import re
 import platform
 import subprocess
 from dataclasses import dataclass
-from pathlib import Path
 from typing import List
 
 
@@ -451,30 +450,10 @@ class PDFProcessor:
 
         return filtered
 
-    def process_export(
-        self,
-        chapters: List[ChapterInfo],
-        export_mode: str,
-        img_zoom: float = 2.0,
-        output_base_dir: str | Path | None = None,
-    ) -> tuple[bytes, list[str]]:
-        """
-        ZIP形式で出力。export_mode=="image" かつ output_base_dir が指定された場合、
-        指定フォルダにも保存する。
-        戻り値: (zip_bytes, saved_folder_paths)
-        """
+    def process_export(self, chapters: List[ChapterInfo], export_mode: str, img_zoom: float = 2.0) -> bytes:
         zip_buffer = io.BytesIO()
         sorted_chapters = sorted(chapters, key=lambda x: x.page_num)
         path_stack = []
-        saved_folders: list[str] = []
-
-        base_path = Path(output_base_dir).resolve() if output_base_dir else None
-        safe_book_title = "".join(
-            c for c in self.book_title if c.isalnum() or c in (" ", "-", "_", ".", "(", ")")
-        ).strip() or "book"
-        book_folder = base_path / safe_book_title if base_path else None
-        if book_folder:
-            book_folder.mkdir(parents=True, exist_ok=True)
 
         with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zf:
             for i, chapter in enumerate(sorted_chapters):
@@ -488,9 +467,7 @@ class PDFProcessor:
 
                 while path_stack and path_stack[-1][0] >= chapter.level:
                     path_stack.pop()
-                safe_title = "".join(
-                    c for c in chapter.title if c.isalnum() or c in (" ", "-", "_", ".", "(", ")")
-                ).strip()
+                safe_title = "".join(c for c in chapter.title if c.isalnum() or c in (' ', '-', '_', '.', '(', ')')).strip()
                 if not safe_title:
                     safe_title = f"Chapter_{i+1}"
                 path_stack.append((chapter.level, safe_title))
@@ -507,12 +484,6 @@ class PDFProcessor:
 
                 elif export_mode == "image":
                     current_folder = "/".join(folder_parts)
-                    chapter_folder_disk = None
-                    if book_folder:
-                        chapter_folder_disk = book_folder / safe_title
-                        chapter_folder_disk.mkdir(parents=True, exist_ok=True)
-                        saved_folders.append(str(chapter_folder_disk))
-
                     for p_idx in range(start_page, end_page):
                         page = self.doc[p_idx]
                         mat = fitz.Matrix(img_zoom, img_zoom)
@@ -522,11 +493,8 @@ class PDFProcessor:
                         img_name = f"{local_num:03d}.jpg"
                         zf.writestr(f"{current_folder}/{img_name}", img_data)
 
-                        if chapter_folder_disk:
-                            (chapter_folder_disk / img_name).write_bytes(img_data)
-
         zip_buffer.seek(0)
-        return zip_buffer.getvalue(), saved_folders
+        return zip_buffer.getvalue()
 
 
 # --- Streamlit UI ---
@@ -576,15 +544,7 @@ with st.sidebar:
     st.session_state.header_scale = header_scale
     st.session_state.min_page_gap = min_page_gap
 
-    st.subheader("4. 画像の保存先フォルダ")
-    default_output_dir = r"C:\Users\20171\Learning\PDF_PICTURE"
-    output_base_dir = st.text_input(
-        "保存先（本フォルダ・章フォルダがここに作成されます）",
-        value=default_output_dir,
-        help="同一タイトルの本がなければ本フォルダを作成し、分割されたPDFの画像を章フォルダとして保存します。",
-    )
-
-    st.subheader("5. 章タイトル判定ルール")
+    st.subheader("4. 章タイトル判定ルール")
     chapter_pattern_ids = [g["id"] for g in CHAPTER_PATTERN_GROUPS]
     if "chapter_pattern_selected" not in st.session_state:
         st.session_state.chapter_pattern_selected = chapter_pattern_ids
@@ -764,20 +724,11 @@ if uploaded_file is not None:
                 st.warning("出力対象が選択されていません。")
             else:
                 mode_str = "image" if export_mode_radio == "画像(JPEG)フォルダ化" else "pdf"
-                out_dir = output_base_dir.strip() if mode_str == "image" else None
                 with st.spinner("処理中... フォルダを作成し書き出しています..."):
                     try:
-                        zip_bytes, saved_folders = processor.process_export(
-                            final_chapters, mode_str, img_zoom,
-                            output_base_dir=out_dir if out_dir else None,
-                        )
+                        zip_bytes = processor.process_export(final_chapters, mode_str, img_zoom)
                         dl_name = f"{processor.book_title}_{mode_str}.zip"
                         st.balloons()
-                        if saved_folders:
-                            book_path = Path(saved_folders[0]).parent if saved_folders else Path(output_base_dir)
-                            st.success(
-                                f"フォルダに保存しました: **{book_path}** （章フォルダ: {len(saved_folders)} 件）"
-                            )
                         st.download_button(
                             label=f"📦 ZIPファイルをダウンロード ({dl_name})",
                             data=zip_bytes,
