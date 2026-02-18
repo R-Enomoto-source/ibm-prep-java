@@ -100,6 +100,23 @@ def to_short_alnum_name(original_name: str, max_length: int = 48) -> str:
     result = re.sub(r"_+", "_", result).strip("_")
     return result or "pdf"
 
+
+def to_book_folder_name(short_name: str) -> str:
+    """
+    章付きの短い名前（例: ch3_JavaSE17Silver_guide_...）から、
+    同じ本を表すフォルダ名を返す。先頭の chN_ / chNN_ を除去して
+    同一本は同じフォルダにまとめる。
+    """
+    if not short_name or not short_name.strip():
+        return "pdf"
+    s = short_name.strip()
+    # 先頭の ch + 数字 + _ を除去（ch1_, ch3_, ch10_ など）
+    m = re.match(r"^ch\d+_", s, re.IGNORECASE)
+    if m:
+        s = s[m.end() :].strip("_")
+    return s if s else "pdf"
+
+
 # ページ設定
 st.set_page_config(
     page_title="PDF→画像 高画質変換",
@@ -286,9 +303,11 @@ if pdf_path:
             short_book = to_short_alnum_name(book_title)
 
             # 保存先: [PDF_PICTURE]/[本フォルダ]/[分割PDFの画像フォルダ]/画像ファイル
+            # 本フォルダ名は ch1/ch3 などを除いた共通名にし、同じ本は同じフォルダにまとめる
             save_dir_path = Path(save_dir).resolve() if save_dir.strip() else None
             if save_dir_path:
-                book_folder = save_dir_path / short_book
+                book_folder_name = to_book_folder_name(short_book)
+                book_folder = save_dir_path / book_folder_name
                 book_folder.mkdir(parents=True, exist_ok=True)
                 output_folder_name = f"{short_base}_images"
                 output_folder = book_folder / output_folder_name
