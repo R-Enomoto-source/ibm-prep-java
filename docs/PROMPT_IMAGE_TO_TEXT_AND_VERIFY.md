@@ -186,6 +186,18 @@
 
 ---
 
+## 一字一句漏らさず出力させたい場合（プロンプト以外の対策）
+
+「逐語的・要約禁止」と指定しても解説が要約されてしまう場合は、**プロンプトの修正以外**の運用で対応できることがあります。
+
+- **詳細**: [VERBATIM_TRANSCRIPTION_OPTIONS.md](VERBATIM_TRANSCRIPTION_OPTIONS.md) を参照。
+- **要点**:
+  - **OCR ファースト**: 全ページを `LearningTools/image-to-text-batch` で OCR し、その生テキストを「正」とする。AI には「文言を1文字も変えず Markdown に整形する」だけを依頼する。
+  - **1 ページずつ**: 読み取りは 1 枚ずつ行い、そのページ分のテキストを確定してから次に進む。
+  - **二段階**: まず「転写のみ」で出力を確定し、別タスクで「整形のみ」を行う。
+
+---
+
 ## 関連
 
 - 採点結果の基準となる解答ファイル: `java_blackbook\local_problems\answers\Chapter○_answers.md`
